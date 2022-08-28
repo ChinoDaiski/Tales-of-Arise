@@ -101,7 +101,8 @@ void CPlayer::Tick(_double TimeDelta)
 		if (!m_bBattle)
 			m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), m_pNaviCom);
 		else {
-			m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), nullptr);
+			//m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), nullptr);
+			m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), MoveVector, m_fBattleRadius);
 		}
 
 	}

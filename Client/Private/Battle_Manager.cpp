@@ -247,10 +247,21 @@ void CBattle_Manager::Battle_End()
 		pPlayer->Set_EquipmentBattle(false);
 	}
 
+
+	CNavigation* pNavigation = nullptr;
+	CTransform* pAlphen_TransformCom = nullptr;
+
+
+	// 맵의 Navigation Mesh를 Alphen이 타게 함.
+	pNavigation = pFieldPlayer->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_Tutorial"));
+
+	pAlphen_TransformCom = dynamic_cast<CTransform*>(pFieldPlayer->Get_Component(TEXT("Com_Transform")));
 	pFieldPlayer->Set_PlayerPos(XMLoadFloat4(&m_vPrePlayerPos));
+	pNavigation->Find_My_Cell(XMLoadFloat4(&m_vPrePlayerPos));
+	pAlphen_TransformCom->Move(m_vPrePlayerPos.x, pAlphen_TransformCom->Get_Height(pNavigation), m_vPrePlayerPos.z);
+
 	pPlayerManger->Set_MainPlayer(0);
 
-	m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_FIELD);
 
 	Safe_Release(pPlayerManger);
 	m_bBattle = false;
@@ -281,7 +292,7 @@ void CBattle_Manager::Tick(_double TimeDelta)
 				_vector vDir;
 				if (pMonsterCollider->Collsion_Sphere(pPlayerCollider, &fDistance, &vDir))
 				{
-					Player->Set_PlayerPos(Player->Get_PlayerPos() + XMVectorSetY(vDir, 0.f)*fDistance);
+					Player->Set_Move_In_Circle(XMVectorSetY(vDir, 0.f)*fDistance);
 
 				}
 
@@ -310,7 +321,7 @@ void CBattle_Manager::Tick(_double TimeDelta)
 					_vector vDir;
 					if (pMonsterCollider2->Collsion_Sphere(pMonsterCollider1, &fDistance, &vDir))
 					{
-						m_vecMonsters[j]->Set_EnemyPos(m_vecMonsters[j]->Get_EnemyPos() + XMVectorSetY(vDir, 0.f)*fDistance);
+						m_vecMonsters[j]->Set_Move_In_Circle(XMVectorSetY(vDir, 0.f)*fDistance);
 
 					}
 
@@ -616,6 +627,13 @@ void CBattle_Manager::Tick(_double TimeDelta)
 			}
 		}
 
+		if (m_vecMonsters.size() <= 0)
+		{
+			m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_BATTLE_END);
+		}
+
+
+
 		if (m_pMonsterLayer->Get_ObjectList().size() <= 0)
 		{
 
@@ -630,6 +648,7 @@ void CBattle_Manager::Tick(_double TimeDelta)
 		Safe_Release(pPlayerManger);
 
 	}
+
 
 
 

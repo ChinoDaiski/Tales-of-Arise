@@ -132,8 +132,9 @@ void CShionne::Tick(_double TimeDelta)
 				{
 					if (!m_bHit)
 					{
-						Key_Input();
-						if (!m_bStop)
+						if (m_bStartScene)
+							Key_Input();
+						if (!m_bStop&&m_bStartScene)
 							Compute_Anim(TimeDelta*m_dTimeSpeed);
 					}
 
@@ -146,7 +147,7 @@ void CShionne::Tick(_double TimeDelta)
 
 				else
 				{
-					if (!m_bStop)
+					if (!m_bStop&&m_bStartScene)
 						AI(TimeDelta*m_dTimeSpeed);
 					//AI구현 해야함 여기다가AI();
 				}
@@ -170,8 +171,9 @@ void CShionne::Tick(_double TimeDelta)
 				{
 					if (!m_bHit)
 					{
-						Key_Input();
-						if (!m_bStop)
+						if (m_bStartScene)
+							Key_Input();
+						if (!m_bStop&&m_bStartScene)
 							Compute_Anim(TimeDelta*m_dTimeSpeed);
 					}
 
@@ -183,7 +185,7 @@ void CShionne::Tick(_double TimeDelta)
 				}
 				else
 				{
-					if (!m_bStop)
+					if (!m_bStop&&m_bStartScene)
 						AI(TimeDelta*m_dTimeSpeed);
 				}
 			}
@@ -658,7 +660,12 @@ void CShionne::Jump(_double TimeDelta)
 
 			if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 			{
-				m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+				if (m_bBattle)
+				{
+					m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+				}
+				else
+					m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 
 			}
 
@@ -993,6 +1000,8 @@ void CShionne::Attack()
 		{
 			if (!m_bMakeNormalBullet)
 			{
+
+
 
 				pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Bullet"), TEXT("Prototype_GameObject_Normal_Bullet"), &BulletDesc);
 				m_bMakeNormalBullet = true;
@@ -1356,7 +1365,7 @@ void CShionne::Pattern_Choice()
 
 	}
 	else {
-		m_dJumpSpeed = 0.03;
+		m_dJumpSpeed = JUMP_SPEED;
 		m_iAbleJumpCount = 1;
 		m_bAIJumpStart = false;
 	}
@@ -1708,7 +1717,13 @@ void CShionne::Compute_Move(_double TimeDelta)
 	{
 
 		m_pTransformCom->Check_Right_Left(vGoalLook, TimeDelta*6.5f);
-		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+
+		if (m_bBattle)
+		{
+			m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+		}
+		else
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
 	}
 
 
@@ -2537,6 +2552,12 @@ void CShionne::Gravitas_Field()
 	}
 
 
+	//
+
+
+
+
+
 
 
 
@@ -2560,7 +2581,7 @@ void CShionne::Gravitas_Field()
 
 	if (m_iCurrentAnimationIndex == 12)
 	{
-		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 92 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 93)
+		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 2 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 3)
 
 		{
 			if (!m_bMakeNormalBullet)
@@ -2570,8 +2591,6 @@ void CShionne::Gravitas_Field()
 				BulletDesc.pBoneName = "EX_GUN_00_03_C";
 				BulletDesc.pModelCom = m_pModelSKLCom;
 				BulletDesc.vTargetPos = m_pTargetEnemy->Get_EnemyPos();
-
-
 
 
 				pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Bullet"), TEXT("Prototype_GameObject_Gravitas_Field"), &BulletDesc);
@@ -2945,8 +2964,13 @@ void CShionne::Move(_double TimeDelta)
 	if (m_pVecMonsters->size() > 0)
 	{
 
-
-		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+		if (m_bBattle)
+		{
+			m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+		}
+		else {
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+		}
 		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*1.2f);
 
 
@@ -2998,7 +3022,15 @@ void CShionne::Chase(_double TimeDelta)
 		if (fDistance > 6.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			if (m_bBattle)
+			{
+				m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+			}
+			else
+				m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+
+
+
 			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {
@@ -3046,7 +3078,13 @@ void CShionne::Evade(_double TimeDelta)
 		if (fDistance < 4.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			if (m_bBattle)
+			{
+				m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+			}
+			else
+				m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+
 			m_pTransformCom->Check_Right_Left(-vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {

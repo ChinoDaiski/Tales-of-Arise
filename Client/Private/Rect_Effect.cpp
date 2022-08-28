@@ -42,7 +42,7 @@ HRESULT CRect_Effect::NativeConstruct(void * pArg)
 
 void CRect_Effect::Tick(_double TimeDelta)
 {
-	m_bDead = m_bFinish;
+
 
 	if (m_Parents_P)
 	{
@@ -72,6 +72,10 @@ void CRect_Effect::Tick(_double TimeDelta)
 void CRect_Effect::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
+	if (!m_bDead)
+		m_bDead = m_bFinish;
+
+
 
 	if (nullptr != m_pRendererCom&& m_PassTime <= 0)
 	{
@@ -124,6 +128,11 @@ HRESULT CRect_Effect::BufferSet()
 	return S_OK;
 }
 
+void CRect_Effect::Set_TimeEffect(_float Time)
+{
+	m_pVIBufferCom->Set_Time(Time);
+}
+
 HRESULT CRect_Effect::SetUp_Components(void* pArg)
 {
 	/* For.Com_Renderer */
@@ -171,6 +180,10 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", &m_EffectDesc->vColor2, sizeof(_float4))))
 		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Blur", &m_Blur, sizeof(_float2))))
+		return E_FAIL;
+
+
 	_float m_f = m_pVIBufferCom->Get_Time() / m_pVIBufferCom->Get_MaxTime();
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Alpha", &m_f, sizeof(_float))))
 		return E_FAIL;

@@ -89,6 +89,7 @@ public:
 	HRESULT Reset();
 	HRESULT KeyFramReset();
 	HRESULT Restart();
+
 public:
 	virtual HRESULT Render() override;
 
@@ -98,6 +99,9 @@ public:
 	_uint	Get_KeyFrameNum() { return m_iKeyFrame; }
 	_float	Get_MaxTime() { return m_fMaxTime; }
 	_float	Get_Time() { return m_fTime; }
+
+	void	Set_Time(_float Time) { m_fTime = Time; }
+
 private:
 	ID3D11Buffer*			m_pVBInstance = nullptr;
 	D3D11_BUFFER_DESC		m_VBInstDesc;

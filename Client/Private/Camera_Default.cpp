@@ -109,6 +109,10 @@ void CCamera_Default::Tick(_double TimeDelta)
 	case Client::CCamera_Default::CAMERA_STATE_CHANGE:
 		Camera_Change(TimeDelta);
 		break;
+	case Client::CCamera_Default::CAMERA_STATE_BATTLE_END:
+		Camera_BattleEnd(TimeDelta);
+		break;
+
 	case Client::CCamera_Default::CAMERA_STATE_END:
 		break;
 	default:
@@ -563,7 +567,7 @@ void CCamera_Default::Camera_BattleEnter(_double TimeDelta)
 	// 스프링의 가속도를 계산한다.
 	_vector acel = -m_fSpringConstant * diff - dampening * XMLoadFloat3(&m_vVelocity);
 
-	if (XMVectorGetX(XMVector3Length(diff)) < 0.15f)
+	if (XMVectorGetX(XMVector3Length(diff)) < 0.05f)
 	{
 		m_eCameraState = CAMERA_STATE_BATTLE;
 		m_bStartScene = false;
@@ -582,6 +586,46 @@ void CCamera_Default::Camera_BattleEnter(_double TimeDelta)
 	// 카메라가 뒤집혀지는 경우는 없기에 위쪽 방향은 항상 UnitZ이다
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(XMLoadFloat3(&m_vActualPos), 1.f));
 	m_pTransformCom->LookAt(XMVectorSetW(XMLoadFloat3(&m_vActualAt), 1.f));
+
+}
+
+void CCamera_Default::Camera_BattleEnd(_double TimeDelta)
+{
+	CTime_Manager* pTimeManager = CTime_Manager::GetInstance();
+	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
+	_vector vCameraPos;
+	if (!m_bInitializeSpherical)
+	{
+		_vector vLocalCameraPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vPlayerPos; //로컬상의 카메라좌표
+		m_fRadius = XMVectorGetX(XMVector3Length(vLocalCameraPos));
+		m_fAzimuth = atan2f(XMVectorGetZ(vLocalCameraPos), XMVectorGetX(vLocalCameraPos));
+		m_fElevation = asinf(XMVectorGetY(vLocalCameraPos) / m_fRadius);
+		m_bInitializeSpherical = true;
+
+		pTimeManager->Set_AllLayerTime(0.3);
+	}
+
+
+	m_dEndTime += TimeDelta;
+
+	if (m_dEndTime > 1.0)
+	{
+		m_dEndTime = 0.0;
+		m_bInitializeSpherical = false;
+		m_eCameraState = CAMERA_STATE_FIELD;
+		pTimeManager->Set_AllLayerTime(1.0);
+	}
+
+	SphericalCoordinatesTranslateRadius(-TimeDelta*0.5f);
+	SphericalCoordinatesRotate((_float)TimeDelta*1.2f, 0.f);
+	vCameraPos = toCartesian() + vPlayerPos;
+	XMStoreFloat3(&m_vActualPos, vCameraPos);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));
+	m_pTransformCom->LookAt(XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
+	XMStoreFloat3(&m_vActualAt, XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
+
+
+
 
 }
 
@@ -659,7 +703,7 @@ void CCamera_Default::Follow_Camera(_double TimeDelta)
 	_long MouseMoveX = 0, MouseMoveY = 0, MouseMoveWheel = 0; //방위각,앙각 
 	_vector vCameraPos;
 
-	_vector vPlayerPos = m_pPlayer_Manager->Get_FieldPlayer()->Get_PlayerPos();
+	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
 
 
 	if (m_pGameInstance->Button_Pressing(CInput_Device::DIMB_RBUTTON))

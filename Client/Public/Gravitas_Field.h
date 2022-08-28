@@ -48,6 +48,29 @@ private:
 	_double m_BackTime = 0.0;
 
 
+	class CMeshEffect* m_pSmallSphere = nullptr;
+	class CMeshEffect* m_pBigSphere = nullptr;
+	class CMeshEffect* m_pSmallSphere2 = nullptr;
+	class CMeshEffect* m_pBigSphere2 = nullptr;
+
+
+	class CMeshEffect* m_pWave1 = nullptr;
+	class CMeshEffect* m_pWave2 = nullptr;
+	class CMeshEffect* m_pWave3 = nullptr;
+	class CMeshEffect* m_pWave4 = nullptr;
+
+	class CRect_Effect* m_pParticle1 = nullptr;
+	class CRect_Effect* m_pParticle2 = nullptr;
+	class CRect_Effect* m_pParticle3 = nullptr;
+	class CRect_Effect* m_pParticle4 = nullptr; //발사
+	class CRect_Effect* m_pParticle5 = nullptr; //날라갈떄
+	class CRect_Effect* m_pParticle6 = nullptr; //터질때
+	class CRect_Effect* m_pParticle7 = nullptr;  //구체내부
+
+	_bool m_bMakeBullet = false;
+	_bool m_bFireBullet = false;
+	_bool m_bOnce = false;
+	_double m_dAliveTime = 0.0;
 
 public:
 	static CGravitas_Field* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
@@ -56,3 +79,4 @@ public:
 };
 
 END
+

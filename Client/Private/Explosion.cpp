@@ -41,7 +41,7 @@ HRESULT CExplosion::NativeConstruct(void * pArg)
 	if (pArg != nullptr)
 	{
 		memcpy(&m_BulletDesc, pArg, sizeof(BULLETDESC));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,XMVectorSetY(m_BulletDesc.vBulletPos,XMVectorGetY(m_BulletDesc.vBulletPos)+0.15f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_BulletDesc.vBulletPos, XMVectorGetY(m_BulletDesc.vBulletPos) + 0.15f));
 		m_pTransformCom->TurnAxis(-m_BulletDesc.vLook);
 	}
 
@@ -65,7 +65,7 @@ void CExplosion::Tick(_double TimeDelta)
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	
+
 	_float vPosY = XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
 	if (vPosY > 0)
@@ -75,18 +75,18 @@ void CExplosion::Tick(_double TimeDelta)
 
 	else {
 		vPosY = 0;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION),0.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 0.f));
 		m_pAttackSphereCom->Set_On(true);
 		m_bRender = true;
 	}
 
 
 
-	
 
 
 
-	
+
+
 
 
 
@@ -134,7 +134,7 @@ HRESULT CExplosion::Render()
 #ifdef _DEBUG
 
 	//m_pOBBCom->Render();
-	
+
 	m_pAttackSphereCom->Render();
 #endif // _DEBUG
 	return S_OK;

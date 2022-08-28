@@ -2,7 +2,8 @@
 #include "..\Public\Normal_Bullet.h"
 #include "GameInstance.h"
 #include "Animation.h"
-
+#include "MeshEffect.h"
+#include "Rect_Effect.h"
 CNormal_Bullet::CNormal_Bullet(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CBullet(pDeviceOut, pDeviceContextOut)
 {
@@ -46,6 +47,8 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 		m_pSocketMatrix = m_BulletDesc.pModelCom->Get_CombinedTransformationMatrix(m_BulletDesc.pBoneName);
 
 		m_PivotMatrix = m_BulletDesc.pModelCom->Get_PivotMatrix4x4();
+
+
 	}
 
 	if (nullptr == m_pSocketMatrix)
@@ -70,10 +73,11 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 
 	m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix()*XMLoadFloat4x4(&SocketMatrix));
 
-
 	//m_pTransformCom->TurnAxis(XMVectorSetY(m_BulletDesc.vTargetPos, 0.f) - XMVectorSetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION),0.f));
 
 
+	m_pTransformCom->LookAt(m_BulletDesc.vTargetPos);
+	m_pTransformCom->Go_Straight(0.4f);
 	m_pTransformCom->Scaled(_float3(1.f, 1.f, 1.f));
 	m_pAttackSphereCom->Set_On(true);
 	RELEASE_INSTANCE(CGameInstance);
@@ -81,6 +85,40 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 
 	m_DeadTime = 2.0;
 	m_LiveTime = 0.0;
+
+
+
+	m_pMeshEffect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_SHIONNE, 2));
+	m_pMeshEffect->Set_Transform(UNIT_SHIONNE, this, m_pTransformCom, _float3(0.27f, 0.f, 0.f));
+
+
+
+
+	CMeshEffect* EffectMesh1 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_SHIONNE, 0));
+	EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+	(EffectMesh1->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
+	(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.27f, 0.f, -0.4f));
+	//EffectMesh->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+	EffectMesh1->Set_TimeSpeed(3.f);
+
+
+	CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_SHIONNE, 1));
+	EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+	(EffectMesh2->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+	(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.27f, 0.f, -0.4f));
+	//EffectMesh->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
+	EffectMesh2->Set_TimeSpeed(3.f);
+	EffectMesh2->Get_EffectDesc_Mesh()->vColor1 = EffectMesh1->Get_EffectDesc_Mesh()->vColor1;
+
+
+
+	CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_SHIONNE, 0));
+	EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+	EffectRect->Get_Transfrom()->GO_RUL(_float3(0.27f, 0.f, -0.4f));
+
+
+
+
 	return S_OK;
 }
 
@@ -90,10 +128,23 @@ void CNormal_Bullet::Tick(_double TimeDelta)
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+
+
 	m_BackTime += TimeDelta;
 
-	m_pTransformCom->Go_Straight(TimeDelta*2.f);
-	
+	m_pTransformCom->Go_Straight(TimeDelta*5.f);
+
+
+
+
+
+
+	//EffectMesh1->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+	//(EffectMesh1->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+	//(EffectMesh1->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, 0.f));
+	////EffectMesh1->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-40.f));
+	//EffectMesh1->Set_TimeSpeed(10.f); 
+
 
 
 
@@ -119,7 +170,7 @@ void CNormal_Bullet::LateTick(_double TimeDelta)
 
 HRESULT CNormal_Bullet::Render()
 {
-	if (nullptr == m_pShaderCom )
+	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
 	if (FAILED(__super::Render()))
@@ -232,6 +283,8 @@ CGameObject * CNormal_Bullet::Clone(void * pArg)
 void CNormal_Bullet::Free()
 {
 	__super::Free();
+
+	m_pMeshEffect->Set_Dead(true);
 
 	Safe_Release(m_pShaderCom);
 

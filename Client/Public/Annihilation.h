@@ -18,7 +18,7 @@ public:
 	typedef struct tagAnnihilationDESC
 	{
 		class CModel*	pModelCom = nullptr;
-		const char*		pBoneName = nullptr;	//ª¿¿Ã∏ß
+		const char*		pBoneName = nullptr;	//ª¿¿Ã∏ßa
 		CTransform*		pTargetTransform = nullptr;
 
 	}ANNIHILATIONDESC;

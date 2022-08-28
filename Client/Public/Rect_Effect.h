@@ -37,6 +37,8 @@ public:
 	void		Set_Pos(_vector Pos) { XMStoreFloat4(&m_EffectDesc->vPostion, Pos); }
 	void		Set_ParentsMatrix(_matrix ParentsMatrix) { m_pTransformCom->Set_WorldMatrix(ParentsMatrix); }
 	void		Set_TimeSpeed(_float TimeSpeed) { m_fmultipleTime = TimeSpeed; }
+	void		Set_Blur(_float2 Blur) { m_Blur = Blur; }
+	void        Set_TimeEffect(_float Time);
 private:
 	CRenderer*					m_pRendererCom = nullptr;
 	CShader*					m_pShaderCom = nullptr;
@@ -45,6 +47,7 @@ private:
 
 	_bool						m_bFinish = false;
 
+	_float2						m_Blur = _float2(1.f, 1.f);
 	_float						m_fMaxTime = 10.f;
 	_float						m_PassTime = 0;
 	_float						m_fmultipleTime = 1.f;

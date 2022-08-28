@@ -118,13 +118,13 @@ void CAnnihilation::Tick(_double TimeDelta)
 	_float4x4	SocketMatrix;
 	XMStoreFloat4x4(&SocketMatrix, BoneMatrix * XMLoadFloat4x4(&m_PivotMatrix) * pPlayerTransform->Get_WorldMatrix());
 
-	
+
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&SocketMatrix));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION)+m_pTransformCom->Get_State(CTransform::STATE_LOOK)*-300.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*-300.f);
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_UP);
 	_matrix RotateMatrix = XMMatrixRotationAxis(vRight, XMConvertToRadians(10.f));
-	
+
 	m_pTransformCom->TurnAxis(XMVector3TransformNormal(m_pTransformCom->Get_State(CTransform::STATE_LOOK), RotateMatrix));
 	m_pTransformCom->Scaled(_float3(1.f, 1.f, 1.f));
 
@@ -135,7 +135,7 @@ void CAnnihilation::Tick(_double TimeDelta)
 		CExplosion::BULLETDESC ExplosionDesc;
 		ExplosionDesc.vBulletPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION); //+ m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		ExplosionDesc.vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Bullet"), TEXT("Prototype_GameObject_Explosion"),&ExplosionDesc);
+		pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Bullet"), TEXT("Prototype_GameObject_Explosion"), &ExplosionDesc);
 	}
 
 

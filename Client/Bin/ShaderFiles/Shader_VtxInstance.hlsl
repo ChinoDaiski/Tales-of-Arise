@@ -15,6 +15,7 @@ texture2D			g_DiffuseTexture;
 float4				g_Color1;
 float4				g_Color2;
 float				g_Alpha;
+float2				g_Blur;
 
 //////////////////////
 struct VS_IN
@@ -163,8 +164,8 @@ PS_OUT PS_MAIN(PS_IN In)
 		discard;
 	else
 	{
-		Out.vColor = Out.vColor;
-		Out.vBlur = Out.vColor;
+		Out.vColor = Out.vColor * g_Blur.x;
+		Out.vBlur = Out.vColor * g_Blur.y;
 	}
 
 
@@ -181,8 +182,8 @@ PS_OUT PS_BLACKCUT(PS_IN In)
 		discard;
 	else
 	{
-		Out.vBlur = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
-		Out.vColor =  Out.vBlur * 0.5f;
+		Out.vBlur = ((Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2)) * g_Blur.x;
+		Out.vColor = Out.vBlur * g_Blur.y;
 	}
 
 
@@ -193,12 +194,12 @@ PS_OUT PS_MAIN_DISSOLVE(PS_IN In)
 {
 	PS_OUT			Out;
 
-	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	Out.vColor = (g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV)) * g_Blur.x;
 
 	if (Out.vColor.a < g_Alpha)
 		discard;
 	else
-		Out.vBlur = Out.vColor;
+		Out.vBlur = Out.vColor * g_Blur.y;
 
 	return Out;
 }
@@ -213,9 +214,9 @@ PS_OUT PS_BLACKCUT_DISSOLVE(PS_IN In)
 		discard;
 	else
 	{
-		
-		Out.vBlur = (Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2);
-		Out.vColor = Out.vBlur * 0.5f;
+
+		Out.vBlur = ((Out.vColor.r*g_Color1) + ((1.f - Out.vColor.r) * g_Color2)) * g_Blur.x;
+		Out.vColor = Out.vBlur * g_Blur.y;
 	}
 
 

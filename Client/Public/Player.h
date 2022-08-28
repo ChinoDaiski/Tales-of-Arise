@@ -127,6 +127,9 @@ public:
 	_bool Get_Overlap() { return m_bOverlap; }
 	_bool Get_Invincible() { return m_bInvincible; }
 
+	void Set_Move_In_Circle(_fvector vPos) { m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), vPos, m_fBattleRadius); }
+
+
 
 	PLAYERINFO Get_PlayerInfo() { return m_tPlayerInfo; }
 	_int Get_Hp() { return m_tPlayerInfo.m_iCurrentHp; }

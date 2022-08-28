@@ -47,6 +47,9 @@ private:
 	_double m_Time = 0.0;
 	_double m_BackTime = 0.0;
 
+	class CMeshEffect* m_pMeshEffect = nullptr;
+	_float3 m_vDir;
+
 
 
 public:

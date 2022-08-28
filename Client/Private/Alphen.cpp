@@ -812,7 +812,14 @@ void CAlphen::Jump(_double TimeDelta)
 
 		if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 		{
-			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			if (m_bBattle)
+			{
+				m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+			}
+			else
+			{
+				m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			}
 		}
 	}
 
@@ -1563,7 +1570,12 @@ void CAlphen::Compute_Move(_double TimeDelta)
 		vLook = vLook * (_float)TimeDelta * 5.f;
 
 		// Navi 태우기
-		m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+		if (!m_bBattle)
+			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+
+		else {
+			m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+		}
 
 		// y값 조정
 		if (nullptr != m_pNaviCom) {
@@ -2910,7 +2922,7 @@ void CAlphen::Pattern_Choice()
 	//전투관련 거리에따라 행동을 나누자.
 
 
-	if (fDistance > 3.5f)  //일정거리 이상 멀어진다면 타깃을 쫒아간다.
+	if (fDistance > 8.f)  //일정거리 이상 멀어진다면 타깃을 쫒아간다.
 	{
 
 		m_ePattern = ARI_AI_CHASE;
@@ -3057,12 +3069,13 @@ void CAlphen::Move(_double TimeDelta)
 	{
 
 
-		m_pTransformCom->Go_Straight(TimeDelta*0.3f);
+		m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
 		m_pTransformCom->Check_Right_Left(vLook, TimeDelta*1.2f);
 
 
 
 	}
+
 
 
 	if (m_MoveTime > 0.2)
@@ -3109,7 +3122,8 @@ void CAlphen::Chase(_double TimeDelta)
 		if (fDistance > 6.f)
 		{
 
-			m_pTransformCom->Go_Straight(TimeDelta*0.3f, m_pNaviCom);
+			m_pTransformCom->Go_Straight_In_Circle(TimeDelta*0.3f, XMLoadFloat3(&m_vBattlePos), m_fBattleRadius);
+
 			m_pTransformCom->Check_Right_Left(vDir, TimeDelta*1.2f);  //방향돌리는거 부드럽게. 
 		}
 		else {

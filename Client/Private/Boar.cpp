@@ -50,7 +50,7 @@ HRESULT CBoar::NativeConstruct(void * pArg)
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;
-	m_iEnemyInfo.m_iHp = 50;
+	m_iEnemyInfo.m_iHp = 5;
 	return S_OK;
 }
 

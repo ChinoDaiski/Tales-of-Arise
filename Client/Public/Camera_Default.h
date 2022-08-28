@@ -52,6 +52,7 @@ public:
 	void Camera_Field(_double TimeDelta);
 	void Camera_Battle(_double TimeDelta);
 	void Camera_BattleEnter(_double TimeDelta);
+	void Camera_BattleEnd(_double TimeDelta);
 	void Camera_Change(_double TimeDelta);
 	void Set_CameraState(CAMERA_STATE eCameraState) { m_eCameraState = eCameraState; }
 
@@ -88,6 +89,7 @@ public:
 public:
 	//전투관련
 	void Set_PreTargetPos(_fvector vPos) { XMStoreFloat3(&m_vPreTargetPos, vPos); }
+
 
 
 	//체인지관련
@@ -178,6 +180,7 @@ private:
 
 	//카메라 배틀 관련
 	_bool m_bBattleStart = false;
+	_double m_dEndTime = 0.0;
 
 
 

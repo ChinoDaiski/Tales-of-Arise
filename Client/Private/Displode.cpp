@@ -62,7 +62,7 @@ HRESULT CDisplode::NativeConstruct(void * pArg)
 	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), CGameObject::m_pTransformTag, 1);
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
-	
+
 	_float4x4	SocketMatrix;
 	XMStoreFloat4x4(&SocketMatrix, (BoneMatrix * XMLoadFloat4x4(&m_PivotMatrix)*/*XMMatrixRotationY(XMConvertToRadians(180.f)) **/ pPlayerTransform->Get_WorldMatrix()));
 

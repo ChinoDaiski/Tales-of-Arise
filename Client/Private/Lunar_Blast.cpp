@@ -37,8 +37,8 @@ HRESULT CLunar_Blast::NativeConstruct(void * pArg)
 
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
-	
-	
+
+
 
 
 	if (pArg != nullptr)
@@ -78,7 +78,7 @@ HRESULT CLunar_Blast::NativeConstruct(void * pArg)
 	_matrix RotateMatrix = XMMatrixRotationAxis(vGunUp, XMConvertToRadians(20.f));
 
 	_vector vMyLook = XMVector3TransformNormal(vGunLook, RotateMatrix); //³» ·è
-	//³» ¾÷
+																		//³» ¾÷
 
 	_vector vMyRight = XMVector3Cross(vGunUp, vMyLook);
 
@@ -88,7 +88,7 @@ HRESULT CLunar_Blast::NativeConstruct(void * pArg)
 
 
 	_matrix RotateMatrix2 = XMMatrixRotationAxis(vGunLook, XMConvertToRadians(45.f*m_BulletDesc.iIndex));
-	
+
 	vMyLook = XMVector3TransformNormal(vMyLook, RotateMatrix2); //³» ·è
 
 	m_pTransformCom->TurnAxis(vMyLook);

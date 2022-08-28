@@ -7,7 +7,7 @@ BEGIN(Client)
 class CShionne final : public CPlayer
 {
 
-
+public:
 	enum SIO_ANIM_STATE
 	{
 		SIO_ANIM_BTL_ADVENT,
