@@ -212,6 +212,7 @@
     <ClInclude Include="..\Public\InfoFadeUI.h" />
     <ClInclude Include="..\Public\Level_Balseph.h" />
     <ClInclude Include="..\Public\Level_FireAvatar.h" />
+    <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\Public\Level_Tutorial.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\public\Level_Lobby.h" />
@@ -336,6 +337,7 @@
     <ClCompile Include="..\Private\InfoFadeUI.cpp" />
     <ClCompile Include="..\Private\Level_Balseph.cpp" />
     <ClCompile Include="..\Private\Level_FireAvatar.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\Private\Level_Tutorial.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\private\Level_Lobby.cpp" />

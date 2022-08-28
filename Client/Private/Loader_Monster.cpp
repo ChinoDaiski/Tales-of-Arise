@@ -59,6 +59,10 @@ unsigned int APIENTRY ThreadEntryFunc_Monster(void* pArg)
 	case LEVEL_FIRE_AVATAR:
 		pLoader->Loading_ForBoss2Level();
 		break;
+
+	case LEVEL_TEST:
+		pLoader->Loading_ForTestLevel();
+		break;
 	}
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 	return 0;
@@ -315,6 +319,40 @@ HRESULT CLoader_Monster::Loading_Boss2_Texture()
 }
 
 HRESULT CLoader_Monster::Loading_Boss2_Object()
+{
+	return S_OK;
+}
+
+HRESULT CLoader_Monster::Loading_ForTestLevel()
+{
+	m_isFinished = false;
+
+	if (FAILED(Loading_Test_Model()))
+		return E_FAIL;
+
+	if (FAILED(Loading_Test_Texture()))
+		return E_FAIL;
+
+	if (FAILED(Loading_Test_Object()))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Monster : Finish");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader_Monster::Loading_Test_Model()
+{
+	return S_OK;
+}
+
+HRESULT CLoader_Monster::Loading_Test_Texture()
+{
+	return S_OK;
+}
+
+HRESULT CLoader_Monster::Loading_Test_Object()
 {
 	return S_OK;
 }

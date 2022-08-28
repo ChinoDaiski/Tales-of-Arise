@@ -48,6 +48,12 @@ private:
 	HRESULT Loading_Boss2_Texture();
 	HRESULT Loading_Boss2_Object();
 	HRESULT Loading_Boss2_Components();
+public:
+	HRESULT Loading_ForTestLevel();
+private:
+	HRESULT Loading_Test_Model();
+	HRESULT Loading_Test_Texture();
+	HRESULT Loading_Test_Object();
 private:
 	LEVEL m_eLevel = LEVEL_END;
 	_bool m_isFinished = false;

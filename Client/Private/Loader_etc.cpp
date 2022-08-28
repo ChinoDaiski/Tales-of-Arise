@@ -69,6 +69,10 @@ unsigned int APIENTRY ThreadEntryFunc(void* pArg)
 	case LEVEL_FIRE_AVATAR:
 		pLoader->Loading_ForBoss2Level();
 		break;
+
+	case LEVEL_TEST:
+		pLoader->Loading_ForTestLevel();
+		break;
 	}
 
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
@@ -517,6 +521,49 @@ HRESULT CLoader_etc::Loading_Boss2_Components()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Navigation_Map_FireAvatar");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Map_FireAvatar"),
 		CNavigation::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Dat/Stage04/CellList.dat")))))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader_etc::Loading_ForTestLevel()
+{
+	m_isFinished = false;
+
+	if (FAILED(Loading_Test_Model()))
+		return E_FAIL;
+
+	if (FAILED(Loading_Test_Texture()))
+		return E_FAIL;
+
+	if (FAILED(Loading_Test_Object()))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_etc : Finish");
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader_etc::Loading_Test_Model()
+{
+	return S_OK;
+}
+
+HRESULT CLoader_etc::Loading_Test_Texture()
+{
+	return S_OK;
+}
+
+HRESULT CLoader_etc::Loading_Test_Object()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Camera_Default");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Default"),
+		CCamera_Default::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);

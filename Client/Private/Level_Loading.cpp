@@ -8,6 +8,7 @@
 #include "Level_Tutorial.h"
 #include "Level_Balseph.h"
 #include "Level_FireAvatar.h"
+#include "Level_Test.h"
 
 #include "Loader_etc.h"
 #include "Loader_Map.h"
@@ -54,7 +55,7 @@ void CLevel_Loading::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
 
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
 	Safe_AddRef(pGameInstance);
 
@@ -67,19 +68,13 @@ void CLevel_Loading::Tick(_double TimeDelta)
 	{
 		num++;
 		numtime = 0;
-		//num = 0;
 	}
-
 
 	if (true == m_pLoader_etc->Get_Finished() && true == m_pLoader_Map->Get_Finished() &&
 		true == m_pLoader_Effect->Get_Finished() && true == m_pLoader_Player->Get_Finished() &&
 		true == m_pLoader_Monster->Get_Finished() && true == m_pLoader_MapObject->Get_Finished())
 	{
-
-		CLevel*		pLevel = nullptr;
-
-
-		//if (GetKeyState(VK_SPACE) & 0x8000)
+		CLevel* pLevel = nullptr;
 		{
 			switch (m_eNextLevel)
 			{
@@ -97,6 +92,10 @@ void CLevel_Loading::Tick(_double TimeDelta)
 
 			case LEVEL_FIRE_AVATAR:
 				pLevel = CLevel_FireAvatar::Create(m_pDevice, m_pDeviceContext);
+				break;
+
+			case LEVEL_TEST:
+				pLevel = CLevel_Test::Create(m_pDevice, m_pDeviceContext);
 				break;
 			}
 			if (FAILED(pGameInstance->Open_Level(m_eNextLevel, pLevel)))
@@ -183,7 +182,7 @@ HRESULT CLevel_Loading::Ready_Layer_BackGround(const _tchar * pLayerTag)
 	LineSpritedesc.uidesc.fCX = 30;
 	LineSpritedesc.uidesc.fCY = 30;
 	LineSpritedesc.kind = 26;
-	LineSpritedesc.level = 2;//
+	LineSpritedesc.level = 2;
 
 	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LOADING, L"Layer_Loading", TEXT("Prototype_GameObject_LineSprite"), &LineSpritedesc)))
 		return E_FAIL;

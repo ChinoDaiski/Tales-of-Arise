@@ -289,6 +289,9 @@
     <Filter Include="02. GameObject\13.Trail">
       <UniqueIdentifier>{e8c46f23-046c-476d-a451-c0b776c12af1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\99.Test">
+      <UniqueIdentifier>{2c3d9314-8e08-464a-b3ed-2081a0df7aef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -603,6 +606,9 @@
     <ClInclude Include="..\Public\Dissolve.h">
       <Filter>02. GameObject\12.Dissolve</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01. Levels\99.Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -916,6 +922,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Dissolve.cpp">
       <Filter>02. GameObject\12.Dissolve</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Test.cpp">
+      <Filter>01. Levels\99.Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

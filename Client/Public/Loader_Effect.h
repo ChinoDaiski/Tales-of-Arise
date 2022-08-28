@@ -44,6 +44,12 @@ private:
 	HRESULT Loading_Boss2_Model();
 	HRESULT Loading_Boss2_Texture();
 	HRESULT Loading_Boss2_Object();
+public:
+	HRESULT Loading_ForTestLevel();
+private:
+	HRESULT Loading_Test_Model();
+	HRESULT Loading_Test_Texture();
+	HRESULT Loading_Test_Object();
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_pDeviceContext = nullptr;
