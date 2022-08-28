@@ -63,7 +63,7 @@ HRESULT CLevel_Lobby::Render()
 
 
 	Safe_Release(pGameInstance);
-	SetWindowText(g_hWnd, TEXT("로비입니다."));
+	SetWindowText(g_hWnd, TEXT("Loby"));
 	return S_OK;
 }
 

@@ -111,7 +111,7 @@ HRESULT CLevel_Loading::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
-	SetWindowText(g_hWnd, L"Level_Loading");
+	SetWindowText(g_hWnd, L"Loading");
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

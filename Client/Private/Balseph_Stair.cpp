@@ -25,7 +25,7 @@ CBalseph_Stair::CBalseph_Stair(const CBalseph_Stair & rhs)
 HRESULT CBalseph_Stair::NativeConstruct_Prototype()
 {
 	if (FAILED(__super::NativeConstruct_Prototype()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : NativeConstruct_Prototype : NativeConstruct_Prototype", E_FAIL);
 
 	return S_OK;
 }
@@ -39,10 +39,10 @@ HRESULT CBalseph_Stair::NativeConstruct(void * pArg)
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::NativeConstruct(pArg, &TransformDesc)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : NativeConstruct : NativeConstruct", E_FAIL);
 
 	if (FAILED(SetUp_Components(pArg)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : NativeConstruct : SetUp_Components", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -80,8 +80,6 @@ void CBalseph_Stair::Tick(_double TimeDelta)
 				// 계단 아래쪽에 움직이는 맵을 이동하는 WayPoint를 설치한다.
 				// 해당 WayPoint는 플레이어와 충돌시 FireAvatar로 이동하는 오브젝트이다.
 
-				CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
 				CWayPoint::WayPoint_DESC WayDesc;
 				WayDesc.eLevel = LEVEL_FIRE_AVATAR;				// 이동할다음 레벨
 				WayDesc.fPos = _float3(-86.12, 12.55, 0.03);	// 오브젝트 생성위치
@@ -94,8 +92,6 @@ void CBalseph_Stair::Tick(_double TimeDelta)
 				}
 
 				pWayPoint->Set_TargetPlayer(m_pTargetPlayer);
-
-				RELEASE_INSTANCE(CGameInstance);
 
 				bMakeWayPoint = true;
 			}
@@ -122,47 +118,48 @@ void CBalseph_Stair::LateTick(_double TimeDelta)
 HRESULT CBalseph_Stair::Render()
 {
 	if (nullptr == m_pShaderCom || nullptr == m_pModelCom)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : nullptr", E_FAIL);
 
 	if (FAILED(__super::Render()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : Render", E_FAIL);
 
 	if (FAILED(SetUp_ConstantTable()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : SetUp_ConstantTable", E_FAIL);
 
 	_uint      iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
 
 	for (_uint i = 0; i < iNumMeshContainers; ++i)
 	{
 		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_DIFFUSE, "g_DiffuseTexture", i)))
-			return E_FAIL;
-
+			MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : Bind_Material_OnShader(g_DiffuseTexture)", E_FAIL);
 		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
-			return E_FAIL;
+			MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : Bind_Material_OnShader(g_NormalTexture)", E_FAIL);
+		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
+			MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : Bind_Material_OnShader(g_EmissiveTexture)", E_FAIL);
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
-			return E_FAIL;
+			MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : Render : Render", E_FAIL);
 	}
 }
 
 HRESULT CBalseph_Stair::SetUp_Components(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_Components : nullptr == pArg", E_FAIL);
 
 	Balseph_StairDesc Desc = *((Balseph_StairDesc*)pArg);
 
 	/* For.Com_Renderer */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_Components : SetUp_Components(Com_Renderer)", E_FAIL);
 
 	/* For.Com_Shader */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnim"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_Components : SetUp_Components(Com_Shader)", E_FAIL);
 
 	/* For.Com_Model */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_STATIC, Desc.pModelTag, (CComponent**)&m_pModelCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_Components : SetUp_Components(Com_Model)", E_FAIL);
 
 	m_pTargetEnemy = Desc.pTargetEnemy; 
 	m_pTargetPlayer = Desc.pTargetPlayer;
@@ -175,14 +172,14 @@ HRESULT CBalseph_Stair::SetUp_ConstantTable()
 	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_ConstantTable : Bind_WorldMatrixOnShader(g_WorldMatrix)", E_FAIL);
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_ConstantTable : Set_RawValue(g_ViewMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_ConstantTable : Set_RawValue(g_ProjMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPositionFloat4(), sizeof(_float4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CBalseph_Stair : SetUp_ConstantTable : Set_RawValue(g_vCamPosition)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 

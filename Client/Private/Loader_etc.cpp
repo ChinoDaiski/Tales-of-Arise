@@ -8,15 +8,9 @@
 #include "Navigation.h"
 #include "Sky.h"
 
-#include "Rect_Effect.h"
-#include "Point_Effect.h"
-#include "MeshEffect.h"
-#include "Effect.h"
-
 #include "Fire_Deco.h"
 #include "Fire_Effect.h"
 
-#include "Trail.h"
 #include "Dissolve.h"
 
 CLoader_etc::CLoader_etc(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
@@ -90,7 +84,7 @@ HRESULT CLoader_etc::NativeConstruct(LEVEL eLevel)
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadEntryFunc, this, 0, nullptr);
 	if (0 == m_hThread)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : NativeConstruct : m_hThread", E_FAIL);
 
 	return S_OK;
 }
@@ -100,16 +94,16 @@ HRESULT CLoader_etc::Loading_ForLobbyLevel()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Lobby_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForLobbyLevel : Loading_Lobby_Model", E_FAIL);
 
 	if (FAILED(Loading_Lobby_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForLobbyLevel : Loading_Lobby_Texture", E_FAIL);
 
 	if (FAILED(Loading_Lobby_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForLobbyLevel : Loading_Lobby_Object", E_FAIL);
 
 	if (FAILED(Loading_Lobby_Components()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForLobbyLevel : Loading_Lobby_Components", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Finish");
 	m_isFinished = true;
@@ -130,12 +124,12 @@ HRESULT CLoader_etc::Loading_Lobby_Texture()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_Dissolve_Sour");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve_Sour"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Dissolve/Dissolve_Sour%d.dds"), 5))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_Dissolve_Sour)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_Dissolve_Dest");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve_Dest"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Dissolve/Dissolve_Dest%d.dds"), 1))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_Dissolve_Dest)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -149,7 +143,7 @@ HRESULT CLoader_etc::Loading_Lobby_Object()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Dissolve");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Dissolve"),
 		CDissolve::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Object : Add_Prototype(Prototype_GameObject_Dissolve)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -164,20 +158,20 @@ HRESULT CLoader_etc::Loading_Lobby_Components()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Collider_AABB");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		CCollider::Create(m_pDevice, m_pDeviceContext, CCollider::TYPE_AABB))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Components : Add_Prototype(Prototype_Component_Collider_AABB)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Collider_OBB");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"),
 		CCollider::Create(m_pDevice, m_pDeviceContext, CCollider::TYPE_OBB))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Components : Add_Prototype(Prototype_Component_Collider_OBB)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Collider_SPHERE");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"),
 		CCollider::Create(m_pDevice, m_pDeviceContext, CCollider::TYPE_SPHERE))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Lobby_Components : Add_Prototype(Prototype_Component_Collider_SPHERE)", E_FAIL);
 #pragma endregion
 
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -187,16 +181,16 @@ HRESULT CLoader_etc::Loading_ForTutorialLevel()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Tutorial_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForTutorialLevel : Loading_Tutorial_Model", E_FAIL);
 
 	if (FAILED(Loading_Tutorial_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForTutorialLevel : Loading_Tutorial_Texture", E_FAIL);
 
 	if (FAILED(Loading_Tutorial_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForTutorialLevel : Loading_Tutorial_Object", E_FAIL);
 
 	if (FAILED(Loading_Tutorial_Components()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_ForTutorialLevel : Loading_Tutorial_Components", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Finish");
 	m_isFinished = true;
@@ -216,70 +210,23 @@ HRESULT CLoader_etc::Loading_Tutorial_Texture()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_SkyBox");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_SkyBox"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/SkyBox/space.dds"), 1))))
-		return E_FAIL;
-
-	
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_Fire0");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_Fire0"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/Fire/Fire0(%d).png"), 64))))
-		return E_FAIL;
-
-
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_SkyBox)", E_FAIL);
 
 	// Owl UI용 텍스쳐
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_InteractionUI");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InteractionUI"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/interactionUI.dds"), 1))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_InteractionUI)", E_FAIL);
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_message_box_context");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_message_box_context"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/message_box_context.dds"), 1))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_message_box_context)", E_FAIL);
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_message_box_name");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_message_box_name"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/UMap/MapObejct/Owl_UI/message_box_name.dds"), 1))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_message_box_name)", E_FAIL);
 
-	//불이펙트
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect0");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect0"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect0(%d).png"), 36))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect1");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect1"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect1(%d).png"), 36))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect2");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect2"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect2(%d).png"), 36))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect3");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect3"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect3(%d).png"), 36))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect4");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect4"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect4(%d).png"), 36))))
-		return E_FAIL;
-
-	//연기 이펙트
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_FireEffect5");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect5"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect5(%d).png"), 36))))
-		return E_FAIL;
-
-	//트레일
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_Trail");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Trail"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Trail/Trail%d.dds"), 1))))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -290,52 +237,27 @@ HRESULT CLoader_etc::Loading_Tutorial_Object()
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Camera_Default");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Default"),
 		CCamera_Default::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Camera_Default)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_LightDepth");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LightDepth"),
 		CLightDepth::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Rect_Effect");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
-		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Point_Effect");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Point_Effect"),
-		CPoint_Effect::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Mesh_Effect");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mesh_Effect"),
-		CMeshEffect::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_LightDepth)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Sky");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
 		CSky::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Effect");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
-		CEffect::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Sky)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Fire");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Fire"),
 		CFire_Deco::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Fire)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_FireEffect0");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FireEffect0"),
 		CFire_Effect::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, L"Loader_etc : Prototype_GameObject_Trail");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trail"),
-		CTrail::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_FireEffect0)", E_FAIL);
 
 	Safe_Release(pGameInstance);
 	return S_OK;

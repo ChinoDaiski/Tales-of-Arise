@@ -39,7 +39,7 @@ public:
 	_uint Get_NumMeshContainer() const;
 	CAnimation* Get_Animation(_uint iIndex);
 	CAnimation* Get_CurAnimation();
-	_uint Get_CurAnimationIndex() { return m_iCurrentAnimIndex; }
+
 	_matrix CModel::Get_PivotMatrix()
 	{
 		return XMLoadFloat4x4(&m_PivotMatrix);

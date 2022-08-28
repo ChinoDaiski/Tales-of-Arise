@@ -2,6 +2,14 @@
 #include "..\Public\Loader_Effect.h"
 #include "GameInstance.h"
 
+#include "Trail.h"
+
+#include "Rect_Effect.h"
+#include "Point_Effect.h"
+#include "MeshEffect.h"
+#include "Effect.h"
+#include "FireAvatar_InstanceRect.h"
+
 CLoader_Effect::CLoader_Effect(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
 {
@@ -67,7 +75,7 @@ HRESULT CLoader_Effect::NativeConstruct(LEVEL eLevel)
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadEntryFunc_Effect, this, 0, nullptr);
 	if (0 == m_hThread)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : NativeConstruct : m_hThread", E_FAIL);
 
 	return S_OK;
 }
@@ -77,13 +85,13 @@ HRESULT CLoader_Effect::Loading_ForLobbyLevel()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Lobby_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForLobbyLevel : Loading_Lobby_Model", E_FAIL);
 
 	if (FAILED(Loading_Lobby_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForLobbyLevel : Loading_Lobby_Texture", E_FAIL);
 
 	if (FAILED(Loading_Lobby_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForLobbyLevel : Loading_Lobby_Object", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Finish");
 	m_isFinished = true;
@@ -98,6 +106,46 @@ HRESULT CLoader_Effect::Loading_Lobby_Model()
 
 HRESULT CLoader_Effect::Loading_Lobby_Texture()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	//불이펙트
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_Fire0");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_Fire0"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/Fire/Fire0(%d).png"), 64))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_Fire0)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect0");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect0"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect0(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect0)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect1");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect1"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect1(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect1)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect2");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect2"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect2(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect2)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect3");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect3"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect3(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect3)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect4");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect4"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect4(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect4)", E_FAIL);
+
+	//연기 이펙트
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_FireEffect5");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireEffect5"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Sprite/FireEffect/FireAvatar_Effect5(%d).png"), 36))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Lobby_Texture : Add_Prototype(Prototype_Component_Texture_FireEffect5)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -111,13 +159,13 @@ HRESULT CLoader_Effect::Loading_ForTutorialLevel()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Tutorial_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTutorialLevel : Loading_Tutorial_Model", E_FAIL);
 
 	if (FAILED(Loading_Tutorial_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTutorialLevel : Loading_Tutorial_Texture", E_FAIL);
 
 	if (FAILED(Loading_Tutorial_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTutorialLevel : Loading_Tutorial_Object", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Finish");
 	m_isFinished = true;
@@ -129,7 +177,6 @@ HRESULT CLoader_Effect::Loading_Tutorial_Model()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-
 	_matrix			PivotMatrix, PivotAxeMatrix;
 
 	PivotMatrix = XMMatrixScaling(3.f, 3.f, 3.f)*XMMatrixRotationX(XMConvertToRadians(90.f));
@@ -137,9 +184,9 @@ HRESULT CLoader_Effect::Loading_Tutorial_Model()
 	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Model_Effect1");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Effect1",
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_EFFECT, "../Bin/Resources/Model/Effect/", "0.fbx", PivotMatrix))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Model : Add_Prototype(Prototype_Component_Model_Effect1)", E_FAIL);
 
-	Safe_Release(pGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -151,19 +198,54 @@ HRESULT CLoader_Effect::Loading_Tutorial_Texture()
 	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_Effect_Mesh");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Mesh"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Mesh/Mesh(%d).png"), 421))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_Effect_Mesh)", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_Effect");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Effect/Effect(%d).png"), 29))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_Effect)", E_FAIL);
 
-	Safe_Release(pGameInstance);
+	//트레일
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_Trail");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Trail"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Trail/Trail%d.dds"), 1))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_Trail)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
 HRESULT CLoader_Effect::Loading_Tutorial_Object()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Rect_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
+		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Rect_Effect)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Point_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Point_Effect"),
+		CPoint_Effect::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Point_Effect)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Mesh_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Mesh_Effect"),
+		CMeshEffect::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Mesh_Effect)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Effect");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect"),
+		CEffect::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Effect)", E_FAIL);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Trail");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trail"),
+		CTrail::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Trail)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
@@ -172,14 +254,15 @@ HRESULT CLoader_Effect::Loading_ForBoss1Level()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Boss1_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss1Level : Loading_Boss1_Model", E_FAIL);
 
 	if (FAILED(Loading_Boss1_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss1Level : Loading_Boss1_Texture", E_FAIL);
 
 	if (FAILED(Loading_Boss1_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss1Level : Loading_Boss1_Object", E_FAIL);
 
+	lstrcpy(m_szLoading, L"Loader_Effect : Finish");
 	m_isFinished = true;
 
 	return S_OK;
@@ -205,13 +288,13 @@ HRESULT CLoader_Effect::Loading_ForBoss2Level()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Boss2_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss2Level : Loading_Boss2_Model", E_FAIL);
 
 	if (FAILED(Loading_Boss2_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss2Level : Loading_Boss2_Texture", E_FAIL);
 
 	if (FAILED(Loading_Boss2_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForBoss2Level : Loading_Boss2_Object", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Finish");
 	m_isFinished = true;
@@ -231,6 +314,14 @@ HRESULT CLoader_Effect::Loading_Boss2_Texture()
 
 HRESULT CLoader_Effect::Loading_Boss2_Object()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_FireInstance");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FireInstance"),
+		CFireAvatar_InstanceRect::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Boss2_Object : Add_Prototype(Prototype_GameObject_FireInstance)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -239,13 +330,13 @@ HRESULT CLoader_Effect::Loading_ForTestLevel()
 	m_isFinished = false;
 
 	if (FAILED(Loading_Test_Model()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Model", E_FAIL);
 
 	if (FAILED(Loading_Test_Texture()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Texture", E_FAIL);
 
 	if (FAILED(Loading_Test_Object()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Object", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Finish");
 	m_isFinished = true;

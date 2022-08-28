@@ -19,10 +19,7 @@ CWayPoint_Pos::CWayPoint_Pos(const CWayPoint_Pos & rhs)
 HRESULT CWayPoint_Pos::NativeConstruct_Prototype()
 {
 	if (FAILED(__super::NativeConstruct_Prototype()))
-	{
-		MSG_BOX(L"CWayPoint_Pos -> NativeConstruct_Prototype -> NativeConstruct_Prototype");
-		return E_FAIL;
-	}
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : NativeConstruct_Prototype : NativeConstruct_Prototype", E_FAIL);
 
 	return S_OK;
 }
@@ -36,10 +33,10 @@ HRESULT CWayPoint_Pos::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* p
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::NativeConstruct(pArg, &TransformDesc)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : NativeConstruct : NativeConstruct", E_FAIL);
 
 	if (FAILED(SetUp_Components(pArg)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : NativeConstruct : SetUp_Components", E_FAIL);
 
 	return S_OK;
 }
@@ -82,7 +79,7 @@ HRESULT CWayPoint_Pos::Render()
 HRESULT CWayPoint_Pos::SetUp_Components(void * pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : SetUp_Components : nullptr == pArg", E_FAIL);
 
 	WayPoint_DESC Desc = *((WayPoint_DESC*)pArg);
 
@@ -93,7 +90,7 @@ HRESULT CWayPoint_Pos::SetUp_Components(void * pArg)
 
 	/* For.Com_Renderer */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : SetUp_Components : SetUp_Components(Com_Renderer)", E_FAIL);
 
 	/* For.Com_Collider */
 	CCollider::COLLIDERDESC         ColliderDesc;
@@ -105,14 +102,13 @@ HRESULT CWayPoint_Pos::SetUp_Components(void * pArg)
 
 	// 플레이어와 충돌 체크용 구 생성
 	if (FAILED(__super::SetUp_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : SetUp_Components : SetUp_Components(Com_SPHERE)", E_FAIL);
 
 	return S_OK;
 }
 
 HRESULT CWayPoint_Pos::SetUp_ConstantTable()
 {
-
 	return S_OK;
 }
 
@@ -121,17 +117,13 @@ HRESULT CWayPoint_Pos::Check_TargetPlayer_Collision(void)
 	if (m_bMove)
 		return S_OK;
 
-	if (nullptr == m_pTargetPlayer) {
-		MSG_BOX(L"CWayPoint_Pos : No Player Detected!");
-		return E_FAIL;
-	}
+	if (nullptr == m_pTargetPlayer) 
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : Check_TargetPlayer_Collision : nullptr == m_pTargetPlayer", E_FAIL);
 
 	CCollider* pPlayer_Collider = dynamic_cast<CCollider*>(m_pTargetPlayer->Get_Component(TEXT("Com_SPHERE_Interaction")));
 
-	if (nullptr == pPlayer_Collider) {
-		MSG_BOX(L"CWayPoint_Pos : No Collider Detected!");
-		return E_FAIL;
-	}
+	if (nullptr == pPlayer_Collider)
+		MSG_CHECK_RETURN(L"Failed To CWayPoint_Pos : Check_TargetPlayer_Collision : nullptr == pPlayer_Collider", E_FAIL);
 
 	// 자신의 충돌체와 플레이어의 상호작용 충돌체가 충돌했을 경우
 	if (m_pSphereCom->Collision(pPlayer_Collider)) {
@@ -170,6 +162,10 @@ CGameObject * CWayPoint_Pos::Clone(void * pArg)
 
 void CWayPoint_Pos::Free()
 {
+	__super::Free();
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pSphereCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pModelCom);
 }

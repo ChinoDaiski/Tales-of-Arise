@@ -55,7 +55,7 @@ HRESULT CLevel_Logo::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
-	SetWindowText(g_hWnd, TEXT("로고레벨입니다."));
+	SetWindowText(g_hWnd, TEXT("Logo"));
 
 	return S_OK;
 }

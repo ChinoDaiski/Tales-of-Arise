@@ -277,9 +277,6 @@
     <Filter Include="02. GameObject\10.MapObject\02. WayPoint\02. MovePos">
       <UniqueIdentifier>{1329e33d-722f-445f-be5f-2cec6831c8b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\05. Boss_FireAvatar\Level_BossLevel1">
-      <UniqueIdentifier>{02bdb1d7-2cbe-47e3-92dc-6a9941a64796}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\10.MapObject\03. Balseph_Stair">
       <UniqueIdentifier>{eabc1b50-1607-4890-917c-b2e55c77f919}</UniqueIdentifier>
     </Filter>

@@ -11,10 +11,10 @@ CLevel_Test::CLevel_Test(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceCont
 HRESULT CLevel_Test::NativeConstruct()
 {
 	if (FAILED(__super::NativeConstruct()))
-		CHECK_MSG(L"Failed To CLevel_Test : NativeConstruct : NativeConstruct", E_FAIL);
+		MSG_CHECK_RETURN(L"Failed To CLevel_Test : NativeConstruct : NativeConstruct", E_FAIL);
 
 	if (FAILED(Ready_Lights()))
-		CHECK_MSG(L"Failed To CLevel_Test : NativeConstruct : Ready_Lights", E_FAIL);
+		MSG_CHECK_RETURN(L"Failed To CLevel_Test : NativeConstruct : Ready_Lights", E_FAIL);
 
 	/*if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		CHECK_MSG(L"Failed To CLevel_Test : NativeConstruct : Ready_Layer_Camera", E_FAIL);
@@ -33,7 +33,7 @@ void CLevel_Test::Tick(_double TimeDelta)
 HRESULT CLevel_Test::Render()
 {
 	if (FAILED(__super::Render()))
-		CHECK_MSG(L"Failed To CLevel_Test : Render : Render", E_FAIL);
+		MSG_CHECK_RETURN(L"Failed To CLevel_Test : Render : Render", E_FAIL);
 
 	SetWindowText(g_hWnd, TEXT("Test"));
 
@@ -53,7 +53,7 @@ HRESULT CLevel_Test::Ready_Lights()
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(0.f, 0.f, 0.f, 0.f);
 	if (FAILED(pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc)))
-		CHECK_MSG(L"Failed To CLevel_Test : Ready_Lights : Add_Lights", E_FAIL);
+		MSG_CHECK_RETURN(L"Failed To CLevel_Test : Ready_Lights : Add_Lights", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -77,7 +77,7 @@ HRESULT CLevel_Test::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.fAspect = (_float)g_iWinCX / g_iWinCY;
 
 	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, pLayerTag, TEXT("Prototype_GameObject_Camera_Default"), &CameraDesc))
-		CHECK_MSG(L"Failed To CLevel_Test : Ready_Layer_Camera : Add_GameObjectToLayer(Prototype_GameObject_Camera_Default)", E_FAIL);
+		MSG_CHECK_RETURN(L"Failed To CLevel_Test : Ready_Layer_Camera : Add_GameObjectToLayer(Prototype_GameObject_Camera_Default)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 

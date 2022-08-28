@@ -5,9 +5,15 @@
 
 #define	MSG_BOX(_message) MessageBox(nullptr, _message, L"System Message", MB_OK)
 
-#define CHECK_MSG(_message, returnType) {\
-MSG_BOX(_message);\
-return returnType;}
+#define VOID -153219
+
+#define MSG_CHECK_RETURN(_message, returnType) {		\
+MSG_BOX(_message);								\
+ return returnType;}
+
+#define MSG_CHECK(_message){\
+MSG_BOX(_message);								\
+ return;}
 
 #define GET_INSTANCE(CLASSNAME)	[](){											\
 	CLASSNAME*	pInstance = CLASSNAME::GetInstance();							\

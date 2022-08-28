@@ -299,7 +299,7 @@ HRESULT CLevel_Tutorial::Render()
 		return E_FAIL;
 
 
-	SetWindowText(g_hWnd, TEXT("튜토리얼 레벨입니다."));
+	SetWindowText(g_hWnd, TEXT("Tutorial"));
 
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);

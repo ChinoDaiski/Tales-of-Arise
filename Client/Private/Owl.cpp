@@ -23,7 +23,7 @@ COwl::COwl(const COwl & rhs)
 HRESULT COwl::NativeConstruct_Prototype()
 {
 	if (FAILED(__super::NativeConstruct_Prototype()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : NativeConstruct_Prototype : NativeConstruct_Prototype", E_FAIL);
 
 	return S_OK;
 }
@@ -37,10 +37,10 @@ HRESULT COwl::NativeConstruct(void * pArg)
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::NativeConstruct(pArg, &TransformDesc)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : NativeConstruct : NativeConstruct", E_FAIL);
 
 	if (FAILED(SetUp_Components(pArg)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : NativeConstruct : SetUp_Components", E_FAIL);
 
 	OwlDesc Desc = *((OwlDesc*)pArg);
 
@@ -356,13 +356,6 @@ void COwl::Tick(_double TimeDelta)
 		}
 	}
 
-
-
-
-
-
-
-
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -390,26 +383,29 @@ void COwl::LateTick(_double TimeDelta)
 HRESULT COwl::Render()
 {
 	if (nullptr == m_pShaderCom || nullptr == m_pModelCom)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : Render : nullptr", E_FAIL);
 
 	if (FAILED(__super::Render()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : Render : Render", E_FAIL);
 
 	if (FAILED(SetUp_ConstantTable()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : Render : SetUp_ConstantTable", E_FAIL);
 
 	_uint      iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
 
 	for (_uint i = 0; i < iNumMeshContainers; ++i)
 	{
 		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_DIFFUSE, "g_DiffuseTexture", i)))
-			return E_FAIL;
+			MSG_CHECK_RETURN(L"Failed To COwl : Render : Bind_Material_OnShader(g_DiffuseTexture)", E_FAIL);
 
 		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
-			return E_FAIL;
+			MSG_CHECK_RETURN(L"Failed To COwl : Render : Bind_Material_OnShader(g_NormalTexture)", E_FAIL);
+
+		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
+			MSG_CHECK_RETURN(L"Failed To COwl : Render : Bind_Material_OnShader(g_EmissiveTexture)", E_FAIL);
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
-			return E_FAIL;
+			MSG_CHECK_RETURN(L"Failed To COwl : Render : Render", E_FAIL);
 	}
 	
 #ifdef _DEBUG
@@ -422,21 +418,21 @@ HRESULT COwl::Render()
 HRESULT COwl::SetUp_Components(void* pArg)
 {
 	if (nullptr == pArg)
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_Components : nullptr == pArg", E_FAIL);
 
 	OwlDesc Desc = *((OwlDesc*)pArg);
 
 	/* For.Com_Renderer */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_Components : SetUp_Components(Com_Renderer)", E_FAIL);
 
 	/* For.Com_Shader */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxAnim"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_Components : SetUp_Components(Com_Shader)", E_FAIL);
 
 	/* For.Com_Model */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_STATIC, Desc.pModelTag, (CComponent**)&m_pModelCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_Components : SetUp_Components(Com_Model)", E_FAIL);
 
 	// 모델의 이름에 따라 다른 번호 부여
 	// m_iOwlNumber에 값 채우기
@@ -452,7 +448,7 @@ HRESULT COwl::SetUp_Components(void* pArg)
 	ColliderDesc.fRadius = 10.f;
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_Components : SetUp_Components(Com_SPHERE)", E_FAIL);
 
 	return S_OK;
 }
@@ -462,14 +458,14 @@ HRESULT COwl::SetUp_ConstantTable()
 	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_ConstantTable : Bind_WorldMatrixOnShader(g_WorldMatrix)", E_FAIL);
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_ConstantTable : Set_RawValue(g_ViewMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_ConstantTable : Set_RawValue(g_ProjMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPositionFloat4(), sizeof(_float4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To COwl : SetUp_ConstantTable : Set_RawValue(g_vCamPosition)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -516,10 +512,8 @@ void COwl::Check_Collision(void)
 {
 	CCollider* pCollider = dynamic_cast<CCollider*>(m_pPlayer->Get_Component(TEXT("Com_SPHERE_Interaction")));
 
-	if (nullptr == pCollider) {
-		MSG_BOX(TEXT("COwl : No Interaction Collider in Player"));
-		return;
-	}
+	if (nullptr == pCollider) 
+		MSG_CHECK(L"Failed To COwl : Check_Collision : Set_RawValue(g_vCamPosition)");
 
 	// 아직 플레이어와 만나지 않은 경우
 	if (!m_bEncounter) {
@@ -534,10 +528,8 @@ void COwl::Check_InRange(void)
 {
 	CCollider* pCollider = dynamic_cast<CCollider*>(m_pPlayer->Get_Component(TEXT("Com_SPHERE_Interaction")));
 
-	if (nullptr == pCollider) {
-		MSG_BOX(TEXT("COwl : No Interaction Collider in Player"));
-		return;
-	}
+	if (nullptr == pCollider)
+		MSG_CHECK(L"Failed To COwl : Check_InRange : Set_RawValue(g_vCamPosition)");
 
 	// 아직 플레이어와 만나지 않은 경우
 	if (!m_bInRange) {

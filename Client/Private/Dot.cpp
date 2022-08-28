@@ -50,15 +50,15 @@ void CDot::LateTick(_double TimeDelta)
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (CImGUI_Manager::GetInstance()->Get_Level() == CImGUI_Manager::UL_Navigation) {
-		if (nullptr != m_pRendererCom) {
-			;
-#ifdef _DEBUG
-			if (true == pGameInstance->isInFrustum_WorldSpace(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 3.f))
-				m_pRendererCom->Add_DebugComponent(m_pSphereCom);
-#endif // _DEBUG
-		}
-	}
+//	if (CImGUI_Manager::GetInstance()->Get_Level() == CImGUI_Manager::UL_Navigation) {
+//		if (nullptr != m_pRendererCom) {
+//			;
+//#ifdef _DEBUG
+//			if (true == pGameInstance->isInFrustum_WorldSpace(m_pTransformCom->Get_State(CTransform::STATE_POSITION), 3.f))
+//				m_pRendererCom->Add_DebugComponent(m_pSphereCom);
+//#endif // _DEBUG
+//		}
+//	}
 
 	RELEASE_INSTANCE(CGameInstance);
 }
