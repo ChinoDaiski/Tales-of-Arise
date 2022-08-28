@@ -480,8 +480,11 @@ void CGravitas_Field::Free()
 		m_pParticle4->Set_TimeEffect(m_pParticle4->Get_CreateDesc()->fMaxTime);
 	if (m_pParticle5 != nullptr)
 		m_pParticle5->Set_TimeEffect(m_pParticle5->Get_CreateDesc()->fMaxTime);
-	m_pParticle6->Set_Dead(true);
-	m_pParticle7->Set_Dead(true);
+
+	if(m_pParticle6 != nullptr)
+		m_pParticle6->Set_Dead(true);
+	if (m_pParticle7 != nullptr)
+		m_pParticle7->Set_Dead(true);
 	/*
 	if (m_pParticle6 != nullptr)
 	m_pParticle6->Set_TimeEffect(m_pParticle6->Get_CreateDesc()->fMaxTime);

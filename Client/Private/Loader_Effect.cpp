@@ -346,6 +346,22 @@ HRESULT CLoader_Effect::Loading_ForTestLevel()
 
 HRESULT CLoader_Effect::Loading_Test_Model()
 {
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+
+	_matrix			PivotMatrix, PivotAxeMatrix;
+
+	PivotMatrix = XMMatrixScaling(3.f, 3.f, 3.f)*XMMatrixRotationX(XMConvertToRadians(90.f));
+
+	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Model_Effect1");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Effect1",
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_EFFECT, "../Bin/Resources/Model/Effect/", "0.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+
 	return S_OK;
 }
 

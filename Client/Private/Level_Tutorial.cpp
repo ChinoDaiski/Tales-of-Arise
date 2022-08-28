@@ -70,6 +70,9 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+		return E_FAIL;
+
 	//if (FAILED(Ready_Layer_Balseph(TEXT("Layer_Balseph"))))
 	//	return E_FAIL;
 
@@ -82,8 +85,7 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	//if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
-		return E_FAIL;
+
 
 	//if (FAILED(Ready_Layer_Practice(TEXT("Layer_Practice"))))
 	//	return E_FAIL;
@@ -106,7 +108,7 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_WatPoint(LEVEL_FIRE_AVATAR, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
+	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
 		return E_FAIL;
 
 	return S_OK;

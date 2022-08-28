@@ -30,6 +30,7 @@ namespace Client
 #define  LAYER_MAPTOOL_Dot						TEXT("Layer_MapTool_Dot")
 
 #define  LAYER_MAP_BATTLE						TEXT("Layer_Map_Battle")
+#define  LAYER_MAP_TEST							TEXT("Layer_Map_Test")
 
 extern HINSTANCE g_hInst;
 extern HWND g_hWnd;

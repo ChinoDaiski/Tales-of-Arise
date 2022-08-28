@@ -47,6 +47,7 @@ void CLevel_FireAvatar::Tick(_double TimeDelta)
 	__super::Tick(TimeDelta);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pBattle_Manager->Tick(TimeDelta);
 
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -98,7 +99,10 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 	pNavigation = pFireAvatar->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
 	pFireAvatar_Transform = dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")));
 
-	_float3 fPos = _float3(16.f, -25.8f, -0.13f);
+
+	_float3 fPos = _float3(16.f, -20.f, -0.13f);
+
+
 	pFireAvatar_Transform->Move(fPos);
 	pNavigation->Find_My_Cell(XMVectorSet(fPos.x, fPos.y, fPos.z, 1.f));
 	pFireAvatar_Transform->Move(fPos.x, fPos.y, fPos.z);
@@ -123,6 +127,10 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 		pBalseph_TransformCom->Move(0.f, 0.f, 0.f);
 		pNavigation->Find_My_Cell(XMVectorSet(0.f, 0.f, 0.f, 1.f));
 		pBalseph_TransformCom->Move(0, pBalseph_TransformCom->Get_Height(pNavigation), 0);
+
+
+		pLord_Balseph->Set_CurBattlePos(XMVectorSet(-18.87f, 0.f, 0.2f, 1.f));
+		pLord_Balseph->Set_CurBattleRadius(20.f);
 	}
 
 	
@@ -160,9 +168,13 @@ HRESULT CLevel_FireAvatar::Ready_Layer_Player(const _tchar * pLayerTag)
 	pNavigation = m_pPlayerAlphen->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
 
 	pAlphen_TransformCom = dynamic_cast<CTransform*>(m_pPlayerAlphen->Get_Component(TEXT("Com_Transform")));
-	pAlphen_TransformCom->Move(-95.22, -3.95, -0.11);
-	pNavigation->Find_My_Cell(XMVectorSet(-95.22, -3.95, -0.11, 1.f));
-	pAlphen_TransformCom->Move(-95.22, pAlphen_TransformCom->Get_Height(pNavigation), -0.11);
+	pAlphen_TransformCom->Move(-18.87f, 0.f, 0.2f);
+	pNavigation->Find_My_Cell(XMVectorSet(-18.87f, 0.f, 0.2f, 1.f));
+	pAlphen_TransformCom->Move(-18.87f, pAlphen_TransformCom->Get_Height(pNavigation), 0.2f);
+
+
+	m_pPlayerAlphen->Set_CurBattlePos(XMVectorSet(-18.87f, 0.f, 0.2f, 1.f));
+	m_pPlayerAlphen->Set_CurBattleRadius(20.f);
 
 	RELEASE_INSTANCE(CGameInstance);
 

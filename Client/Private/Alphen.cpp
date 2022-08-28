@@ -105,7 +105,7 @@ HRESULT CAlphen::NativeConstruct(void * pArg)
 
 
 	m_eSkillAirFirst = SKILL_AIR_RISING_PALCON;
-	m_eSkillGroundFirst = SKILL_GROUND_LIGTHING_THRUST;
+	m_eSkillGroundFirst = SKILL_GROUND_RISING_WYVERN;
 
 	m_eSkillAirSecond = SKILL_AIR_HURRICANE_THRUST;
 	m_eSkillGroundSecond = SKILL_GROUND_SWALLOW_BLADE;
@@ -1426,6 +1426,9 @@ void CAlphen::Skill(_double TimeDelta)
 		case Client::CAlphen::SKILL_HURRICANE_THRUST:
 			Hurricane_Thrust(TimeDelta);
 			break;
+		case Client::CAlphen::SKILL_RISING_WYVERN:
+			Rising_Wyvern();
+			break;
 		case Client::CAlphen::SKILL_END:
 			break;
 		default:
@@ -2700,19 +2703,19 @@ void CAlphen::Lightning_Thrust()
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 19 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 21)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 		}
 
 		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 23 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 25)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 		}
 
 		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 29 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 31)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 		}
 	}
 }
@@ -2911,7 +2914,7 @@ void CAlphen::Dragon_Swarm()
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 22 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 24)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 
 			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
 			m_AttackDamageInfo.fPowerBack = 0.014f;
@@ -2920,7 +2923,7 @@ void CAlphen::Dragon_Swarm()
 		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 48 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 50)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
 			m_AttackDamageInfo.fPowerBack = 0.014f;
 			m_AttackDamageInfo.fPowerUp = 0.003f;
@@ -2928,7 +2931,7 @@ void CAlphen::Dragon_Swarm()
 		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 70 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 72)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
 			m_AttackDamageInfo.fPowerBack = 0.014f;
 			m_AttackDamageInfo.fPowerUp = 0.003f;
@@ -2936,7 +2939,7 @@ void CAlphen::Dragon_Swarm()
 		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 80 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 82)
 		{
 			m_bOnAttackCollider = true;
-			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.2f, 1.f);
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
 			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
 			m_AttackDamageInfo.fPowerBack = 0.014f;
 			m_AttackDamageInfo.fPowerUp = 0.003f;
@@ -3107,6 +3110,86 @@ void CAlphen::Dragon_Swarm()
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+void CAlphen::Rising_Wyvern()
+{
+
+	if (m_bEvade == false && m_bJump == false && m_bLand)
+	{
+		m_bMove = false;
+		m_bAttack = false;
+
+
+		if (!m_bStartSkill)
+		{
+			m_iNextAnimationIndex = 68;
+
+
+			if (m_pVecMonsters->size() > 0)
+			{
+				m_pTransformCom->TurnAxis(XMVectorSetY((*m_iter)->Get_EnemyPos(), 0.f) - XMVectorSetY(Get_PlayerPos(), 0.f));
+			}
+			m_dAnimSpeed = 2.4;
+			m_bStartSkill = true;
+			m_bLoop = false;
+
+		}
+	}
+
+	if (m_iCurrentAnimationIndex == 68)
+	{
+		m_bAir = true;
+		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 72)
+		{
+			if (m_bSkillKeyDown == true)
+			{
+				m_iNextAnimationIndex = 23;
+				if (m_pVecMonsters->size() > 0)
+				{
+					m_pTransformCom->TurnAxis(XMVectorSetY((*m_iter)->Get_EnemyPos(), 0.f) - XMVectorSetY(Get_PlayerPos(), 0.f));
+				}
+				m_dAnimSpeed = 2.4;
+			}
+			else {
+				m_iNextAnimationIndex = ARI_ANIM_BTL_FALL;
+				m_dAnimSpeed = 2.1;
+				m_bSkill = false;
+				m_bPattern = false;
+				m_bStartSkill = false;
+			}
+
+
+		}
+	}
+
+	Risiing_Phoenix();
+
+	if (m_iCurrentAnimationIndex == 68)
+	{
+
+		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 17 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 18)
+		{
+			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
+			m_AttackDamageInfo.fPowerBack = 0.1f;
+			m_AttackDamageInfo.fPowerUp = 0.05f;
+			m_bOnAttackCollider = true;
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
+		}
+
+		else if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 35 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 37)
+		{
+			m_AttackDamageInfo.e_DamageType = DAMAGE_TYPE_SMALL;
+			m_AttackDamageInfo.fPowerBack = 0.1f;
+			m_AttackDamageInfo.fPowerUp = 0.2f;
+
+			m_bOnAttackCollider = true;
+			m_pAttackSphereCom->Set(Get_PlayerPos() + m_pTransformCom->Get_State(CTransform::STATE_LOOK)*0.8f, 1.5f);
+		}
+
+	}
+
+
 }
 
 void CAlphen::Compute_Look()

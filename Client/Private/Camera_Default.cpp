@@ -40,7 +40,7 @@ HRESULT CCamera_Default::NativeConstruct(void * pArg)
 	m_fCameraLookatPlayerHeight = 0.4f;	//카메라가 플레이어 높이 어디 처다볼지
 	m_fMouseSensitivity = 0.3f;			//마우스 민감도
 	m_fRadius = 6.f;
-	m_minRadius = 1.5f;
+	m_minRadius = 2.f;
 	m_maxRadius = 10.f;
 	m_minAzimuth = 0.f;
 	m_maxAzimuth = 360.f;
@@ -602,7 +602,7 @@ void CCamera_Default::Camera_BattleEnd(_double TimeDelta)
 		m_fElevation = asinf(XMVectorGetY(vLocalCameraPos) / m_fRadius);
 		m_bInitializeSpherical = true;
 
-		pTimeManager->Set_AllLayerTime(0.3);
+		pTimeManager->Set_AllLayerTime(0.2);
 	}
 
 
@@ -617,7 +617,7 @@ void CCamera_Default::Camera_BattleEnd(_double TimeDelta)
 	}
 
 	SphericalCoordinatesTranslateRadius(-TimeDelta*0.5f);
-	SphericalCoordinatesRotate((_float)TimeDelta*1.2f, 0.f);
+	SphericalCoordinatesRotate((_float)TimeDelta*0.4f, 0.f);
 	vCameraPos = toCartesian() + vPlayerPos;
 	XMStoreFloat3(&m_vActualPos, vCameraPos);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));

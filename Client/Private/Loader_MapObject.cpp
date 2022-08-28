@@ -8,6 +8,8 @@
 #include "WayPoint_Pos.h"
 #include "Balseph_Stair.h"
 
+#include "MapObject.h"
+
 CLoader_MapObject::CLoader_MapObject(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
 {
@@ -332,6 +334,23 @@ HRESULT CLoader_MapObject::Loading_ForTestLevel()
 
 HRESULT CLoader_MapObject::Loading_Test_Model()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_matrix PivotMatrix;
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+
+	lstrcpy(m_szLoading, L"Loader_MapObject : Prototype_Component_Model_Map_GrandYork_Battle_02");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_GrandYork_Battle_02"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_GrandYork_Battle02.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_MapObject : Prototype_Component_Model_Map_GrandYork_Battle_02_NaviMap");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Map_GrandYork_Battle_02_NaviMap"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/UMap/Map_GrandYork/", "Map_GrandYork_Battle02_NaviMap.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
@@ -342,6 +361,14 @@ HRESULT CLoader_MapObject::Loading_Test_Texture()
 
 HRESULT CLoader_MapObject::Loading_Test_Object()
 {
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	lstrcpy(m_szLoading, L"Loader_Map : Prototype_GameObject_MapObject");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapObject"), CMapObject::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 

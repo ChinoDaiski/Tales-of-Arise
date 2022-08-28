@@ -112,7 +112,7 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 
 		//m_fPowerUp = m_HitDamageInfo.fPowerUp*TimeDelta;
 
-		_float Gravity = 0.052f;
+		_float Gravity = 0.5f;
 
 
 		m_HitDamageInfo.fPowerUp -= (_float)TimeDelta*Gravity;

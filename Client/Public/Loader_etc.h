@@ -54,6 +54,8 @@ private:
 	HRESULT Loading_Test_Model();
 	HRESULT Loading_Test_Texture();
 	HRESULT Loading_Test_Object();
+	HRESULT Loading_Test_Component();
+
 private:
 	LEVEL m_eLevel = LEVEL_END;
 	_bool m_isFinished = false;

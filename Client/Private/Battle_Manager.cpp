@@ -129,9 +129,14 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 			if (!bPlayerMove) {
 				// 플레이어의 위치를 이동한다.
-				Player_MoveToMap(pFieldPlayer, _float3(-66.31f, 16.f, 0.02f), TEXT("Prototype_Component_Navigation_Map_Balseph"));
+
+				pFieldPlayer->Set_CurBattlePos(XMVectorSet(-67.72f, 12.55f, -0.036f, 1.f));
+				pFieldPlayer->Set_CurBattleRadius(18.f);
+
+				Player_MoveToMap(pFieldPlayer, _float3(-67.72f, 12.55f, -0.036f), TEXT("Prototype_Component_Navigation_Map_Balseph"));
 				bPlayerMove = true;
 			}
+			
 
 			pLayer = pGameInstance->Find_Layer(LEVEL_LORD_BALSEPH, LAYER_MAPTOOL_Balseph_Stair);
 

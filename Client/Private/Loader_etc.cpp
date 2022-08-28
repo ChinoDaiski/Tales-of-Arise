@@ -463,6 +463,10 @@ HRESULT CLoader_etc::Loading_ForTestLevel()
 	if (FAILED(Loading_Test_Object()))
 		return E_FAIL;
 
+	if (FAILED(Loading_Tutorial_Components()))
+		return E_FAIL;
+
+
 	lstrcpy(m_szLoading, L"Loader_etc : Finish");
 	m_isFinished = true;
 
@@ -491,6 +495,11 @@ HRESULT CLoader_etc::Loading_Test_Object()
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+HRESULT CLoader_etc::Loading_Test_Component()
+{
+	return E_NOTIMPL;
 }
 
 CLoader_etc* CLoader_etc::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut, LEVEL eLevel)

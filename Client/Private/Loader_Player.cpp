@@ -216,6 +216,8 @@ HRESULT CLoader_Player::Loading_Tutorial_Model()
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/Sio/Gun/Sio_Gun_0/", "Sio_Gun_0.fbx", PivotMatrix))))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Player : Loading_Tutorial_Model : Add_Prototype(Prototype_Component_Model_Sio_Gun_0)", E_FAIL);
 
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -382,6 +384,82 @@ HRESULT CLoader_Player::Loading_ForTestLevel()
 
 HRESULT CLoader_Player::Loading_Test_Model()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_matrix PivotMatrix, PivotAxeMatrix;
+
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Body");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Body"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Ari/Body/", "Ari_Body.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Face");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Face"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Ari/Face/", "Ari_Face.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Hair");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Hair"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Ari/Hair/", "Ari_Hair.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_SKL");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_SKL"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Ari/SKL/", "Ari_SKL.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(1.f, 1.f, 1.f) * XMMatrixRotationY(XMConvertToRadians(180.f))* XMMatrixRotationX(XMConvertToRadians(180.f));
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Sword_26");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Sword_26"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/Ari/Sword/Ari_Sword_26/", "Ari_Sword_26.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Sword_28");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Sword_28"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/Ari/Sword/Ari_Sword_28/", "Ari_Sword_28.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Ari_Sword_100");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ari_Sword_100"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/Ari/Sword/Ari_Sword_100/", "Ari_Sword_100.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	//////////////////////////////////////////////////////Sio/////////////////////////////////////////////////////////////////
+
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Sio_Body");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sio_Body"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Sio/Body/", "Sio_Body.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Sio_Face");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sio_Face"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Sio/Face/", "Sio_Face.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Sio_Hair");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sio_Hair"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Sio/Hair/", "Sio_Hair.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Sio_SKL");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sio_SKL"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Sio/SKL/", "Sio_SKL.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	PivotMatrix = XMMatrixScaling(1.f, 1.f, 1.f) * XMMatrixRotationY(XMConvertToRadians(180.f))* XMMatrixRotationX(XMConvertToRadians(180.f));
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_Component_Model_Sio_Gun_0");
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Sio_Gun_0"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/Sio/Gun/Sio_Gun_0/", "Sio_Gun_0.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -392,6 +470,74 @@ HRESULT CLoader_Player::Loading_Test_Texture()
 
 HRESULT CLoader_Player::Loading_Test_Object()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_GameObject_Alphen");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Alphen"),
+		CAlphen::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_GameObject_Shionne");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Shionne"),
+		CShionne::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_GameObject_Sword");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sword"),
+		CSword::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Player : Prototype_GameObject_Gun");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Gun"),
+		CGun::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+
+
+	//////////////////////////////////////////////////////Bullet////////////////////////////////////////////////////////////////////
+
+	/* For.Prototype_GameObject_Normal_Bullet */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Normal_Bullet"),
+		CNormal_Bullet::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Lunar_Blast */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Lunar_Blast"),
+		CLunar_Blast::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+
+	/* For.Prototype_GameObject_Annihilation */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Annihilation"),
+		CAnnihilation::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Explosion */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Explosion"),
+		CExplosion::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Displode */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Displode"),
+		CDisplode::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Gravitas_Field */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Gravitas_Field"),
+		CGravitas_Field::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Displode */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Spear_Sweep"),
+		CSpear_Sweep::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+
+
+
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
