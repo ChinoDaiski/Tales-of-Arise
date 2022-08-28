@@ -371,6 +371,9 @@ HRESULT CLord_Balseph::Render()
 		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
 			return E_FAIL;
 
+		if (FAILED(m_pModelCom->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
+			return E_FAIL;
+
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
 			return E_FAIL;
 

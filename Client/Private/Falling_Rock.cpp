@@ -96,6 +96,9 @@ HRESULT CFalling_Rock::Render()
 			if (FAILED(m_pModelCom1->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
 				return E_FAIL;
 
+			if (FAILED(m_pModelCom1->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
+				return E_FAIL;
+
 			if (FAILED(m_pModelCom1->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
 				return E_FAIL;
 		}
@@ -113,6 +116,9 @@ HRESULT CFalling_Rock::Render()
 			if (FAILED(m_pModelCom2->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
 				return E_FAIL;
 
+			if (FAILED(m_pModelCom2->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
+				return E_FAIL;
+
 			if (FAILED(m_pModelCom2->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
 				return E_FAIL;
 		}
@@ -128,6 +134,9 @@ HRESULT CFalling_Rock::Render()
 				return E_FAIL;
 
 			if (FAILED(m_pModelCom3->Bind_Material_OnShader(m_pShaderCom, aiTextureType_NORMALS, "g_NormalTexture", i)))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom3->Bind_Material_OnShader(m_pShaderCom, aiTextureType_EMISSIVE, "g_EmissiveTexture", i)))
 				return E_FAIL;
 
 			if (FAILED(m_pModelCom3->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
