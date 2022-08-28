@@ -158,19 +158,19 @@ HRESULT CFalling_Rock::SetUp_Components()
 	/* For.Com_Model */
 	if (m_iCreateRand == 1)
 	{
-		if (FAILED(__super::SetUp_Components(TEXT("Com_Model1"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_BurningRock1"), (CComponent**)&m_pModelCom1)))
+		if (FAILED(__super::SetUp_Components(TEXT("Com_Model1"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock1"), (CComponent**)&m_pModelCom1)))
 			return E_FAIL;
 	}
 
 	else if (m_iCreateRand == 2)
 	{
-		if (FAILED(__super::SetUp_Components(TEXT("Com_Model2"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_BurningRock2"), (CComponent**)&m_pModelCom2)))
+		if (FAILED(__super::SetUp_Components(TEXT("Com_Model2"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock2"), (CComponent**)&m_pModelCom2)))
 			return E_FAIL;
 	}
 
 	else if (m_iCreateRand == 3)
 	{
-		if (FAILED(__super::SetUp_Components(TEXT("Com_Model3"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_BurningRock3"), (CComponent**)&m_pModelCom3)))
+		if (FAILED(__super::SetUp_Components(TEXT("Com_Model3"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock3"), (CComponent**)&m_pModelCom3)))
 			return E_FAIL;
 	}
 

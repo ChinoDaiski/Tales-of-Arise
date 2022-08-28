@@ -10,6 +10,7 @@
 #include "Mantis.h"
 #include "Punisher.h"
 #include "Practice.h"
+#include "Falling_Rock.h"
 
 CLoader_Monster::CLoader_Monster(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
@@ -178,6 +179,21 @@ HRESULT CLoader_Monster::Loading_Tutorial_Model()
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FireAvatar/", "efrrock.fbx", PivotMatrix))))
 		return E_FAIL;
 
+	PivotMatrix = XMMatrixScaling(1.f, 1.f, 1.f) * XMMatrixRotationX(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock1"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FallingRock/", "rockBurning1.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock2"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FallingRock/", "rockBurning2.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_BurningRock3"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FallingRock/", "rockBurning3.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_Boar");
 	PivotMatrix = XMMatrixScaling(0.015f, 0.015f, 0.015f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Boar"),
@@ -248,6 +264,11 @@ HRESULT CLoader_Monster::Loading_Tutorial_Object()
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_GameObject_FireAvatar_Rock");
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FireAvatar_Rock"),
 		CFireAvatar_Rock::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_GameObject_Falling_Rock");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Falling_Rock"),
+		CFalling_Rock::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);

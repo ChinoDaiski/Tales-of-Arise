@@ -721,6 +721,25 @@ void CFire_Avatar::Apperance()
 		m_bOnce = false;
 		m_TimeDelta = 0.0;
 	}
+	//224, 519
+
+	if ((_uint)m_pModelCom->Get_Animation(ATTACK_APPERANCE_SUB)->Get_TimeAcc() == 224)
+	{
+		m_pCamera->Set_DownShake(true);
+		//m_pCamera->Set_CommonShake(true); 도 있다
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(ATTACK_APPERANCE_SUB)->Get_TimeAcc() == 519)
+	{
+		m_pCamera->Set_DownShake(true);
+		//m_pCamera->Set_CommonShake(true); 도 있다
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(ATTACK_APPERANCE_SUB)->Get_TimeAcc() == 1034)
+	{
+		//m_pCamera->Set_DownShake(true);
+		m_pCamera->Set_CommonShake(true);
+	}
 
 	//if ((m_iCurrentAnimationIndex == ATTACK_APPERANCE_SUB) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 80
 	//	&& (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 90)))
@@ -847,18 +866,18 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 			m_vStorePos = dynamic_cast<CFireAvatar_Rock*>(pRock)->Get_Position();
 		}
 		m_bCrashRock = true;
-		//if (!m_bCreateSmallRock)
-		//{
-		//	float j = XMVectorGetX(m_vStorePos) + (rand() % 15 / 100.f);
-		//	float i = XMVectorGetZ(m_vStorePos) + (rand() % 10 / 100.f);
-		//	for (int k = 0; k < 5; ++k)
-		//	{
-		//		m_vStorePos = XMVectorSet(i, XMVectorGetY(m_vStorePos), j, 0.f);
-		//		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
-		//			return;
-		//	}
-		//m_bCreateSmallRock = true;
-		//}
+		if (!m_bCreateSmallRock)
+		{
+			float j = XMVectorGetX(m_vStorePos) + (rand() % 15 / 100.f);
+			float i = XMVectorGetZ(m_vStorePos) + (rand() % 10 / 100.f);
+			for (int k = 0; k < 5; ++k)
+			{
+				m_vStorePos = XMVectorSet(i, XMVectorGetY(m_vStorePos), j, 0.f);
+				if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
+					return;
+			}
+		m_bCreateSmallRock = true;
+		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

@@ -33,12 +33,12 @@ HRESULT CFireAvatar_Rock::NativeConstruct(void * pArg)
 	if (nullptr == pAvatarTransform)
 		return E_FAIL;
 
-	_vector vRight = pAvatarTransform->Get_State(CTransform::STATE_RIGHT) * (-1.025f);
-	//_vector vLook = pAvatarTransform->Get_State(CTransform::STATE_LOOK) * (-1.f);
+	_vector vRight = pAvatarTransform->Get_State(CTransform::STATE_RIGHT) * 1.05f/*(-1.025f)*/;
+	_vector vLook = pAvatarTransform->Get_State(CTransform::STATE_LOOK) * (1.5f);
 
 	_float4x4 PivotRightMatrix, PivotLookMatrix;
 	XMStoreFloat4x4(&PivotRightMatrix, XMMatrixIdentity());
-	//XMStoreFloat4x4(&PivotLookMatrix, XMMatrixIdentity());
+	XMStoreFloat4x4(&PivotLookMatrix, XMMatrixIdentity());
 
 
 	PivotRightMatrix._41 = XMVectorGetX(vRight);
@@ -48,12 +48,12 @@ HRESULT CFireAvatar_Rock::NativeConstruct(void * pArg)
 
 	m_RockRightMatrix = PivotRightMatrix;
 
-	//PivotLookMatrix._41 = XMVectorGetX(vLook);
-	//PivotLookMatrix._42 = XMVectorGetY(vLook);
-	//PivotLookMatrix._43 = XMVectorGetZ(vLook);
-	//PivotLookMatrix._44 = 1.f;
+	PivotLookMatrix._41 = XMVectorGetX(vLook);
+	PivotLookMatrix._42 = XMVectorGetY(vLook);
+	PivotLookMatrix._43 = XMVectorGetZ(vLook);
+	PivotLookMatrix._44 = 1.f;
 
-	//m_RockLookMatrix = PivotLookMatrix;
+	m_RockLookMatrix = PivotLookMatrix;
 
 
 	m_pSocketMatrix = m_SocketDesc.pModelCom->Get_CombinedTransformationMatrix(m_SocketDesc.pBoneName);
@@ -178,7 +178,7 @@ HRESULT CFireAvatar_Rock::SetUp_ConstantTable()
 		return E_FAIL;
 
 	_float4x4	SocketMatrix;
-	XMStoreFloat4x4(&SocketMatrix, XMMatrixTranspose(BoneMatrix * XMLoadFloat4x4(&m_PivotMatrix) * XMLoadFloat4x4(&m_RockRightMatrix) /** XMLoadFloat4x4(&m_RockLookMatrix)*/ * pPlayerTransform->Get_WorldMatrix()));
+	XMStoreFloat4x4(&SocketMatrix, XMMatrixTranspose(BoneMatrix * XMLoadFloat4x4(&m_PivotMatrix) * XMLoadFloat4x4(&m_RockRightMatrix) * XMLoadFloat4x4(&m_RockLookMatrix) * pPlayerTransform->Get_WorldMatrix()));
 
 	//XMStoreFloat4x4(&RealPosMatrix, BoneMatrix*XMLoadFloat4x4(&m_PivotMatrix)*XMLoadFloat4x4(&m_RockRightMatrix) * pPlayerTransform->Get_WorldMatrix());
 

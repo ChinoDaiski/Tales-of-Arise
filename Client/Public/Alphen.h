@@ -394,6 +394,7 @@ private:
 	_bool m_bRing = false;
 
 	ARI_AI m_ePattern = ARI_AI_END;
+	_bool m_bCreateEffectOnce = true;
 };
 
 END

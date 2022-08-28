@@ -85,7 +85,7 @@ private:
 	ID3D11UnorderedAccessView* m_pDownScale4x4UAV[TYPE_END] = { nullptr };
 private:
 	_uint m_iWidth = 0, m_iHeight = 0, m_iDownScaleGroups = 0;
-	_float m_fMiddleGrey = 1.f, m_fWhite = 1.f;
+	_float m_fMiddleGrey = 2.f, m_fWhite = 3.5f;
 	_float m_fAdaptation = 1.f;
 	_float m_fBloomThreshold = 1.1f;
 	_float m_fBloomScale = 0.74f;

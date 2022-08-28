@@ -91,7 +91,7 @@ void CMeshEffect::Tick(_double TimeDelta)
 
 	if (m_EffectDesc_Mesh.KeyFram_1_TimeEnd >= m_Time)
 	{
-		
+
 		if (m_EffectDesc_Mesh.iTexture2 == 1)
 			Ratio = pow(m_Time / m_EffectDesc_Mesh.KeyFram_1_TimeEnd, 2);
 		else if (m_EffectDesc_Mesh.iTexture2 == 2)
@@ -120,7 +120,7 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_2_TimeEnd >= m_Time)
 	{
-		
+
 		if (m_EffectDesc_Mesh.iTexture2 == 1)
 			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_1_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_2_TimeEnd - m_EffectDesc_Mesh.KeyFram_1_TimeEnd), 2);
 		else if (m_EffectDesc_Mesh.iTexture2 == 2)
@@ -150,7 +150,7 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_3_TimeEnd >= m_Time)
 	{
-		
+
 		if (m_EffectDesc_Mesh.iTexture2 == 1)
 			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_2_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_3_TimeEnd - m_EffectDesc_Mesh.KeyFram_2_TimeEnd), 2);
 		else if (m_EffectDesc_Mesh.iTexture2 == 2)
@@ -179,7 +179,7 @@ void CMeshEffect::Tick(_double TimeDelta)
 	}
 	else if (m_EffectDesc_Mesh.KeyFram_4_TimeEnd >= m_Time)
 	{
-		
+
 		if (m_EffectDesc_Mesh.iTexture2 == 1)
 			Ratio = pow((m_Time - m_EffectDesc_Mesh.KeyFram_3_TimeEnd) / (m_EffectDesc_Mesh.KeyFram_4_TimeEnd - m_EffectDesc_Mesh.KeyFram_3_TimeEnd), 2);
 		else if (m_EffectDesc_Mesh.iTexture2 == 2)
@@ -267,7 +267,7 @@ HRESULT CMeshEffect::Render()
 		if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DissolveTexture", m_EffectDesc_Mesh.iTexture1)))
 			return E_FAIL;
 		//if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_NormalTexture", m_EffectDesc_Mesh.iTexture2)))
-		//	return E_FAIL;
+		//   return E_FAIL;
 	}
 
 
@@ -289,7 +289,7 @@ HRESULT CMeshEffect::Render()
 	}
 	else if (m_sShader == SHADER_NONEDIFFUSE)
 	{
-		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 42)))
+		if (FAILED(m_pModel->Render(m_pShaderCom, "g_BoneMatrices", m_EffectDesc_Mesh.iMesh, m_EffectDesc_Mesh.iShader + 43)))
 		{
 			MSG_BOX(L"Failed To CModel_Object : Render : m_pModel->Render");
 			return E_FAIL;
@@ -317,21 +317,21 @@ HRESULT CMeshEffect::SetUp_Components()
 
 	/* For.Com_Texture */
 	//if (FAILED(__super::SetUp_Component(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MeshEffect"), (CComponent**)&m_pTextureCom)))
-	//	return E_FAIL;
+	//   return E_FAIL;
 
 	/* For.Com_Model */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Effect1"), (CComponent**)&m_pModel)))
 		return E_FAIL;
 
 	//if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DissolveTexture", 64)))
-	//	return E_FAIL;
+	//   return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CMeshEffect::SetUp_ConstantTable()
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 	m_LocalMatrix.m[3][3] = 1.f;
 
 	_float4x4 WorldMatrix;
@@ -341,10 +341,14 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 	}
 	else
 	{
-		_matrix	MX = m_Parents_TF->Get_WorldMatrix();
-		MX.r[3] += (MX.r[0] * m_Parents_RUL.x) + (MX.r[1] * m_Parents_RUL.y) + (MX.r[2] * m_Parents_RUL.z);
-		XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * MX));
-
+		_matrix   MX = m_Parents_TF->Get_WorldMatrix();
+		MX.r[3] += (MX.r[0] * m_Parents_pRUL.x) + (MX.r[1] * m_Parents_pRUL.y) + (MX.r[2] * m_Parents_pRUL.z);
+		m_pTransformCom->Set_WorldMatrix(MX);
+		m_pTransformCom->Turn_Angle(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), XMConvertToRadians(m_Parents_rRUL.x));
+		m_pTransformCom->Turn_Angle(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(m_Parents_rRUL.y));
+		m_pTransformCom->Turn_Angle(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_Parents_rRUL.z));
+		m_pTransformCom->Scaled(m_Parents_sRUL);
+		XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_LocalMatrix) * m_pTransformCom->Get_WorldMatrix()));
 	}
 
 	//XMMatrixTranspose
@@ -383,40 +387,40 @@ void CMeshEffect::Reset()
 {
 	m_EffectDesc_Mesh.bBillboard = false;
 
-	float			fmultipleTime = 1.f;
+	float         fmultipleTime = 1.f;
 
-	float			KeyFram_0_Alpha = 0.f;
-	float			KeyFram_1_Alpha = 0.f;
-	float			KeyFram_2_Alpha = 0.f;
-	float			KeyFram_3_Alpha = 0.f;
-	float			KeyFram_4_Alpha = 0.f;
+	float         KeyFram_0_Alpha = 0.f;
+	float         KeyFram_1_Alpha = 0.f;
+	float         KeyFram_2_Alpha = 0.f;
+	float         KeyFram_3_Alpha = 0.f;
+	float         KeyFram_4_Alpha = 0.f;
 
-	XMFLOAT3		KeyFram_0_Scale = XMFLOAT3(1.f, 1.f, 1.f);
-	XMFLOAT3		KeyFram_1_Scale = XMFLOAT3(1.f, 1.f, 1.f);
-	XMFLOAT3		KeyFram_2_Scale = XMFLOAT3(1.f, 1.f, 1.f);
-	XMFLOAT3		KeyFram_3_Scale = XMFLOAT3(1.f, 1.f, 1.f);
-	XMFLOAT3		KeyFram_4_Scale = XMFLOAT3(1.f, 1.f, 1.f);
+	XMFLOAT3      KeyFram_0_Scale = XMFLOAT3(1.f, 1.f, 1.f);
+	XMFLOAT3      KeyFram_1_Scale = XMFLOAT3(1.f, 1.f, 1.f);
+	XMFLOAT3      KeyFram_2_Scale = XMFLOAT3(1.f, 1.f, 1.f);
+	XMFLOAT3      KeyFram_3_Scale = XMFLOAT3(1.f, 1.f, 1.f);
+	XMFLOAT3      KeyFram_4_Scale = XMFLOAT3(1.f, 1.f, 1.f);
 
-	XMFLOAT3		KeyFram_0_Shader = XMFLOAT3(0.f, 0.f, 1.f);
-	XMFLOAT3		KeyFram_1_Shader = XMFLOAT3(0.f, 0.f, 1.f);
-	XMFLOAT3		KeyFram_2_Shader = XMFLOAT3(0.f, 0.f, 1.f);
-	XMFLOAT3		KeyFram_3_Shader = XMFLOAT3(0.f, 0.f, 1.f);
-	XMFLOAT3		KeyFram_4_Shader = XMFLOAT3(0.f, 0.f, 1.f);
+	XMFLOAT3      KeyFram_0_Shader = XMFLOAT3(0.f, 0.f, 1.f);
+	XMFLOAT3      KeyFram_1_Shader = XMFLOAT3(0.f, 0.f, 1.f);
+	XMFLOAT3      KeyFram_2_Shader = XMFLOAT3(0.f, 0.f, 1.f);
+	XMFLOAT3      KeyFram_3_Shader = XMFLOAT3(0.f, 0.f, 1.f);
+	XMFLOAT3      KeyFram_4_Shader = XMFLOAT3(0.f, 0.f, 1.f);
 
-	XMFLOAT3		KeyFram_0_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_1_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_2_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_3_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_4_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_0_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_1_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_2_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_3_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_4_Rotation = XMFLOAT3(0.f, 0.f, 0.f);
 
-	XMFLOAT3		KeyFram_0_Position = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_1_Position = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_2_Position = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_3_Position = XMFLOAT3(0.f, 0.f, 0.f);
-	XMFLOAT3		KeyFram_4_Position = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_0_Position = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_1_Position = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_2_Position = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_3_Position = XMFLOAT3(0.f, 0.f, 0.f);
+	XMFLOAT3      KeyFram_4_Position = XMFLOAT3(0.f, 0.f, 0.f);
 
-	XMFLOAT4		vColor1 = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
-	XMFLOAT4		vColor2 = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
+	XMFLOAT4      vColor1 = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
+	XMFLOAT4      vColor2 = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
 
 }
 
@@ -429,12 +433,14 @@ void CMeshEffect::KeyFram_Reset()
 	m_EffectDesc_Mesh.KeyFram_4_TimeEnd = (m_EffectDesc_Mesh.fMaxTime * 4) / 4;
 }
 
-void CMeshEffect::Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform * TF, _float3 RUL)
+void CMeshEffect::Set_Transform(UNIT_TYPE Type, CGameObject* OBJ, CTransform * TF, _float3 pRUL, _float3 rRUL, _float3 sRUL)
 {
 	m_Unit_Type = Type;
 	m_Parents_P = OBJ;
 	m_Parents_TF = TF;
-	m_Parents_RUL = RUL;
+	m_Parents_pRUL = pRUL;
+	m_Parents_rRUL = rRUL;
+	m_Parents_sRUL = sRUL;
 }
 
 void CMeshEffect::Set_Shader(SHADER Shader, _float2 Blur)
@@ -445,7 +451,7 @@ void CMeshEffect::Set_Shader(SHADER Shader, _float2 Blur)
 
 CMeshEffect * CMeshEffect::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 {
-	CMeshEffect*	pInstance = new CMeshEffect(pDeviceOut, pDeviceContextOut);
+	CMeshEffect*   pInstance = new CMeshEffect(pDeviceOut, pDeviceContextOut);
 
 	if (FAILED(pInstance->NativeConstruct_Prototype()))
 	{
@@ -458,7 +464,7 @@ CMeshEffect * CMeshEffect::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext*
 
 CBlendObject * CMeshEffect::Clone(void * pArg)
 {
-	CMeshEffect*	pInstance = new CMeshEffect(*this);
+	CMeshEffect*   pInstance = new CMeshEffect(*this);
 
 	if (FAILED(pInstance->NativeConstruct(pArg)))
 	{
