@@ -106,7 +106,7 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
+	if (FAILED(Ready_WatPoint(LEVEL_FIRE_AVATAR, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
 		return E_FAIL;
 
 	return S_OK;
@@ -2147,7 +2147,7 @@ HRESULT CLevel_Tutorial::Ready_WatPoint(LEVEL eNextLevel, _vector vPos)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CWayPoint::WayPoint_DESC WayDesc;
-	WayDesc.eLevel = LEVEL_LORD_BALSEPH;		// 이동할다음 레벨
+	WayDesc.eLevel = eNextLevel;		// 이동할다음 레벨
 	XMStoreFloat3(&WayDesc.fPos, vPos);			// 오브젝트 생성위치
 	WayDesc.pTargetPlayer = m_pPlayerAlphen;	// 타겟이 되는 플레이어 오브젝트 정보
 

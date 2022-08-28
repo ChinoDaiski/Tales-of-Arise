@@ -129,7 +129,7 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 			if (!bPlayerMove) {
 				// 플레이어의 위치를 이동한다.
-				Player_MoveToMap(pFieldPlayer, _float3(-75.31, 19.25, 0.02), TEXT("Prototype_Component_Navigation_Map_Balseph"));
+				Player_MoveToMap(pFieldPlayer, _float3(-66.31f, 16.f, 0.02f), TEXT("Prototype_Component_Navigation_Map_Balseph"));
 				bPlayerMove = true;
 			}
 
@@ -250,6 +250,7 @@ void CBattle_Manager::Battle_End()
 	pFieldPlayer->Set_PlayerPos(XMLoadFloat4(&m_vPrePlayerPos));
 	pPlayerManger->Set_MainPlayer(0);
 
+	m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_FIELD);
 
 	Safe_Release(pPlayerManger);
 	m_bBattle = false;
@@ -542,16 +543,8 @@ void CBattle_Manager::Tick(_double TimeDelta)
 						Monster->Set_Damage(1);
 					}
 				}
-
 			}
-
 		}
-
-
-
-
-
-
 
 		vector<CEnemy*>::iterator Target_Iter = pPlayerManger->Get_MainPlayer()->Get_Targeting();
 

@@ -98,10 +98,10 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 	pNavigation = pFireAvatar->SetUp_Navigation(TEXT("Prototype_Component_Navigation_Map_FireAvatar"));
 	pFireAvatar_Transform = dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")));
 
-	_float3 fPos = _float3(23.28f, -10.f, -0.13f);
+	_float3 fPos = _float3(18.5f, -25.5f, -0.13f);
 	pFireAvatar_Transform->Move(fPos);
 	pNavigation->Find_My_Cell(XMVectorSet(fPos.x, fPos.y, fPos.z, 1.f));
-	pFireAvatar_Transform->Move(fPos.x, pFireAvatar_Transform->Get_Height(pNavigation), fPos.z);
+	pFireAvatar_Transform->Move(fPos.x, fPos.y, fPos.z);
 
 
 

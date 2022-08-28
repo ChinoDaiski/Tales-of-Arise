@@ -29,7 +29,7 @@ HRESULT CFireAvatar_Rock::NativeConstruct(void * pArg)
 	if (nullptr != pArg)
 		memcpy(&m_SocketDesc, pArg, sizeof(SOCKETDESC));
 
-	CTransform*		pAvatarTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), TEXT("Com_Transform"));
+	CTransform*		pAvatarTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), TEXT("Com_Transform"));
 	if (nullptr == pAvatarTransform)
 		return E_FAIL;
 
@@ -86,13 +86,13 @@ void CFireAvatar_Rock::Tick(_double TimeDelta)
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	class CModel* pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
-	CTransform*		pRockTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), TEXT("Com_Transform"));
+	class CModel* pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
+	CTransform*		pRockTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), TEXT("Com_Transform"));
 	if (nullptr == pRockTransform)
 		return;
 
 
-	CGameObject* pFire_Avatar = pGameInstance->Get_GameObject(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), 0);
+	CGameObject* pFire_Avatar = pGameInstance->Get_GameObject(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), 0);
 	m_bDead = dynamic_cast<CFire_Avatar*>(pFire_Avatar)->Get_CrashRock();
 
 	if (m_bDead)
@@ -152,7 +152,7 @@ HRESULT CFireAvatar_Rock::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_EFRRock"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_EFRRock"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -173,7 +173,7 @@ HRESULT CFireAvatar_Rock::SetUp_ConstantTable()
 	BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
 	BoneMatrix.r[2] = XMVector3Normalize(BoneMatrix.r[2]);
 
-	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), CGameObject::m_pTransformTag, 0);
+	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), CGameObject::m_pTransformTag, 0);
 	if (nullptr == pPlayerTransform)
 		return E_FAIL;
 

@@ -42,8 +42,8 @@ private:
 	void RockFalling(_double TimeDelta);	// 돌 집어들어 공중에서 부셔서 공격하는 모션
 	void Punch_Ground(_double TimeDelta);	// 땅 내리치는 모션
 	void TwoHandPunch_Ground(_double TimeDelta);	// 땅 내리치는 모션
-													//void Laser_Beam(_double TimeDelta);		// 입에서 레이저
-
+	//void Laser_Beam(_double TimeDelta);		// 입에서 레이저
+	void NoMoreLife(_double TimeDelta);
 private:
 	CModel*				m_pModelCom = nullptr;
 	CModel*				m_pModelSKL = nullptr;
@@ -57,6 +57,7 @@ public:
 	_bool Get_CrashRock() { return m_bCrashRock; }
 
 private:
+	class CCamera_Default* m_pCamera = nullptr;
 	_vector m_vStorePos = { 0.f, 0.f, 0.f, 1.f };
 	_uint numAnim = 0;
 	_uint m_iMotion = -1;
@@ -69,6 +70,8 @@ private:
 	_bool m_bCreateRock = false;
 	_bool m_bCrashRock = false;
 	_bool m_bCreateSmallRock = false;
+	_bool m_bNoHP = false;
+	_uint m_balsephHP = 0;
 };
 
 END

@@ -8,7 +8,8 @@
 #include "FireAvatar_Rock.h"
 #include "Fire_Effect.h"
 #include "FireAvatar_InstanceRect.h"
-
+#include "Camera_Default.h"
+#include "Lord_Balseph.h"
 CFire_Avatar::CFire_Avatar(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CEnemy(pDeviceOut, pDeviceContextOut)
 {
@@ -42,10 +43,20 @@ HRESULT CFire_Avatar::NativeConstruct(void * pArg)
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
 
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pCamera = ((CCamera_Default*)pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Camera"), 0));
+	RELEASE_INSTANCE(CGameInstance);
+	m_isBoss = true;
 	m_dAnimSpeed = 0.0;
 	m_pModelCom->Set_AnimationIndex(ATTACK_APPERANCE_SUB);
 	m_pModelSKL->Set_AnimationIndex(ATTACK_APPERANCE_SUB);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, -28.f, 0.f, 1.f));
+
+
+	//if (FAILED(Ready_Effect(TEXT("FIRE_EFFECT"))))
+	//	return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -82,7 +93,21 @@ void CFire_Avatar::Tick(_double TimeDelta)
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (pGameInstance->Key_Down(DIK_3))
+	//CGameObject* pBalseph = pGameInstance->Get_GameObject(LEVEL_LORD_BALSEPH, TEXT("Layer_Balseph"), 0);
+	//m_balsephHP = dynamic_cast<CLord_Balseph*>(pBalseph)->Get_Hp();
+
+	//if (m_balsephHP <= 0)
+	//{
+	//	m_bNoHP = true;
+	//}
+
+	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
+	if (nullptr == pPlayerTransform)
+		return;
+
+	_vector vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+
+	if (m_pTransformCom->Distance(vPlayerPos, 120.f))		// 시작 조건
 	{
 		m_bGo = true;
 	}
@@ -93,10 +118,10 @@ void CFire_Avatar::Tick(_double TimeDelta)
 	}
 
 
-	if (!m_bHit)
+
+	if (!m_bNoHP && !m_bHit)
 	{
 		m_TimeDelta += TimeDelta;
-
 
 		if ((m_TimeDelta > 5.0) && (m_bOnce == false) && m_bAppearanceEnd)
 		{
@@ -194,11 +219,11 @@ HRESULT CFire_Avatar::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Model */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_FireAvatar"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_FireAvatar"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	/* For.Com_ModelSKL */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_AvatarSKL"), LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_FireAvatarSKL"), (CComponent**)&m_pModelSKL)))
+	if (FAILED(__super::SetUp_Components(TEXT("Com_AvatarSKL"), LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_FireAvatarSKL"), (CComponent**)&m_pModelSKL)))
 		return E_FAIL;
 
 	/* For.Com_Collider */
@@ -803,13 +828,14 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 			CSword::SOCKETDESC			SocketDesc;
 			ZeroMemory(&SocketDesc, sizeof(CSword::SOCKETDESC));
 
-			SocketDesc.pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
+			SocketDesc.pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
 			SocketDesc.pBoneName = "KK_R";
 
-			if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar_Rock"), TEXT("Prototype_GameObject_FireAvatar_Rock"), &SocketDesc)))
+			if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar_Rock"), TEXT("Prototype_GameObject_FireAvatar_Rock"), &SocketDesc)))
 				return;
 
 			m_bCreateRock = true;
+			m_bCreateSmallRock = false;
 		}
 	}
 
@@ -817,22 +843,22 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 	{
 		if (!m_bCrashRock)
 		{
-			CGameObject* pRock = pGameInstance->Get_GameObject(LEVEL_LORD_BALSEPH, TEXT("Layer_FireAvatar_Rock"), 0);
+			CGameObject* pRock = pGameInstance->Get_GameObject(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar_Rock"), 0);
 			m_vStorePos = dynamic_cast<CFireAvatar_Rock*>(pRock)->Get_Position();
 		}
 		m_bCrashRock = true;
-		/*	if (!m_bCreateSmallRock)
-		{
-		float j = XMVectorGetX(m_vStorePos) + (rand() % 15 / 100.f);
-		float i = XMVectorGetZ(m_vStorePos) + (rand() % 10 / 100.f);
-		for (int k = 0; k < 5; ++k)
-		{
-		m_vStorePos = XMVectorSet(i, 5.91f, j, 0.f);
-		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
-		return;
-		}
-		m_bCreateSmallRock = true;
-		}*/
+		//if (!m_bCreateSmallRock)
+		//{
+		//	float j = XMVectorGetX(m_vStorePos) + (rand() % 15 / 100.f);
+		//	float i = XMVectorGetZ(m_vStorePos) + (rand() % 10 / 100.f);
+		//	for (int k = 0; k < 5; ++k)
+		//	{
+		//		m_vStorePos = XMVectorSet(i, XMVectorGetY(m_vStorePos), j, 0.f);
+		//		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
+		//			return;
+		//	}
+		//m_bCreateSmallRock = true;
+		//}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -860,7 +886,11 @@ void CFire_Avatar::Punch_Ground(_double TimeDelta)
 		m_TimeDelta = 0.0;
 	}
 
-
+	if ((m_iCurrentAnimationIndex == CRUSH_CENTER) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 420))
+	{
+		m_pCamera->Set_DownShake(true);
+		//m_pCamera->Set_CommonShake(true); 도 있다
+	}
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -886,8 +916,33 @@ void CFire_Avatar::TwoHandPunch_Ground(_double TimeDelta)
 		m_TimeDelta = 0.0;
 	}
 
+	if ((m_iCurrentAnimationIndex == CHRUSH_BOTH_ARMS) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 432))
+	{
+		m_pCamera->Set_DownShake(true);
+		//m_pCamera->Set_CommonShake(true); 도 있다
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 }
+
+void CFire_Avatar::NoMoreLife(_double TimeDelta)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (!m_bOnce && m_bStart)
+	{
+		m_dAnimSpeed = 2.0;
+		m_iDuration = 5.0;
+		m_bStart = false;
+		m_bOnce = true;
+		m_bCutAnimation = false;
+		m_iNextAnimationIndex = DEAD;
+		m_bOnce = false;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+}
+
 
 CFire_Avatar * CFire_Avatar::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 {

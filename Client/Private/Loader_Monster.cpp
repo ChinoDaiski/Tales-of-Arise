@@ -164,17 +164,17 @@ HRESULT CLoader_Monster::Loading_Tutorial_Model()
 
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_FireAvatar");
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_FireAvatar"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_FireAvatar"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/FireAvatar/", "fire_Avatar.fbx", PivotMatrix))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_FireAvatarSKL"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_FireAvatarSKL"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/FireAvatar/", "fireavatarSKL.fbx", PivotMatrix))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_EFRRock");
 	PivotMatrix = XMMatrixScaling(1.5f, 1.5f, 1.5f) * XMMatrixRotationX(XMConvertToRadians(180.f));
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_LORD_BALSEPH, TEXT("Prototype_Component_Model_EFRRock"),
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_FIRE_AVATAR, TEXT("Prototype_Component_Model_EFRRock"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/FireAvatar/", "efrrock.fbx", PivotMatrix))))
 		return E_FAIL;
 
