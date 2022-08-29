@@ -6,21 +6,17 @@
 #include "Navigation.h"
 #include"PlayerMovingHP.h"
 #include"UIFlag.h"
-#include"DiamondHp.h"
-#include"DiamondAG.h"
-#include"UIBar.h"
 CPlayer::CPlayer(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CGameObject(pDeviceOut, pDeviceContextOut)
 	, m_pPlayer_Manager(CPlayer_Manager::GetInstance())
 	, m_pTime_Manager(CTime_Manager::GetInstance())
 	, m_pBattle_Manager(CBattle_Manager::GetInstance())
-	, m_pUIManager(CUI_Manager::GetInstance())
+
 {
 
 	Safe_AddRef(m_pPlayer_Manager);
 	Safe_AddRef(m_pTime_Manager);
 	Safe_AddRef(m_pBattle_Manager);
-	Safe_AddRef(m_pUIManager);
 }
 
 
@@ -29,13 +25,11 @@ CPlayer::CPlayer(const CPlayer & rhs)
 	, m_pPlayer_Manager(CPlayer_Manager::GetInstance())
 	, m_pTime_Manager(CTime_Manager::GetInstance())
 	, m_pBattle_Manager(CBattle_Manager::GetInstance())
-	, m_pUIManager(CUI_Manager::GetInstance())
 {
 
 	Safe_AddRef(m_pPlayer_Manager);
 	Safe_AddRef(m_pTime_Manager);
-	Safe_AddRef(m_pBattle_Manager);	
-	Safe_AddRef(m_pUIManager);
+	Safe_AddRef(m_pBattle_Manager);
 }
 
 HRESULT CPlayer::NativeConstruct_Prototype()
@@ -56,6 +50,14 @@ HRESULT CPlayer::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* pTransf
 
 	m_pPlayer_Manager->Push_Player(this);
 	
+
+	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+	PlayerMovingHP::MHDESC mhdesc;
+	mhdesc.targetTransform = m_pTransformCom;
+	mhdesc.pivoty = -30;
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, L"Layer_BattleUI", TEXT("Prototype_GameObject_PlayerMovingHP"), &mhdesc))
+		return E_FAIL;
 
 
 
@@ -250,7 +252,6 @@ void CPlayer::Free()
 	Safe_Release(m_pPlayer_Manager);
 	Safe_Release(m_pTime_Manager);
 	Safe_Release(m_pBattle_Manager);
-	Safe_Release(m_pUIManager);
 
 }
 
@@ -294,17 +295,17 @@ void CPlayer::System_Key_Input()
 			{
 				m_pPlayer_Manager->Set_MainPlayer(0);
 
-				CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_TUTORIAL, TEXT("Layer_Flag"));
-				UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
-				Flag->ChangeFlag(0);
+				//CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
+				//UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
+				//Flag->ChangeFlag(0);
 			}
 			if (pGameInstance->Key_Down(DIK_2))
 			{
 				m_pPlayer_Manager->Set_MainPlayer(1);
 
-				CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_TUTORIAL, TEXT("Layer_Flag"));
-				UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
-				Flag->ChangeFlag(1);
+				//CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
+				//UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
+				//Flag->ChangeFlag(1);
 			}
 
 			if (pGameInstance->Key_Down(DIK_LEFTARROW))
@@ -411,7 +412,7 @@ void CPlayer::Change_Targeting(_bool bRight)
 }
 
 int CPlayer::Get_TargetEnemyHP()
-{ 
+{
 	if (m_pTargetEnemy)
 		return m_pTargetEnemy->Get_EnemyInfo().m_iHp;
 	else

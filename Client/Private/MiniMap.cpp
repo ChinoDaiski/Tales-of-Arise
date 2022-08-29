@@ -47,7 +47,10 @@ HRESULT MiniMap::NativeConstruct(void * pArg)
 void MiniMap::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
+	CGameInstance* pGameInstnace = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstnace);
 
+	Safe_Release(pGameInstnace);
 }
 
 void MiniMap::LateTick(_double TimeDelta)
@@ -101,5 +104,4 @@ CGameObject * MiniMap::Clone(void * pArg)
 
 void MiniMap::Free()
 {
-	__super::Free();
 }

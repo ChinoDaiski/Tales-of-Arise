@@ -79,11 +79,11 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	//if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
+	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
+	//	return E_FAIL;
 
 
 
@@ -108,7 +108,7 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_WatPoint(LEVEL_FIRE_AVATAR, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
+	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
 		return E_FAIL;
 
 	return S_OK;
@@ -119,9 +119,10 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 	__super::Tick(TimeDelta);
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(pGameInstance);
+	if (nullptr == pGameInstance)
+		return;
 
-
-	//cp관련
 	m_pBattle_Manager->Tick(TimeDelta);
 	int cp = m_pBattle_Manager->GetCP();
 	cp -= 5;
@@ -177,6 +178,49 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 		//마신검. 붕쇠 이런거 다 바꿔놓아야함. 해당 몬스터랑 부딫혔을때 각각 다른거 생성시키면 될듯.
 		LineMsgCreate = true;
 
+
+	}
+
+	//맨티스와의 전투를 준비하세요 코드.
+	if (pGameInstance->Get_DIKeyState(DIK_F10))
+	{
+
+		//Line
+		UILine::LINEDESC linedesc;
+		linedesc.uidesc.fX = 0;
+		linedesc.uidesc.fY = g_iWinCX / 2 - 700;
+		linedesc.uidesc.fCX = 1920;
+		linedesc.uidesc.fCY = 80;
+		linedesc.kind = 1;
+		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_Line"), &linedesc)))
+			return;
+
+
+		//위에 있는 TutoLine위에 써질 전투 메시지 이를테면 멘티스와의 전투를 준비하세요.
+		//5 - world탐험 6- 발셉과의 7 - 멘티스와의 전투 
+		//그냥 새클래스 만드세요
+		//TutoLineMsg
+		TutoLineMsg::MSGLINEUIDESC TutoLineMsgDesc;
+		TutoLineMsgDesc.uidesc.fX = g_iWinCX / 2;
+		TutoLineMsgDesc.uidesc.fY = g_iWinCX / 2 - 750;
+		TutoLineMsgDesc.uidesc.fCX = 500;
+		TutoLineMsgDesc.uidesc.fCY = 70;
+		TutoLineMsgDesc.sprite = 1;
+
+		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_TutoLineMsg"), &TutoLineMsgDesc)))
+			return;
+
+
+		////LineSprite
+		LineSprite::MINIMAPDESC LineSpritedesc;
+		LineSpritedesc.uidesc.fX = g_iWinCX / 2;
+		LineSpritedesc.uidesc.fY = g_iWinCX / 2 - 750;
+		LineSpritedesc.uidesc.fCX = 400;
+		LineSpritedesc.uidesc.fCY = 400;
+		LineSpritedesc.kind = 0;
+
+		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_LineSprite"), &LineSpritedesc)))
+			return;
 
 	}
 
@@ -246,8 +290,9 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 	}
 
 
-
+	
 	Safe_Release(pGameInstance);
+
 }
 
 HRESULT CLevel_Tutorial::Render()
@@ -839,67 +884,19 @@ HRESULT CLevel_Tutorial::Ready_Layer_NumberFont(const _tchar * pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 
-	////Hit 숫자 폰트 
-	CUINumber::UINUMDESC uidesc;
-	uidesc.tUIInfo.fX = 1659; // g_iWinCX / 2 + 470;
-	uidesc.tUIInfo.fY = 214;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
-	uidesc.tUIInfo.fCX = 250;
-	uidesc.tUIInfo.fCY = 50;
-	uidesc.kind = 0;
+	////Hit
+	//CUINumber::UINUMDESC uidesc;
+	//uidesc.tUIInfo.fX = 1757; // g_iWinCX / 2 + 470;
+	//uidesc.tUIInfo.fY = 214;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
+	//uidesc.tUIInfo.fCX = 300;
+	//uidesc.tUIInfo.fCY = 100;
+	//uidesc.kind = 0;
 
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
-		return E_FAIL;
-
-
-	//cOMBOhIT에 따른 DAMAGE 숫자 폰트 
-	CUINumber::UINUMDESC damagedesc;
-	damagedesc.tUIInfo.fX = 1640; // g_iWinCX / 2 + 470;
-	damagedesc.tUIInfo.fY = 280;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
-	damagedesc.tUIInfo.fCX = 250;
-	damagedesc.tUIInfo.fCY = 50;
-	damagedesc.kind = 1;
-
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &damagedesc)))
-		return E_FAIL;
+	//if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
+	//	return E_FAIL;
 
 
 
-	//MaxCP와 CP
-
-	////cOMBOhIT에 따른 DAMAGE 숫자 폰트 
-	CUINumber::UINUMDESC maxcpdesc;
-	maxcpdesc.tUIInfo.fX = g_iWinCX / 2 + 790; // g_iWinCX / 2 + 470;
-	maxcpdesc.tUIInfo.fY = 450;
-	maxcpdesc.tUIInfo.fCX = 35;
-	maxcpdesc.tUIInfo.fCY = 35;
-	maxcpdesc.kind = 2;
-
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &maxcpdesc)))
-		return E_FAIL;
-
-	////MaxCP와 CP
-
-	////cOMBOhIT에 따른 DAMAGE 숫자 폰트 
-	CUINumber::UINUMDESC cucpdesc;
-	cucpdesc.tUIInfo.fX = g_iWinCX / 2 + 745; // g_iWinCX / 2 + 470;
-	cucpdesc.tUIInfo.fY = 450;
-	cucpdesc.tUIInfo.fCX = 35;
-	cucpdesc.tUIInfo.fCY = 35;
-	cucpdesc.kind = 3;
-
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &cucpdesc)))
-		return E_FAIL;
-
-	////작대기
-	ZeroMemory(&cucpdesc, sizeof(CUINumber::UINUMDESC));
-	cucpdesc.tUIInfo.fX = g_iWinCX / 2 + 770;
-	cucpdesc.tUIInfo.fY = 450;
-	cucpdesc.tUIInfo.fCX = 30;
-	cucpdesc.tUIInfo.fCY = 30;
-	cucpdesc.kind = 4;
-
-	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
-		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;
@@ -1182,7 +1179,7 @@ HRESULT CLevel_Tutorial::Ready_Layer_NameUI(const _tchar * pLayerTag)
 
 	
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
-
+	//Safe_Release(pGameInstance);
 	if (pGameInstance->Get_DIKeyState(DIK_NUMPAD3))
 	{
 
@@ -1581,13 +1578,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Boar(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(-106.f, -10.f, -30.f);
+	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-106.f, -10.f, -30.f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(-106.f, pEnemyTransform->Get_Height(pNavigation), -30.f);
+	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -1638,13 +1635,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Punisher(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(27.67f, -0.21f, -11.7f);
+	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(27.67f, -0.21f, -11.7f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(27.67f, pEnemyTransform->Get_Height(pNavigation), -11.7f);
+	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -1670,13 +1667,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Mantis(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(-19.39f, -4.64f, -1.424f);
+	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-19.39f, -4.64f, -1.424f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(-19.39f, pEnemyTransform->Get_Height(pNavigation), -1.424f);
+	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
 
 	RELEASE_INSTANCE(CGameInstance);
 

@@ -64,6 +64,10 @@ void InfoFadeUI::LateTick(_double TimeDelta)
 HRESULT InfoFadeUI::Render()
 {
 
+
+
+
+
 	if (FAILED(__super::Render()))
 	{
 		return E_FAIL;
@@ -105,5 +109,4 @@ CGameObject * InfoFadeUI::Clone(void * pArg)
 
 void InfoFadeUI::Free()
 {
-	__super::Free();
 }

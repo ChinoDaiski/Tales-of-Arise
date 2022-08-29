@@ -43,19 +43,11 @@ public:
 	void SetCP(float newcp) { CurrentCp = newcp; }
 	float GetCP() { return CurrentCp; }
 	float GetMAXCP() { return MaxCp; }
-	bool GetBossUIRender() { return m_isBossNameUIRender; }
-private:
-	default_random_engine dre;
-	uniform_int_distribution<> uidX{ -300,300 }; //한 200은 해야하나..
-	uniform_int_distribution<> uidY{ 30,500 };
-	random_device rd;
 private:
 	float CurrentCp = 100.f;
 	float MaxCp = 50;
 	float ComboHit = 0;
-	float m_fBattleGo = false;
 public:
-	void SetDiamondAg(int CurrentAg);
 	void Battle_Enter(class CEnemy* pEnemy);
 	void Battle_End();
 	void Tick(_double TimeDelta);
@@ -81,6 +73,7 @@ public:
 
 
 
+
 private:	 
 	vector<class CMapObject*> m_vMapObject;
 
@@ -98,7 +91,7 @@ private:
 	_float4 m_vPrePlayerPos;
 
 	_bool m_bBattle = false;
-	_bool m_isBossNameUIRender = false;
+
 	_int m_iCp = 0;
 	_uint m_iEnemyNum = 0;
 public:

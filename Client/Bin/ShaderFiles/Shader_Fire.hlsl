@@ -45,9 +45,9 @@ struct VS_IN
 
 struct VS_OUT
 {
-	float4		vPosition : SV_POSITION;
-	float2		vTexUV : TEXCOORD;
-	float4		vProjPos : TEXCOORD1;
+	float4      vPosition : SV_POSITION;
+	float2      vTexUV : TEXCOORD;
+	float4      vProjPos : TEXCOORD1;
 };
 
 struct VS_OUT_FIRE
@@ -62,7 +62,7 @@ struct VS_OUT_FIRE
 
 VS_OUT VS_MAIN(VS_IN In)
 {
-	VS_OUT		Out;
+	VS_OUT      Out;
 
 	matrix matWV, matWVP;
 
@@ -78,7 +78,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 VS_OUT VS_MAIN_SOCKET(VS_IN In)
 {
-	VS_OUT		Out;
+	VS_OUT      Out;
 
 	matrix matWV, matWVP, matWS, matWSV, matWSVP;
 
@@ -140,9 +140,9 @@ sampler ClampSampler = sampler_state {
 
 struct PS_IN
 {
-	float4		vPosition : SV_POSITION;
-	float2		vTexUV : TEXCOORD;
-	float4		vProjPos : TEXCOORD1;
+	float4      vPosition : SV_POSITION;
+	float2      vTexUV : TEXCOORD;
+	float4      vProjPos : TEXCOORD1;
 };
 
 struct PS_IN_FIRE
@@ -217,7 +217,7 @@ PS_OUT PS_MAIN_GLOW(PS_IN In)
 
 	Out.vBlur = Out.vColor * g_GlowStrength;
 	Out.vBlur.gb = 0;
-	
+
 	return Out;
 }
 
@@ -290,8 +290,8 @@ PS_OUT PS_MAIN_FIRE(PS_IN_FIRE In)
 	vUV.x = (In.vProjPos.x / In.vProjPos.w) * 0.5f + 0.5f;
 	vUV.y = (In.vProjPos.y / In.vProjPos.w) * -0.5f + 0.5f;
 
-	float4		vDepthDesc = g_DepthTexture.Sample(DefaultSampler, vUV);
-	float		fTargetViewZ = vDepthDesc.y * g_fCamFar;
+	float4      vDepthDesc = g_DepthTexture.Sample(DefaultSampler, vUV);
+	float      fTargetViewZ = vDepthDesc.y * g_fCamFar;
 
 	Out.vColor.a = max(min(fTargetViewZ - fViewZ, Out.vColor.a), 0.f);
 

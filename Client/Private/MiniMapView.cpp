@@ -126,5 +126,4 @@ CGameObject * MIniMapView::Clone(void * pArg)
 
 void MIniMapView::Free()
 {
-	__super::Free();
 }

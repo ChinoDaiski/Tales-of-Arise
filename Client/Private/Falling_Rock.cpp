@@ -30,7 +30,7 @@ HRESULT CFalling_Rock::NativeConstruct(void* pArg)
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.SpeedPerSec = 1.f;
+	TransformDesc.SpeedPerSec = 5.f;
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.f);
 
 	if (FAILED(__super::NativeConstruct(pArg, &TransformDesc)))
@@ -53,9 +53,8 @@ HRESULT CFalling_Rock::NativeConstruct(void* pArg)
 void CFalling_Rock::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
+	//m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta *(-1.f));
 
-	m_DeleteTime += TimeDelta;
-	m_pTransformCom->Go_Down(TimeDelta*0.05f);
 	_float fPos = XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	if (fPos < 0.f)
 	{

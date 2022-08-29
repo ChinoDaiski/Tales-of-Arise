@@ -27,10 +27,10 @@ HRESULT CLevel_FireAvatar::NativeConstruct()
 		return E_FAIL;
 
 	//if (FAILED(Ready_Lights()))
-	//	return E_FAIL;
+	//   return E_FAIL;
 
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-	//	return E_FAIL;
+	//   return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
@@ -59,7 +59,7 @@ HRESULT CLevel_FireAvatar::Render()
 
 	SetWindowText(g_hWnd, TEXT("튜토리얼 레벨입니다."));
 
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
+	CGameInstance*      pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 	if (m_isBattle) {
 
@@ -87,7 +87,7 @@ HRESULT CLevel_FireAvatar::Render()
 
 HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 {
-	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
+	CGameInstance*      pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
 	CFire_Avatar* pFireAvatar = dynamic_cast<CFire_Avatar*>(pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, pLayerTag, TEXT("Prototype_GameObject_FireAvatar")));
@@ -111,7 +111,7 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 	_vector vLook = XMVectorSetY(vPlayerPos - vFireAvatarPos, 0.f);
 	dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")))->TurnAxis(vLook);
 
-	
+
 	CLord_Balseph* pLord_Balseph = CBattle_Manager::GetInstance()->Get_Lord_Balseph();
 
 	if (nullptr != pLord_Balseph) {
@@ -129,7 +129,7 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 		pLord_Balseph->Set_CurBattleRadius(20.f);
 	}
 
-	
+
 
 
 	Safe_Release(pGameInstance);
@@ -138,7 +138,7 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 
 HRESULT CLevel_FireAvatar::Ready_Layer_Player(const _tchar * pLayerTag)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	// Skybox 생성
 	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, LAYER_MAPTOOL_Skybox, TEXT("Prototype_GameObject_Sky")))
@@ -190,13 +190,13 @@ HRESULT CLevel_FireAvatar::Ready_Map(const char * pModelFilePath, const char * p
 	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szFullPath, (int)strlen(szFullPath), szCurPath, MAX_PATH);
 
 	// 파일을 연다.
-	HANDLE		hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE      hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == hFile)
 		return E_FAIL;
 
-	DWORD		dwByte = 0;
-	DWORD		dwStrByte = 0;
+	DWORD      dwByte = 0;
+	DWORD      dwStrByte = 0;
 
 	CMapObject::MAPOBJDesc Desc;
 
@@ -206,7 +206,7 @@ HRESULT CLevel_FireAvatar::Ready_Map(const char * pModelFilePath, const char * p
 		ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
 
 		// 읽어온 메모리의 크기만큼 문자열을 할당하고, 해당 문자열을 읽어옴
-		TCHAR*	pName = new TCHAR[dwStrByte];
+		TCHAR*   pName = new TCHAR[dwStrByte];
 		ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
 
 		// 잘못됬을 경우 해당 메모리 삭제 및 멈추기
@@ -280,7 +280,7 @@ HRESULT CLevel_FireAvatar::Ready_Map(const char * pModelFilePath, const char * p
 
 CLevel_FireAvatar * CLevel_FireAvatar::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 {
-	CLevel_FireAvatar*	pInstance = new CLevel_FireAvatar(pDeviceOut, pDeviceContextOut);
+	CLevel_FireAvatar*   pInstance = new CLevel_FireAvatar(pDeviceOut, pDeviceContextOut);
 
 	if (FAILED(pInstance->NativeConstruct()))
 	{

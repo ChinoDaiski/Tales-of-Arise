@@ -18,14 +18,8 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	typedef struct UIbarDesc
-	{
-		UIINFO  uidesc;
-		int playerindex;
-	};
-public:
 	void ChangeCut(bool what) { m_isChangeCut = what; }
-	void SetPlayerIndex(int index) { m_PlayerIndex = index; }
+
 	void BattleOn(bool what) { m_isBattleOn = what; }
 private:
 	bool m_isBattleOn = false;
@@ -37,11 +31,10 @@ private:
 	bool m_isChangeCut = false;
 	bool m_isRenderOff = false;
 	float time = 0;
-	int m_PlayerIndex = 0;
 	_float percent = 0;
 	_float hp = 0;
 	_float maxhp;
-	_float m_Redbar = 1.f;
+	_float				m_Redbar = 1.f;
 private:
 	HRESULT SetUp_Texture();
 public:

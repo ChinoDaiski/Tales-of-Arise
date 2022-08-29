@@ -22,20 +22,13 @@ public:
 public:
 	void OnOffImgui(void) { m_bImguiEnable = !m_bImguiEnable; }
 	bool isImguiEnable() { return m_bImguiEnable; }
-public:
-	void Set_FireAvatar(class CFire_Avatar* pObject) {
-		m_pFire_Avatar = pObject;
-	}
 private:
 	void Setting_PostProcessing();
-	void Setting_FireAvatar();
 private:
 	bool m_bImguiEnable = true;
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_pDeviceContext = nullptr;
-private:
-	class CFire_Avatar* m_pFire_Avatar = nullptr;
 public:
 	virtual void Free() override;
 };

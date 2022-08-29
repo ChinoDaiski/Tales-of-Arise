@@ -32,7 +32,7 @@ HRESULT CFire_Avatar::NativeConstruct_Prototype()
 
 HRESULT CFire_Avatar::NativeConstruct(void * pArg)
 {
-	CTransform::TRANSFORMDESC		TransformDesc;
+	CTransform::TRANSFORMDESC      TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
 	TransformDesc.SpeedPerSec = 1.0f;
@@ -44,7 +44,7 @@ HRESULT CFire_Avatar::NativeConstruct(void * pArg)
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 	m_pCamera = ((CCamera_Default*)pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Camera"), 0));
 	RELEASE_INSTANCE(CGameInstance);
 	m_isBoss = true;
@@ -73,7 +73,7 @@ void CFire_Avatar::Tick(_double TimeDelta)
 
 
 
-		_matrix		BoneMatrix = WorldMatrix;
+		_matrix      BoneMatrix = WorldMatrix;
 
 		BoneMatrix.r[0] = XMVector3Normalize(BoneMatrix.r[0]);
 		BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
@@ -92,23 +92,23 @@ void CFire_Avatar::Tick(_double TimeDelta)
 		m_pModelSKL->Update_NextAnim(TimeDelta*m_dAnimSpeed, m_iDuration, m_iNextAnimationIndex, &m_iCurrentAnimationIndex);
 	}
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	//CGameObject* pBalseph = pGameInstance->Get_GameObject(LEVEL_LORD_BALSEPH, TEXT("Layer_Balseph"), 0);
 	//m_balsephHP = dynamic_cast<CLord_Balseph*>(pBalseph)->Get_Hp();
 
 	//if (m_balsephHP <= 0)
 	//{
-	//	m_bNoHP = true;
+	//   m_bNoHP = true;
 	//}
 
-	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
+	CTransform*      pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
 	if (nullptr == pPlayerTransform)
 		return;
 
 	_vector vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
 
-	if (m_pTransformCom->Distance(vPlayerPos, 120.f))		// 시작 조건
+	if (m_pTransformCom->Distance(vPlayerPos, 120.f))      // 시작 조건
 
 	{
 		m_bGo = true;
@@ -116,7 +116,7 @@ void CFire_Avatar::Tick(_double TimeDelta)
 
 	if (m_bGo && !m_bAppearanceEnd)
 	{
-		Apperance();		// 첫번째 동작
+		Apperance();      // 첫번째 동작
 	}
 
 
@@ -174,7 +174,7 @@ void CFire_Avatar::Tick(_double TimeDelta)
 void CFire_Avatar::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -192,7 +192,7 @@ HRESULT CFire_Avatar::Render()
 		return E_FAIL;
 
 
-	_uint		iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
+	_uint      iNumMeshContainers = m_pModelCom->Get_NumMeshContainer();
 
 	for (_uint i = 0; i < iNumMeshContainers; ++i)
 	{
@@ -232,7 +232,7 @@ HRESULT CFire_Avatar::SetUp_Components()
 		return E_FAIL;
 
 	/* For.Com_Collider */
-	CCollider::COLLIDERDESC			ColliderDesc;
+	CCollider::COLLIDERDESC         ColliderDesc;
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB */
@@ -255,7 +255,7 @@ HRESULT CFire_Avatar::SetUp_Components()
 
 HRESULT CFire_Avatar::SetUp_ConstantTable()
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
@@ -747,9 +747,9 @@ void CFire_Avatar::Apperance()
 	}
 
 	//if ((m_iCurrentAnimationIndex == ATTACK_APPERANCE_SUB) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 80
-	//	&& (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 90)))
+	//   && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 90)))
 	//{
-	//	m_bAppearanceEnd = true;
+	//   m_bAppearanceEnd = true;
 	//}
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -835,7 +835,7 @@ void CFire_Avatar::Fire_Ball(_double TimeDelta)
 		//Effect->Set_TimeSpeed(2.f);
 	}
 
-	if((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 390)
+	if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 390)
 	{
 		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 9));
 		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
@@ -958,7 +958,7 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 	{
 		if (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= 220 && m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() <= 227)
 		{
-			CSword::SOCKETDESC			SocketDesc;
+			CSword::SOCKETDESC         SocketDesc;
 			ZeroMemory(&SocketDesc, sizeof(CSword::SOCKETDESC));
 
 			SocketDesc.pModelCom = (CModel*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), TEXT("Com_AvatarSKL"));
@@ -990,7 +990,7 @@ void CFire_Avatar::RockFalling(_double TimeDelta)
 				if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_LORD_BALSEPH, TEXT("Layer_Falling_Rock"), TEXT("Prototype_GameObject_Falling_Rock"), &m_vStorePos)))
 					return;
 			}
-		m_bCreateSmallRock = true;
+			m_bCreateSmallRock = true;
 		}
 	}
 
@@ -1019,7 +1019,7 @@ void CFire_Avatar::Punch_Ground(_double TimeDelta)
 		m_TimeDelta = 0.0;
 	}
 
-	if ((m_iCurrentAnimationIndex == CRUSH_CENTER) && ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 420)) 
+	if ((m_iCurrentAnimationIndex == CRUSH_CENTER) && ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 420))
 		|| ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 421))
 		|| ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 422))
 		|| ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 423)))
@@ -1053,7 +1053,7 @@ void CFire_Avatar::TwoHandPunch_Ground(_double TimeDelta)
 	}
 
 	if ((m_iCurrentAnimationIndex == CHRUSH_BOTH_ARMS) && ((m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 432
-		 || m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 433
+		|| m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 433
 		|| m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() == 434)))
 	{
 		m_pCamera->Set_DownShake(true);
@@ -1084,7 +1084,7 @@ void CFire_Avatar::NoMoreLife(_double TimeDelta)
 
 CFire_Avatar * CFire_Avatar::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 {
-	CFire_Avatar*	pInstance = new CFire_Avatar(pDeviceOut, pDeviceContextOut);
+	CFire_Avatar*   pInstance = new CFire_Avatar(pDeviceOut, pDeviceContextOut);
 
 	if (FAILED(pInstance->NativeConstruct_Prototype()))
 	{
@@ -1097,7 +1097,7 @@ CFire_Avatar * CFire_Avatar::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContex
 
 CGameObject * CFire_Avatar::Clone(void * pArg)
 {
-	CFire_Avatar*	pInstance = new CFire_Avatar(*this);
+	CFire_Avatar*   pInstance = new CFire_Avatar(*this);
 
 	if (FAILED(pInstance->NativeConstruct(pArg)))
 	{

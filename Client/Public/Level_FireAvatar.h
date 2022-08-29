@@ -30,13 +30,13 @@ private:
 	HRESULT Ready_Layer_Fire_Deco(const _tchar * pLayerTag);
 
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
-	
+
 private:
 	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
 
 private:
-	vector<CMapObject*>	m_vMapObject;	// 배치된 맵 오브젝트 vector
-	vector<CWayPoint*>	m_vWayPoints;	// 배치된 맵 오브젝트 vector
+	vector<CMapObject*>   m_vMapObject;   // 배치된 맵 오브젝트 vector
+	vector<CWayPoint*>   m_vWayPoints;   // 배치된 맵 오브젝트 vector
 
 public:
 	CBattle_Manager* m_pBattle_Manager = nullptr;

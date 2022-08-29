@@ -4,7 +4,6 @@
 #include "GameInstance.h"
 BEGIN(Client)
 
-
 class CUINumber final : public CUI
 {
 private:
@@ -32,8 +31,6 @@ private:
 
 	bool m_isBattleOn = false;
 	//fade in out ¿ë
-	string m_str{};
-	int damage = 0;
 	_float controlValv = 0;
 	float rgb = 0;
 	int numKind = 0;
@@ -41,12 +38,11 @@ private:
 	bool m_isFirst = false;
 	bool m_isChangeCut = false;
 	bool m_isGlowFirst = true;
-
 private:
 	HRESULT SetUp_Texture();
 public:
 	static CUINumber* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
-
+	
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;
 };

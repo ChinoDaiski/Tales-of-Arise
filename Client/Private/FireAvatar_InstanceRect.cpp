@@ -61,7 +61,7 @@ void CFireAvatar_InstanceRect::LateTick(_double TimeDelta)
 
 	if (nullptr != m_pRendererCom&& m_PassTime <= 0)
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_ALPHABLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_NONLIGHT, this);
 		if (m_pVIBufferCom->Get_Billboard())
 		{
 			Compute_CamDistance();
@@ -134,16 +134,13 @@ HRESULT CFireAvatar_InstanceRect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", &m_EffectDesc->vColor2, sizeof(_float4))))
 		MSG_CHECK_RETURN(L"Failed To CFireAvatar_InstanceRect : SetUp_ConstantTable : Set_RawValue(g_Color2)", E_FAIL);
 
-	_float2 vBlur = _float2(1.f, 1.f);
-	if (FAILED(m_pShaderCom->Set_RawValue("g_Blur", &vBlur, sizeof(_float2))))
-		MSG_CHECK_RETURN(L"Failed To CFireAvatar_InstanceRect : SetUp_ConstantTable : Set_RawValue(g_Blur)", E_FAIL);
-
 	_float m_f = m_pVIBufferCom->Get_Time() / m_pVIBufferCom->Get_MaxTime();
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Alpha", &m_f, sizeof(_float))))
 		MSG_CHECK_RETURN(L"Failed To CFireAvatar_InstanceRect : SetUp_ConstantTable : Set_RawValue(g_Alpha)", E_FAIL);
 
 	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", m_EffectDesc->iTexture)))
 		MSG_CHECK_RETURN(L"Failed To CFireAvatar_InstanceRect : SetUp_ConstantTable : SetUp_ShaderResourceView(g_DiffuseTexture)", E_FAIL);
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

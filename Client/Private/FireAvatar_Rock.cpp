@@ -104,18 +104,6 @@ void CFireAvatar_Rock::Tick(_double TimeDelta)
 		vPos = XMLoadFloat4((_float4*)&mat.m[3][0]);
 	}
 
-	_matrix BoneMatrix = XMLoadFloat4x4(m_pSocketMatrix);
-
-	BoneMatrix.r[0] = XMVector3Normalize(BoneMatrix.r[0]);
-	BoneMatrix.r[1] = XMVector3Normalize(BoneMatrix.r[1]);
-	BoneMatrix.r[2] = XMVector3Normalize(BoneMatrix.r[2]);
-
-	CTransform* pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_FIRE_AVATAR, TEXT("Layer_FireAvatar"), CGameObject::m_pTransformTag, 0);
-	_float4x4 SocketMatrix;
-	XMStoreFloat4x4(&SocketMatrix, XMMatrixTranspose(BoneMatrix * XMLoadFloat4x4(&m_PivotMatrix) * XMLoadFloat4x4(&m_RockRightMatrix) * XMLoadFloat4x4(&m_RockLookMatrix) * pPlayerTransform->Get_WorldMatrix()));
-
-	vfallingRockPos = XMLoadFloat4((_float4*)&SocketMatrix.m[3][0]);
-
 
 	RELEASE_INSTANCE(CGameInstance);
 }

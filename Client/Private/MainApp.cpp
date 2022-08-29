@@ -33,12 +33,6 @@
 #include "AutoTargetUI.h"
 #include"PlayerMovingHP.h"
 #include"UIFlag.h"
-#include"BossHpBar.h"
-#include"DiamondHp.h"
-#include"DiamondAg.h"
-#include"ComboHitFont.h"
-#include"NotMovingFont.h"
-#include"MonsterMovingHP.h"
 
 #ifdef _DEBUG
 #include "ImGui_Manager.h"
@@ -224,6 +218,7 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 HRESULT CMainApp::Ready_Prototype_GameObject_UI()
 {
+
 	/* For.Prototype_GameObject_BackGround */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BackGroundUI"),
 		CUIBackground::Create(m_pDevice, m_pDeviceContext))))
@@ -360,34 +355,6 @@ HRESULT CMainApp::Ready_Prototype_GameObject_UI()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Flag"),
 		UIFlag::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BossHpBar"),
-		BossHpBar::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DiamondHP"),
-		DiamondHp::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DiamondAg"),
-		DiamondAG::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboHitFont"),
-		ComboHitFont::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NotMovingFont"),
-		NotMovingFont::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonsterMovingHP"),
-		MonsterMovingHP::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -584,11 +551,6 @@ HRESULT CMainApp::Ready_Prototype_Texture_UI()
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/UI/Flag.dds")))))
 		return E_FAIL;
 
-
-	//diamond  ÀÌ¹ÌÁö
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DiamondHP"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/UI/diamond%d.dds"), 2))))
-		return E_FAIL;
 
 
 	return S_OK;

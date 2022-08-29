@@ -3,7 +3,6 @@
 #include "GameInstance.h"
 
 #include "Trail.h"
-#include "Distortion.h"
 
 #include "Rect_Effect.h"
 #include "Point_Effect.h"
@@ -212,12 +211,6 @@ HRESULT CLoader_Effect::Loading_Tutorial_Texture()
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Trail/Trail%d.dds"), 1))))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_Trail)", E_FAIL);
 
-	//디스토션
-	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_Component_Texture_Distortion");
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Distortion"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Distortion/Distortion%d.dds"), 3))))
-		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_Distortion)", E_FAIL);
-
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
@@ -250,11 +243,6 @@ HRESULT CLoader_Effect::Loading_Tutorial_Object()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Trail"),
 		CTrail::Create(m_pDevice, m_pDeviceContext))))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Trail)", E_FAIL);
-
-	lstrcpy(m_szLoading, L"Loader_Effect : Prototype_GameObject_Distortion");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Distortion"),
-		CDistortion::Create(m_pDevice, m_pDeviceContext))))
-		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Distortion)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 

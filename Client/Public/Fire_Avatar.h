@@ -36,17 +36,17 @@ private:
 	HRESULT Ready_Effect(_tchar* tagLayer);
 
 private:
-	void Apperance();		// 땅 밑에서 등장모션
-	void Fire_Ball(_double TimeDelta);		// 두손모아 운석 쏘는 모션
-	void SweepGround(_double TimeDelta);	// 손바닥으로 수직으로 세워서 땅 쓸어버리는 모션
-	void RockFalling(_double TimeDelta);	// 돌 집어들어 공중에서 부셔서 공격하는 모션
-	void Punch_Ground(_double TimeDelta);	// 땅 내리치는 모션
-	void TwoHandPunch_Ground(_double TimeDelta);	// 땅 내리치는 모션
-	//void Laser_Beam(_double TimeDelta);		// 입에서 레이저
+	void Apperance();      // 땅 밑에서 등장모션
+	void Fire_Ball(_double TimeDelta);      // 두손모아 운석 쏘는 모션
+	void SweepGround(_double TimeDelta);   // 손바닥으로 수직으로 세워서 땅 쓸어버리는 모션
+	void RockFalling(_double TimeDelta);   // 돌 집어들어 공중에서 부셔서 공격하는 모션
+	void Punch_Ground(_double TimeDelta);   // 땅 내리치는 모션
+	void TwoHandPunch_Ground(_double TimeDelta);   // 땅 내리치는 모션
+												   //void Laser_Beam(_double TimeDelta);      // 입에서 레이저
 	void NoMoreLife(_double TimeDelta);
 private:
-	CModel*				m_pModelCom = nullptr;
-	CModel*				m_pModelSKL = nullptr;
+	CModel*            m_pModelCom = nullptr;
+	CModel*            m_pModelSKL = nullptr;
 
 public:
 	static CFire_Avatar* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);

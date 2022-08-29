@@ -129,5 +129,4 @@ CGameObject * TutorialMsg::Clone(void * pArg)
 
 void TutorialMsg::Free()
 {
-	__super::Free();
 }

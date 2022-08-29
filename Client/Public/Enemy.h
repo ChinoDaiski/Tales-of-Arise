@@ -18,15 +18,20 @@ BEGIN(Client)
 
 class CEnemy abstract : public CGameObject
 {
-
 public:
-	enum BOSSMONSTER { BOSS_MANTIS, BOSS_PUNISHER, BOSS_FIREAVATAR, BOSS_BALSEPH, BOSS_END };
-
+	enum BOSSMONSTER{BOSS_MANTIS, BOSS_PUNISHER,BOSS_FIREAVATAR,BOSS_BALSEPH,BOSS_END};
 public:
 	typedef struct _tagEnemyDesc {
 		_vector vPos;
 		MAP_TYPE eMapType = MAP_END;
 	}EnemyDesc;
+
+	typedef struct tagEnemyInfo
+	{
+		_int m_iHp = 0;				// 몬스터 체력
+		_int m_iMaxHp = 0;			// 몬스터 최대 체력
+		_uint m_iBreakCount = 0;	// 플레이어에게 맞은 횟수가 일정시간 동안 20번 이상이라면 m_bHit은 true로 변환된다
+	}ENEMYINFO;
 
 protected:
 	CEnemy(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
@@ -107,6 +112,7 @@ public:
 
 	_bool Get_IsBoss() { return m_isBoss; }
 	void Set_StartScene() { m_bStartScene = true; }
+	ENEMYINFO Get_EnemyInfo() { return m_iEnemyInfo; }
 
 protected:
 	CBattle_Manager* m_pBattle_Manager = nullptr;
@@ -149,12 +155,7 @@ protected:
 	_double m_dDeathTime = 0.0;
 	_double m_dColTime = 0.0;		// 몬스터가 계속 맞기만 하면 공격을 할 수 없기에 반격할 기회를 주기위해 만든 시간변수
 	_bool m_bAttackRevenge = false;
-	typedef struct tagEnemyInfo
-	{
-		_int m_iHp = 0;				// 몬스터 체력
-		_int m_iMaxHp = 0;			// 몬스터 최대 체력
-		_uint m_iBreakCount = 0;	// 플레이어에게 맞은 횟수가 일정시간 동안 20번 이상이라면 m_bHit은 true로 변환된다
-	}ENEMYINFO;
+
 
 	ENEMYINFO m_iEnemyInfo;
 
@@ -162,10 +163,6 @@ protected:
 	_bool m_bStartScene = false;
 	_bool m_bEffectOnlyOnce = true;
 
-	BOSSMONSTER m_bossType = BOSSMONSTER::BOSS_END;
-public:
-	ENEMYINFO Get_EnemyInfo() { return m_iEnemyInfo; }
-	BOSSMONSTER Get_BossMonsterType() { return m_bossType; }
 
 public:
 	MAP_TYPE Get_MapType(void) { return m_eMapType; }

@@ -71,6 +71,8 @@ HRESULT CTrail::Render()
 	if (FAILED(SetUp_ConstantTable()))
 		return E_FAIL;
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
 	if (FAILED(m_pShaderCom->Begin(25)))
 		return E_FAIL;
 

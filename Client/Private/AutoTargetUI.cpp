@@ -112,7 +112,7 @@ void AutoTargetUI::LateTick(_double TimeDelta)
 	__super::LateTick(TimeDelta);
 
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_ALPHABLEND, this);
 
 
 }
@@ -200,5 +200,4 @@ CGameObject * AutoTargetUI::Clone(void * pArg)
 
 void AutoTargetUI::Free()
 {
-	__super::Free();
 }

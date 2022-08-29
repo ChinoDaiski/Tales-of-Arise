@@ -11,7 +11,7 @@
 #include "Mantis.h"
 #include "Punisher.h"
 #include "Practice.h"
-#include "Meteo.h"
+
 CLoader_Monster::CLoader_Monster(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:m_pDevice(pDevice), m_pDeviceContext(pDeviceContext)
 {
@@ -352,12 +352,6 @@ HRESULT CLoader_Monster::Loading_Boss2_Object()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Falling_Rock"),
 		CFalling_Rock::Create(m_pDevice, m_pDeviceContext))))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Monster : Loading_Boss2_Object : Add_Prototype(Prototype_GameObject_Falling_Rock)", E_FAIL);
-
-
-	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_GameObject_Meteo");
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Meteo"),
-		CMeteo::Create(m_pDevice, m_pDeviceContext))))
-		MSG_CHECK_RETURN(L"Failed To CLoader_Monster : Loading_Boss2_Object : Add_Prototype(Prototype_GameObject_Meteo)", E_FAIL);
 
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
