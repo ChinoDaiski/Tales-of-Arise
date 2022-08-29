@@ -17,6 +17,12 @@
 
 #include "Balseph_Stair.h"
 #include "Lord_Balseph.h"
+//#include "BossHpBar.h"
+//#include"DiamondAG.h"
+//#include"ComboHitFont.h"
+//#include"NotMovingFont.h"
+//#include"MonsterMovingHP.h"
+#include"UINumber.h"
 
 
 IMPLEMENT_SINGLETON(CBattle_Manager)
@@ -37,10 +43,15 @@ HRESULT CBattle_Manager::NativeConstruct()
 	m_pMonsterLayer = pGameInstance->Add_Layer(LEVEL_STATIC, TEXT("Monster_Battle_Layer"));
 
 	Safe_Release(pGameInstance);
-
+	random_device(dre); //랜덤 디바이스 초기화함..
 	return S_OK;
 }
 
+
+void CBattle_Manager::SetDiamondAg(int CurrentAg)
+{
+
+}
 
 void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 {
@@ -51,12 +62,22 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 
 	m_iCp = 400;
 
-
-
-
+	//여기다 플레이어 HP바 만들기
+	CPlayer_Manager* m_pPlayer_Manager = CPlayer_Manager::GetInstance();
 	CPlayer* pFieldPlayer = pPlayerManger->Get_FieldPlayer();
+	CUI_Manager* pUiManager = CUI_Manager::GetInstance();
+	CPlayer* player = pUiManager->GetPlayer(m_pPlayer_Manager->Get_MainPlayerIndex());
 
-
+	//PlayerMovingHP생성
+	if (!m_fBattleGo) {
+		PlayerMovingHP::MHDESC mhdesc;
+		mhdesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		mhdesc.pivotx = 0;
+		mhdesc.pivoty = -30;
+		mhdesc.UIKind = 0;
+		if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_PlayerMovingHP"), &mhdesc))
+			return;
+	}
 	_vector vFieldPlayerPos = pFieldPlayer->Get_PlayerPos();
 
 	XMStoreFloat4(&m_vPrePlayerPos, vFieldPlayerPos);

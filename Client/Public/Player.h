@@ -7,7 +7,7 @@
 #include "Equipment.h"
 #include "Enemy.h"
 #include "Camera_Default.h"
-
+#include"UI_Manager.h"
 BEGIN(Engine)
 class CShader;
 class CCollider;
@@ -21,7 +21,7 @@ BEGIN(Client)
 class CPlayer abstract : public CGameObject
 {
 
-protected:
+public:
 	enum PLAYER_STATE
 	{
 		PS_SPECIAL, PS_ATTACK, PS_IDLE, PS_WALK, PS_FORWARD_EVADE, PS_BACKWARD_EVADE, PS_RUN, PS_DIE, PS_END

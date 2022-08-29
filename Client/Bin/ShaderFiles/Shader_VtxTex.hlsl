@@ -465,6 +465,174 @@ PS_OUT_DISTORTION PS_MAIN_DISTORTIONTRAIL(PS_IN In)
 	return Out;
 }
 
+
+cbuffer HORIZONTALPERCENTMonster
+{
+	float Monsterhoripercent;
+	float g_MonsterRedbar;
+}
+
+PS_OUT PS_MAIN_PERCENTAGE_HORRIZONMONSTER(PS_IN In) {
+	PS_OUT Out;
+
+	Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexUV);
+
+
+	if (Out.vColor.r == 0)
+	{
+
+		//ÀÌ°Å ±×°Å ¿À·»Áö»ö.
+		//Out.vColor.r = 0.882;
+		//Out.vColor.g = 0.792;
+		//Out.vColor.b = 0.376;
+
+		//ÀÌ¹ÎÈñÃß°¡
+		if (Monsterhoripercent > In.vTexUV.x)
+		{
+			//Out.vColor.r = 0.96;
+			//Out.vColor.g = 0.74;
+			//Out.vColor.b = 0.23;
+
+			Out.vColor.r = 0.882;
+			Out.vColor.g = 0.792;
+			Out.vColor.b = 0.376;
+		}
+		else if (g_MonsterRedbar > In.vTexUV.x)
+		{
+			Out.vColor.r = 0.92;
+			Out.vColor.g = 0.36;
+			Out.vColor.b = 0.176;
+		}
+	}
+	return Out;
+}
+
+//´ÙÀÌ¾Æ¸óµå¸¦ À§ÇÑ ½¦ÀÌ´õ
+
+cbuffer diamondPercent
+{
+	float g_fDiamondPercent;
+	bool m_isBlue;
+}
+PS_OUT PS_DIAMONDAG(PS_IN In)
+{
+	PS_OUT			Out;
+
+	Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexUV);
+	Out.vColor.r = 0.031;
+	Out.vColor.g = 0.882;
+	Out.vColor.b = 0.882;
+	if (-0.5f + g_fDiamondPercent <= In.vLocalPos.x)
+	{
+		discard;
+	}
+
+	if (m_isBlue)
+	{
+		Out.vColor.r = 0.031;
+		Out.vColor.g = 0.882;
+		Out.vColor.b = 0.882;
+	}
+	else
+	{
+
+		Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexUV);
+
+	}
+
+	return Out;
+}
+
+cbuffer PlayerMovingHP
+{
+	float playermovingpercent;
+	float playerrendbar;
+	bool g_isMonster;
+}
+//26
+PS_OUT PlayerMovingHpPass(PS_IN In) {
+	PS_OUT Out;
+
+	Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexUV);
+
+
+	if (Out.vColor.r == 0)
+	{
+		if (playermovingpercent > In.vTexUV.x)
+		{
+
+
+			Out.vColor.r = 0.888f;
+			Out.vColor.g = 1.f;
+			Out.vColor.b = 0.3f;
+
+			//	if (!g_isMonster) {
+			//		/*Out.vColor.r = 0.888f;
+			//		Out.vColor.g = 1.f;
+			//		Out.vColor.b = 0.3f;
+			//*/
+			//	}
+			//else {
+			//	Out.vColor.r = 0.933f;
+			//	Out.vColor.g = 0.819f;
+			//	Out.vColor.b = 0.407f;
+			//
+			//}
+		}
+		else if (playerrendbar > In.vTexUV.x)
+		{
+			//»¡°£»ö
+			Out.vColor.r = 0.839f;
+			Out.vColor.g = 0.270f;
+			Out.vColor.b = 0.027f;
+
+		}
+	}
+
+
+	return Out;
+
+}
+
+cbuffer MonsterMovingHP
+{
+	float Monstermovingpercent;
+	float Monsterendbar;
+	bool g_ismonst;
+}
+//27
+PS_OUT MonsterMovingHP(PS_IN In) {
+	PS_OUT Out;
+
+	Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexUV);
+
+
+	if (Out.vColor.r == 0)
+	{
+		if (Monstermovingpercent > In.vTexUV.x)
+		{
+
+
+			Out.vColor.r = 0.933f;
+			Out.vColor.g = 0.819f;
+			Out.vColor.b = 0.407f;
+
+
+		}
+		else if (Monsterendbar > In.vTexUV.x)
+		{
+			//»¡°£»ö
+			Out.vColor.r = 0.839f;
+			Out.vColor.g = 0.270f;
+			Out.vColor.b = 0.027f;
+
+		}
+	}
+
+
+	return Out;
+
+}
 technique11 DefaultTechnique
 {
 	pass DefaultRendering //0
@@ -750,5 +918,56 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_DISTORTIONTRAIL();
+	}
+
+
+	//26
+	pass HORIZONTALMONSTER  //24
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		PixelShader = compile ps_5_0 PS_MAIN_PERCENTAGE_HORRIZONMONSTER();
+	}
+
+	//27
+	pass DIAMONDAGPASS  //25
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		PixelShader = compile ps_5_0 PS_DIAMONDAG();
+	}
+
+	//28
+	pass PlayerMovingHppass2 //26
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		PixelShader = compile ps_5_0 PlayerMovingHpPass();
+
+
+
+	}
+
+	//29
+	pass MonsterMovingPass //27
+	{
+		SetRasterizerState(RS_Default);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		PixelShader = compile ps_5_0 MonsterMovingHP();
+
+
+
 	}
 }

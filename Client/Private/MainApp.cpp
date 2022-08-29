@@ -552,6 +552,11 @@ HRESULT CMainApp::Ready_Prototype_Texture_UI()
 		return E_FAIL;
 
 
+	//diamond  ÀÌ¹ÌÁö
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DiamondHP"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/UI/diamond%d.dds"), 2))))
+		return E_FAIL;
+
 
 	return S_OK;
 }

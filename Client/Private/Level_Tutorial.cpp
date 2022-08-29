@@ -119,10 +119,9 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 	__super::Tick(TimeDelta);
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-	Safe_AddRef(pGameInstance);
-	if (nullptr == pGameInstance)
-		return;
 
+
+	//cp관련
 	m_pBattle_Manager->Tick(TimeDelta);
 	int cp = m_pBattle_Manager->GetCP();
 	cp -= 5;
@@ -178,49 +177,6 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 		//마신검. 붕쇠 이런거 다 바꿔놓아야함. 해당 몬스터랑 부딫혔을때 각각 다른거 생성시키면 될듯.
 		LineMsgCreate = true;
 
-
-	}
-
-	//맨티스와의 전투를 준비하세요 코드.
-	if (pGameInstance->Get_DIKeyState(DIK_F10))
-	{
-
-		//Line
-		UILine::LINEDESC linedesc;
-		linedesc.uidesc.fX = 0;
-		linedesc.uidesc.fY = g_iWinCX / 2 - 700;
-		linedesc.uidesc.fCX = 1920;
-		linedesc.uidesc.fCY = 80;
-		linedesc.kind = 1;
-		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_Line"), &linedesc)))
-			return;
-
-
-		//위에 있는 TutoLine위에 써질 전투 메시지 이를테면 멘티스와의 전투를 준비하세요.
-		//5 - world탐험 6- 발셉과의 7 - 멘티스와의 전투 
-		//그냥 새클래스 만드세요
-		//TutoLineMsg
-		TutoLineMsg::MSGLINEUIDESC TutoLineMsgDesc;
-		TutoLineMsgDesc.uidesc.fX = g_iWinCX / 2;
-		TutoLineMsgDesc.uidesc.fY = g_iWinCX / 2 - 750;
-		TutoLineMsgDesc.uidesc.fCX = 500;
-		TutoLineMsgDesc.uidesc.fCY = 70;
-		TutoLineMsgDesc.sprite = 1;
-
-		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_TutoLineMsg"), &TutoLineMsgDesc)))
-			return;
-
-
-		////LineSprite
-		LineSprite::MINIMAPDESC LineSpritedesc;
-		LineSpritedesc.uidesc.fX = g_iWinCX / 2;
-		LineSpritedesc.uidesc.fY = g_iWinCX / 2 - 750;
-		LineSpritedesc.uidesc.fCX = 400;
-		LineSpritedesc.uidesc.fCY = 400;
-		LineSpritedesc.kind = 0;
-
-		if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_TutorialUI", TEXT("Prototype_GameObject_LineSprite"), &LineSpritedesc)))
-			return;
 
 	}
 
@@ -290,9 +246,8 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 	}
 
 
-	
-	Safe_Release(pGameInstance);
 
+	Safe_Release(pGameInstance);
 }
 
 HRESULT CLevel_Tutorial::Render()
