@@ -56,7 +56,7 @@ HRESULT CPlayer::NativeConstruct(void * pArg, CTransform::TRANSFORMDESC* pTransf
 	PlayerMovingHP::MHDESC mhdesc;
 	mhdesc.targetTransform = m_pTransformCom;
 	mhdesc.pivoty = -30;
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_PlayerMovingHP"), &mhdesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, L"Layer_BattleUI", TEXT("Prototype_GameObject_PlayerMovingHP"), &mhdesc))
 		return E_FAIL;
 
 

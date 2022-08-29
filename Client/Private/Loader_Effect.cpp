@@ -329,13 +329,13 @@ HRESULT CLoader_Effect::Loading_ForTestLevel()
 {
 	m_isFinished = false;
 
-	if (FAILED(Loading_Test_Model()))
+	if (FAILED(Loading_Tutorial_Model()))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Model", E_FAIL);
 
-	if (FAILED(Loading_Test_Texture()))
+	if (FAILED(Loading_Tutorial_Texture()))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Texture", E_FAIL);
 
-	if (FAILED(Loading_Test_Object()))
+	if (FAILED(Loading_Tutorial_Object()))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Effect : Loading_ForTestLevel : Loading_Test_Object", E_FAIL);
 
 	lstrcpy(m_szLoading, L"Loader_Effect : Finish");

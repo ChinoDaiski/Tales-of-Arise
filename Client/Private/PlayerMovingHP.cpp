@@ -150,7 +150,6 @@ void PlayerMovingHP::Tick(_double TimeDelta)
 
 
 
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 void PlayerMovingHP::LateTick(_double TimeDelta)

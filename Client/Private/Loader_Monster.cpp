@@ -359,7 +359,10 @@ HRESULT CLoader_Monster::Loading_Boss2_Object()
 
 HRESULT CLoader_Monster::Loading_ForTestLevel()
 {
+
 	m_isFinished = false;
+
+
 
 	if (FAILED(Loading_Test_Model()))
 		MSG_CHECK_RETURN(L"Failed To CLoader_Monster : Loading_ForTestLevel : Loading_Test_Model", E_FAIL);
@@ -378,6 +381,18 @@ HRESULT CLoader_Monster::Loading_ForTestLevel()
 
 HRESULT CLoader_Monster::Loading_Test_Model()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_matrix PivotMatrix;
+
+	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_Component_Model_Boar");
+	PivotMatrix = XMMatrixScaling(0.015f, 0.015f, 0.015f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Model_Boar"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Boar/", "boar.fbx", PivotMatrix))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Monster : Loading_Tutorial_Model : Add_Prototype(Prototype_Component_Model_Boar)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	return S_OK;
 }
 
@@ -388,6 +403,14 @@ HRESULT CLoader_Monster::Loading_Test_Texture()
 
 HRESULT CLoader_Monster::Loading_Test_Object()
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	lstrcpy(m_szLoading, L"Loader_Monster : Prototype_GameObject_Boar");
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boar"),
+		CBoar::Create(m_pDevice, m_pDeviceContext))))
+		MSG_CHECK_RETURN(L"Failed To CLoader_Monster : Loading_Tutorial_Object : Add_Prototype(Prototype_GameObject_Boar)", E_FAIL);
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

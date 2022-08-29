@@ -66,12 +66,15 @@ private:
 
 private:
 	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName);
-	HRESULT Enemy_MoveToMap(CEnemy* pEnemy, _float3 fPos, const TCHAR * pTagNaviCompoent);		// 1인자 오브젝트(Enemy)에게 3인자의 네비를 생성하고, 2인자의 위치로 이동하여 y값을 설정한다.
+
+public:
 	HRESULT Player_MoveToMap(CPlayer* pPlayer, _float3 fPos, const TCHAR * pTagNaviCompoent);	// 1인자 오브젝트(Player)에게 3인자의 네비를 생성하고, 2인자의 위치로 이동하여 y값을 설정한다.
+	HRESULT Enemy_MoveToMap(CEnemy* pEnemy, _float3 fPos, const TCHAR * pTagNaviCompoent);		// 1인자 오브젝트(Enemy)에게 3인자의 네비를 생성하고, 2인자의 위치로 이동하여 y값을 설정한다.
 
 
 
-private:
+
+private:	 
 	vector<class CMapObject*> m_vMapObject;
 
 

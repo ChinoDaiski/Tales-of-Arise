@@ -39,7 +39,7 @@ void CLevel_Lobby::Tick(_double TimeDelta)
 	if (PtInRect(&rc, pt) && GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
 		//pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_MapTool));	// -> 맵툴 이동용
 
-		pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_TUTORIAL));	// -> 인게임 이동
+		pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_TEST));	// -> 인게임 이동
 	}
 
 
