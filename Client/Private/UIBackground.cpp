@@ -83,10 +83,6 @@ void CUIBackground::Tick(_double TimeDelta)
 	}
 
 
-	//if (pGameInstnace->Key_Down(DIK_SPACE))
-	//{
-	//	m_isFirst = false;
-	//}
 
 
 	Safe_Release(pGameInstnace);

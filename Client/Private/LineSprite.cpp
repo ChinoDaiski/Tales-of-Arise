@@ -152,4 +152,5 @@ CGameObject * LineSprite::Clone(void * pArg)
 
 void LineSprite::Free()
 {
+	__super::Free();
 }

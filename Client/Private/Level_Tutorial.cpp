@@ -1179,7 +1179,7 @@ HRESULT CLevel_Tutorial::Ready_Layer_NameUI(const _tchar * pLayerTag)
 
 	
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
-	//Safe_Release(pGameInstance);
+
 	if (pGameInstance->Get_DIKeyState(DIK_NUMPAD3))
 	{
 

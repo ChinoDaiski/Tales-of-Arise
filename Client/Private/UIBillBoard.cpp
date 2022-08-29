@@ -49,7 +49,6 @@ HRESULT UIBillBoard::NativeConstruct(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { vampirepos.x, vampirepos.y, vampirepos.z, 1 });
 
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(100,100,100, 1.f));
 
 
 	return S_OK;
