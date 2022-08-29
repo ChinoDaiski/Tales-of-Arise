@@ -10,6 +10,7 @@
 #include "FireAvatar_InstanceRect.h"
 #include "Camera_Default.h"
 #include "Lord_Balseph.h"
+#include "Meteo.h"
 CFire_Avatar::CFire_Avatar(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CEnemy(pDeviceOut, pDeviceContextOut)
 {
@@ -108,6 +109,7 @@ void CFire_Avatar::Tick(_double TimeDelta)
 	_vector vPlayerPos = pPlayerTransform->Get_State(CTransform::STATE_POSITION);
 
 	if (m_pTransformCom->Distance(vPlayerPos, 120.f))		// 시작 조건
+
 	{
 		m_bGo = true;
 	}
@@ -128,11 +130,11 @@ void CFire_Avatar::Tick(_double TimeDelta)
 			m_bStart = true;
 
 			m_iMotion = 1;
-			//if (m_iMotion == 5)
-			//	m_iMotion = 1;
+			/*if (m_iMotion == 5)
+				m_iMotion = 1;
 
-			//else
-			//	m_iMotion++;
+			else
+				m_iMotion++;*/
 		}
 
 		switch (m_iMotion)
@@ -708,7 +710,7 @@ void CFire_Avatar::Apperance()
 
 	if (!m_bOnce)
 	{
-		m_dAnimSpeed = 2.0;
+		m_dAnimSpeed = 6.0;
 		m_iDuration = 5.0;
 		m_bOnce = true;
 		m_bCutAnimation = false;
@@ -773,6 +775,7 @@ void CFire_Avatar::Fire_Ball(_double TimeDelta)
 
 	else if ((m_iCurrentAnimationIndex == FIRE_BALL_PILLAR_LOOP) && (m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_CurrentKeyFrameIndex() >= m_pModelCom->Get_CurAnimation()->Get_PelvisChannel()->Get_NumeKeyFrames() - 1))
 	{
+		m_dAnimSpeed = 2.0;
 		m_iNextAnimationIndex = FIRE_BALL_PILLAR_END;
 	}
 
@@ -788,6 +791,114 @@ void CFire_Avatar::Fire_Ball(_double TimeDelta)
 		m_iNextAnimationIndex = MOVE_IDLE;
 		m_bOnce = false;
 		m_TimeDelta = 0.0;
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 319)
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 330
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 350
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 370
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 390)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 4));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		//(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(-135.f));
+		//Effect->Set_TimeSpeed(2.f);
+	}
+
+
+	if (((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 325)
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 340
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 360
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 380)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 5));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(60.f));
+		//Effect->Set_TimeSpeed(2.f);
+	}
+
+	if (((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 335)
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 345
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 355
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 365
+		|| (_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 375)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 5));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(5.f, 5.f, 5.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(60.f));
+		//Effect->Set_TimeSpeed(2.f);
+	}
+
+	if((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 390)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 9));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(60.f));
+		Effect->Set_TimeSpeed(3.5f);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 392)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 8));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(0.f));
+		Effect->Set_TimeSpeed(3.5f);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 395)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 7));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(4.f, 4.f, 4.f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(60.f));
+		Effect->Set_TimeSpeed(3.5f);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 400)
+	{
+		CMeshEffect* Effect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Boss_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_BOSS, 8));
+		Effect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
+		(Effect->Get_Transfrom())->Scaled(_float3(2.5f, 2.5f, 2.5f));
+		(Effect->Get_Transfrom())->GO_RUL(_float3(0.f, 35.f, 15.f));
+		(Effect->Get_Transfrom())->Turn_Angle((Effect->Get_Transfrom())->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(120.f));
+		Effect->Set_TimeSpeed(3.5f);
+		Effect->Set_Shader(CMeshEffect::SHADER_NONEBLUR);
+	}
+
+
+	if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 470)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + XMVectorSet(0.f, 35.f, 0.f, 0.f) + m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		CGameObject* pgameObject = (CGameObject*)pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, TEXT("Layer_Meteo"), TEXT("Prototype_GameObjet_Meteo"), &vPos);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_START)->Get_TimeAcc() == 490)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + XMVectorSet(0.f, 35.f, 0.f, 0.f) + m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		CGameObject* pgameObject = (CGameObject*)pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, TEXT("Layer_Meteo"), TEXT("Prototype_GameObjet_Meteo"), &vPos);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_LOOP)->Get_TimeAcc() == 10)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + XMVectorSet(0.f, 35.f, 0.f, 0.f) + m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		CGameObject* pgameObject = (CGameObject*)pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, TEXT("Layer_Meteo"), TEXT("Prototype_GameObjet_Meteo"), &vPos);
+	}
+
+	else if ((_uint)m_pModelCom->Get_Animation(FIRE_BALL_PILLAR_LOOP)->Get_TimeAcc() == 25)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) + XMVectorSet(0.f, 35.f, 0.f, 0.f) + m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		CGameObject* pgameObject = (CGameObject*)pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, TEXT("Layer_Meteo"), TEXT("Prototype_GameObjet_Meteo"), &vPos);
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

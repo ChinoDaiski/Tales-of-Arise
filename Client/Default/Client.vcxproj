@@ -237,6 +237,7 @@
     <ClInclude Include="..\public\Mantis.h" />
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MeshEffect.h" />
+    <ClInclude Include="..\public\Meteo.h" />
     <ClInclude Include="..\Public\MonsterMovingHP.h" />
     <ClInclude Include="..\Public\MouseUI.h" />
     <ClInclude Include="..\Public\Normal_Bullet.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="..\private\Mantis.cpp" />
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MeshEffect.cpp" />
+    <ClCompile Include="..\private\Meteo.cpp" />
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMapView.cpp" />
     <ClCompile Include="..\Private\MonsterMovingHP.cpp" />

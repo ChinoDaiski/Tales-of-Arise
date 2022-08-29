@@ -30,7 +30,7 @@ private:
 
 public:
 	_vector Get_Position() { return vPos; }
-
+	_vector Get_FallingPosition() { return vfallingRockPos; }
 private:
 	_float4x4			m_RockRightMatrix;
 	_float4x4			m_RockLookMatrix;
@@ -38,6 +38,7 @@ private:
 private:
 	_float4x4* m_pSocketMatrix;
 	_vector vPos = { 0.f, 0.f, 0.f, 1.f };
+	_vector vfallingRockPos = { 0.f, 0.f, 0.f, 1.f };
 
 public:
 	_float4x4 Get_RealPosMtrix() { return RealPosMatrix; }

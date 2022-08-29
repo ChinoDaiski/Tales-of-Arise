@@ -79,11 +79,11 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	//if (FAILED(Ready_Layer_FireAvatar(TEXT("Layer_FireAvatar"))))
 	//	return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Mantis(TEXT("Layer_Mantis"))))
+		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Punisher(TEXT("Layer_Punisher"))))
+		return E_FAIL;
 
 
 
@@ -108,7 +108,7 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
 
-	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
+	if (FAILED(Ready_WatPoint(LEVEL_FIRE_AVATAR, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
 		return E_FAIL;
 
 	return S_OK;
@@ -1581,13 +1581,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Boar(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
+	pEnemyTransform->Move(-106.f, -10.f, -30.f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-106.f, -10.f, -30.f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
+	pEnemyTransform->Move(-106.f, pEnemyTransform->Get_Height(pNavigation), -30.f);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -1638,13 +1638,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Punisher(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
+	pEnemyTransform->Move(27.67f, -0.21f, -11.7f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(27.67f, -0.21f, -11.7f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
+	pEnemyTransform->Move(27.67f, pEnemyTransform->Get_Height(pNavigation), -11.7f);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -1670,13 +1670,13 @@ HRESULT CLevel_Tutorial::Ready_Layer_Mantis(const _tchar * pLayerTag)
 
 	// 특정 위치로 움직이게 설정
 	CTransform* pEnemyTransform = dynamic_cast<CTransform*>(pEnemy->Get_Component(TEXT("Com_Transform")));
-	pEnemyTransform->Move(-130.25f, -6.7f, -22.5f);
+	pEnemyTransform->Move(-19.39f, -4.64f, -1.424f);
 
 	// 현재 있는 셀 정보 수정
-	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-130.25f, -6.7f, -22.5f, 1.f));
+	pNavigation->Find_My_Cell(DirectX::XMVectorSet(-19.39f, -4.64f, -1.424f, 1.f));
 
 	// y값 수정
-	pEnemyTransform->Move(-130.25f, pEnemyTransform->Get_Height(pNavigation), -22.5f);
+	pEnemyTransform->Move(-19.39f, pEnemyTransform->Get_Height(pNavigation), -1.424f);
 
 	RELEASE_INSTANCE(CGameInstance);
 

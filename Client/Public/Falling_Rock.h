@@ -44,6 +44,7 @@ public:
 
 private:
 	_uint m_iCreateRand = 0;
+	_double m_DeleteTime = 0.0;
 };
 
 END

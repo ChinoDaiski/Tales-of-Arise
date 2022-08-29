@@ -100,11 +100,7 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 	pFireAvatar_Transform = dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")));
 
 
-	_float3 fPos = _float3(16.f, -20.f, -0.13f);
-
-
-	pFireAvatar_Transform->Move(fPos);
-	pNavigation->Find_My_Cell(XMVectorSet(fPos.x, fPos.y, fPos.z, 1.f));
+	_float3 fPos = _float3(22.5f, -26.5f, -0.13f);
 	pFireAvatar_Transform->Move(fPos.x, fPos.y, fPos.z);
 
 
@@ -112,8 +108,8 @@ HRESULT CLevel_FireAvatar::Ready_Layer_FireAvatar(const _tchar * pLayerTag)
 	_vector vPlayerPos = dynamic_cast<CTransform*>(m_pPlayerAlphen->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 	_vector vFireAvatarPos = dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
-	_vector vLook = vPlayerPos - vFireAvatarPos;
-	dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")))->Look(vLook);
+	_vector vLook = XMVectorSetY(vPlayerPos - vFireAvatarPos, 0.f);
+	dynamic_cast<CTransform*>(pFireAvatar->Get_Component(TEXT("Com_Transform")))->TurnAxis(vLook);
 
 	
 	CLord_Balseph* pLord_Balseph = CBattle_Manager::GetInstance()->Get_Lord_Balseph();

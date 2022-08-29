@@ -289,6 +289,9 @@
     <Filter Include="01. Levels\99.Test">
       <UniqueIdentifier>{2c3d9314-8e08-464a-b3ed-2081a0df7aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Meteo">
+      <UniqueIdentifier>{e8072f50-2508-4aa4-876a-c9e5214b1e69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -624,6 +627,9 @@
     <ClInclude Include="..\Public\NotMovingFont.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Meteo.h">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Meteo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -958,6 +964,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\NotMovingFont.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Meteo.cpp">
+      <Filter>02. GameObject\04.Enemy\Fire Avatar\Meteo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
