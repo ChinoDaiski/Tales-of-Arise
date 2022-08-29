@@ -21,6 +21,7 @@ public:
 		_double			SpeedPerSec;
 		_double			RotationPerSec;
 		_vector			fScalePerSec;
+		_float3			vScalePerSec;
 	}TRANSFORMDESC;
 
 private:
@@ -75,6 +76,7 @@ public:
 	HRESULT LookAtReverse(_fvector vTargetPos);
 	HRESULT Scaled(const _float3& vScale);
 	HRESULT Scaling(_float fTimeDelta);
+	HRESULT Scaling2(_double TimeDelta);
 	HRESULT Turn(_fvector vAxis, _double TimeDelta);
 	HRESULT Rotation(_fvector vAxis, _double Radian);
 	HRESULT RotationXYZ(_double RadianX, _double RadianY, _double RadianZ);

@@ -73,6 +73,7 @@ void CDissolve::Tick(_double TimeDelta)
 		m_pRendererCom->Set_DissolveStart(true);
 		m_bStart = true;
 	}
+	//배틀 매니저에서 battle start를 받아오면 된다(주현)
 
 	RELEASE_INSTANCE(CGameInstance);
 }

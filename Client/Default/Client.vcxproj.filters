@@ -70,27 +70,6 @@
     <Filter Include="02. GameObject\03.Player\Shionne">
       <UniqueIdentifier>{5fbd00b9-5a2b-4171-a2cc-548e314b170b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04.Enemy">
-      <UniqueIdentifier>{c7b20f06-acad-4fad-8aa5-f355503dcf5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Fire Avatar">
-      <UniqueIdentifier>{9f6e9b37-c27d-4b54-a23b-af56a17f793a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Lord_Balseph">
-      <UniqueIdentifier>{555d720a-f48f-4dff-9b2e-d1aa9b0376b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Mantis">
-      <UniqueIdentifier>{6691feda-8a0c-4912-aa46-1e685563132e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Boar">
-      <UniqueIdentifier>{af159192-0794-44fe-980b-fb1c4fd78a1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Punisher">
-      <UniqueIdentifier>{bff9a456-6390-42f7-85bb-f13d8304012b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Practice">
-      <UniqueIdentifier>{8cb45675-ab97-4618-8f78-ca21a16e9e5d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\05,BackGround">
       <UniqueIdentifier>{de87ab61-940b-4f1f-80a4-cee8ec997864}</UniqueIdentifier>
     </Filter>
@@ -253,15 +232,6 @@
     <Filter Include="02. GameObject\11.Fire\Effect">
       <UniqueIdentifier>{feba5c21-a5bd-43e0-8989-44e33dc90dbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Instance">
-      <UniqueIdentifier>{6f2b0c8c-467c-473d-94e7-4892752b5cd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Falling_Rock">
-      <UniqueIdentifier>{f871e45b-fffc-4c43-a0fe-be92e226ac21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Rock">
-      <UniqueIdentifier>{a9a9a71d-00f1-48b1-8c81-811c64cfd1c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\10.MapObject\02. WayPoint">
       <UniqueIdentifier>{87ecaea2-2e94-4513-8e84-e54b102ffeea}</UniqueIdentifier>
     </Filter>
@@ -289,11 +259,41 @@
     <Filter Include="01. Levels\99.Test">
       <UniqueIdentifier>{2c3d9314-8e08-464a-b3ed-2081a0df7aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\14.Distortion">
+      <UniqueIdentifier>{3a126d85-d2fa-4e82-8fe1-9868610a6b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy">
+      <UniqueIdentifier>{c7b20f06-acad-4fad-8aa5-f355503dcf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar">
+      <UniqueIdentifier>{9f6e9b37-c27d-4b54-a23b-af56a17f793a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Instance">
+      <UniqueIdentifier>{6f2b0c8c-467c-473d-94e7-4892752b5cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Falling_Rock">
+      <UniqueIdentifier>{f871e45b-fffc-4c43-a0fe-be92e226ac21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Rock">
+      <UniqueIdentifier>{a9a9a71d-00f1-48b1-8c81-811c64cfd1c9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Meteo">
       <UniqueIdentifier>{e8072f50-2508-4aa4-876a-c9e5214b1e69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\14.Distortion">
-      <UniqueIdentifier>{3a126d85-d2fa-4e82-8fe1-9868610a6b45}</UniqueIdentifier>
+    <Filter Include="02. GameObject\04.Enemy\Lord_Balseph">
+      <UniqueIdentifier>{555d720a-f48f-4dff-9b2e-d1aa9b0376b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Mantis">
+      <UniqueIdentifier>{6691feda-8a0c-4912-aa46-1e685563132e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Boar">
+      <UniqueIdentifier>{af159192-0794-44fe-980b-fb1c4fd78a1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Punisher">
+      <UniqueIdentifier>{bff9a456-6390-42f7-85bb-f13d8304012b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04.Enemy\Practice">
+      <UniqueIdentifier>{8cb45675-ab97-4618-8f78-ca21a16e9e5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

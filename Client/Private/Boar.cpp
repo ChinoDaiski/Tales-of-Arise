@@ -53,8 +53,12 @@ HRESULT CBoar::NativeConstruct(void * pArg)
 	m_bBattle = false;
 	m_iEnemyInfo.m_iHp = 5;
 
-	if (FAILED(Ready_Distortion(L"Layer_Effect")))
-		MSG_CHECK_RETURN(L"Failed To CBoar : NativeConstruct : Ready_Distortion", E_FAIL);
+	if (m_bBattle == true)
+	{
+		if (FAILED(Ready_Distortion(L"Layer_Effect")))
+			MSG_CHECK_RETURN(L"Failed To CBoar : NativeConstruct : Ready_Distortion", E_FAIL);
+	}
+	
 
 	return S_OK;
 }
@@ -64,19 +68,23 @@ void CBoar::Tick(_double TimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 #pragma region Distortion
-	if (pGameInstance->Get_DIKeyState(DIK_B) & 0x80)
+	if (nullptr != m_pDistortion)
 	{
-		m_pDistortion->Set_Render(true);
-	}
-	if (true == m_pDistortion->Get_Render())
-	{
-		m_DistortionAcc += TimeDelta;
-		if (m_DistortionAcc >= 3.0)
+		if (pGameInstance->Get_DIKeyState(DIK_B) & 0x80)
 		{
-			m_DistortionAcc = 0.0;
-			m_pDistortion->Set_Render(false);
+			m_pDistortion->Set_Render(true);				// 생성 체르
+		}
+		if (true == m_pDistortion->Get_Render())
+		{
+			m_DistortionAcc += TimeDelta;
+			if (m_DistortionAcc >= 3.0)
+			{
+				m_DistortionAcc = 0.0;
+				m_pDistortion->Set_Render(false);
+			}
 		}
 	}
+	
 #pragma endregion
 
 	m_bOnAttackCollider = false;

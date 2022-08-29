@@ -2,7 +2,6 @@
 #include "..\Public\Meteo.h"
 #include "GameInstance.h"
 //#include "MeshEffect.h"
-
 CMeteo::CMeteo(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CGameObject(pDeviceOut, pDeviceContextOut)
 {
@@ -81,19 +80,18 @@ void CMeteo::Tick(_double TimeDelta)
 	}
 
 
-	// 여기가 터진다
-	// EffectMesh->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
 
-
-	(EffectMesh->Get_Transfrom())->Scaled(_float3(0.5f, 0.5f, 0.5f));
-	(EffectMesh->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, -3.f));
-	EffectMesh->Set_TimeSpeed(8.f);
-	EffectMesh->Set_Shader(CMeshEffect::SHADER_DEFAULT, _float2(3.f, 3.f));
+	if (EffectMesh != nullptr)
+	{
+		//EffectMesh->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());		// 여기서 터진다
+		//(EffectMesh->Get_Transfrom())->Scaled(_float3(0.5f, 0.5f, 0.5f));			// 여기서 터진다
+		//(EffectMesh->Get_Transfrom())->GO_RUL(_float3(0.f, 0.f, -3.f));			// 여기서 터진다
+		EffectMesh->Set_TimeSpeed(10.f);
+		EffectMesh->Set_Shader(CMeshEffect::SHADER_DEFAULT, _float2(3.f, 3.f));
+	}
 
 	m_pTransformCom->LookAt(vPos);
 	m_pTransformCom->Go_Straight(TimeDelta);
-
-
 
 
 	m_pSphereCom->Update(m_pTransformCom->Get_WorldMatrix());
