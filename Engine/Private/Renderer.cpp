@@ -61,6 +61,9 @@ HRESULT CRenderer::NativeConstruct_Prototype()
 	/* For.Target_ObjectGlow */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(TEXT("Target_ObjectGlow"), m_pDevice, m_pDeviceContext, (_uint)Viewport.Width, (_uint)Viewport.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_RenderTarget(Target_ObjectGlow)", E_FAIL);
+	/* For.Target_MtrlSpecular */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(TEXT("Target_MtrlSpecular"), m_pDevice, m_pDeviceContext, (_uint)Viewport.Width, (_uint)Viewport.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
+		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_RenderTarget(Target_MtrlSpecular)", E_FAIL);
 	/* For.Target_NonBlur */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(TEXT("Target_NonBlur"), m_pDevice, m_pDeviceContext, (_uint)Viewport.Width, (_uint)Viewport.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_RenderTarget(Target_NonBlur)", E_FAIL);
@@ -99,6 +102,8 @@ HRESULT CRenderer::NativeConstruct_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Emissive"))))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_MRT(MRT_Deferred)", E_FAIL);
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_ObjectGlow"))))
+		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_MRT(MRT_Deferred)", E_FAIL);
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_MtrlSpecular"))))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Add_MRT(MRT_Deferred)", E_FAIL);
 
 	/* For.MRT_LightAcc */
@@ -156,6 +161,8 @@ HRESULT CRenderer::NativeConstruct_Prototype()
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Ready_DebugDesc(Target_Emissive)", E_FAIL);
 	if (FAILED(m_pTarget_Manager->Ready_DebugDesc(TEXT("Target_ObjectGlow"), 0.f, 600.f, 150.f, 150.f)))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Ready_DebugDesc(Target_ObjectGlow)", E_FAIL);
+	if (FAILED(m_pTarget_Manager->Ready_DebugDesc(TEXT("Target_MtrlSpecular"), 0.f, 750, 150.f, 150.f)))
+		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Ready_DebugDesc(Target_MtrlSpecular)", E_FAIL);
 
 	if (FAILED(m_pTarget_Manager->Ready_DebugDesc(TEXT("Target_Shade"), 150.f, 0.f, 150.f, 150.f)))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : NativeConstruct_Prototype : Ready_DebugDesc(Target_Shade)", E_FAIL);
@@ -499,6 +506,9 @@ HRESULT CRenderer::Render_LightAcc()
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pDeviceContext, TEXT("MRT_LightAcc"))))
 		MSG_CHECK_RETURN(L"Failed To CRenderer : Render_LightAcc : Begin_MRT(MRT_LightAcc)", E_FAIL);
+
+	if (FAILED(m_pShader->Set_ShaderResourceView("g_MtlSpecularTexture", m_pTarget_Manager->Get_SRV(TEXT("Target_MtrlSpecular")))))
+		MSG_CHECK_RETURN(L"Failed To CRenderer : Render_LightAcc : Set_ShaderResourceView(g_MtlSpecularTexture)", E_FAIL);
 
 	m_pLight_Manager->Render_Lights();
 

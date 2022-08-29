@@ -20,19 +20,15 @@ HRESULT CFire_Effect::NativeConstruct_Prototype()
 HRESULT CFire_Effect::NativeConstruct(void* pArg)
 {
 	if (nullptr == pArg)
-	{
-		return E_FAIL;
-	}
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : NativeConstruct : nullptr == pArg", E_FAIL);
 
 	if (FAILED(__super::NativeConstruct(pArg)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : NativeConstruct : NativeConstruct", E_FAIL);
 
 	memcpy(&m_tFireEffectDesc, pArg, sizeof(FIREEFFECTDESC));
 
 	if (FAILED(SetUp_Components(m_tFireEffectDesc.tagTextureCom)))
-	{
-		return E_FAIL;
-	}
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : NativeConstruct : SetUp_Components", E_FAIL);
 
 	m_iMaxFrame = m_pTextureCom->Get_TextureCnt();
 
@@ -109,7 +105,7 @@ void CFire_Effect::LateTick(_double TimeDelta)
 HRESULT CFire_Effect::Render()
 {
 	if (FAILED(SetUp_ConstantTable()))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : Render : SetUp_ConstantTable", E_FAIL);
 
 	m_pShaderCom->Begin(m_tFireEffectDesc.iShaderPass);
 	m_pVIBufferCom->Render();
@@ -120,16 +116,16 @@ HRESULT CFire_Effect::Render()
 HRESULT CFire_Effect::SetUp_Components(_tchar* tagTextureCom)
 {
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_Components : SetUp_Components(Com_Renderer)", E_FAIL);
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_Fire"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_Components : SetUp_Components(Com_Shader)", E_FAIL);
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_Components : SetUp_Components(Com_VIBuffer)", E_FAIL);
 
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Texture"), LEVEL_STATIC, tagTextureCom, (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_Components : SetUp_Components(Com_Texture)", E_FAIL);
 
 	return S_OK;
 }
@@ -139,23 +135,23 @@ HRESULT CFire_Effect::SetUp_ConstantTable()
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Bind_WorldMatrixOnShader(g_WorldMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_RawValue(g_ViewMatrix)", E_FAIL);
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_RawValue(g_ProjMatrix)", E_FAIL);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fOriginalStrength", &m_tFireEffectDesc.fOriginalStrength, sizeof(_float))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fGlowStrength", &m_tFireEffectDesc.fGlowStrength, sizeof(_float))))
-		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_OriginalStrength", &m_tFireEffectDesc.fOriginalStrength, sizeof(_float))))
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_RawValue(g_OriginalStrength)", E_FAIL);
+	if (FAILED(m_pShaderCom->Set_RawValue("g_GlowStrength", &m_tFireEffectDesc.fGlowStrength, sizeof(_float))))
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_RawValue(g_GlowStrength)", E_FAIL);
 
 	_float fCamFar = pGameInstance->Get_CamFar();
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fCamFar", &fCamFar, sizeof(_float))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_RawValue(g_fCamFar)", E_FAIL);
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DepthTexture", pGameInstance->Get_RenderTargetSRV(TEXT("Target_Depth")))))
-		return E_FAIL;
+		MSG_CHECK_RETURN(L"Failed To CFire_Effect : SetUp_ConstantTable : Set_ShaderResourceView(g_DepthTexture)", E_FAIL);
 	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_ImageTexture", (_uint)m_Frame)))
 		return E_FAIL;
 

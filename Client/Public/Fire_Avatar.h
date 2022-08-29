@@ -72,6 +72,27 @@ private:
 	_bool m_bCreateSmallRock = false;
 	_bool m_bNoHP = false;
 	_uint m_balsephHP = 0;
+
+public:
+	void Set_Rim(_float3 vPos) {
+		m_vRimPosition.x = vPos.x;
+		m_vRimPosition.y = vPos.y;
+		m_vRimPosition.z = vPos.z;
+	}
+	_float4 Get_Rim() {
+		return m_vRimPosition;
+	}
+
+	void Set_RimWidth(_float fWidth) {
+		m_fRimWidth = fWidth;
+	}
+	_float Get_RimWidth() {
+		return m_fRimWidth;
+	}
+
+private:
+	_float4 m_vRimPosition = _float4(1000.f, 500.f, 100.f, 1.f);
+	_float m_fRimWidth = 0.7f;
 };
 
 END

@@ -66,7 +66,7 @@ technique11 DefaultTechnique
 	pass Sky
 	{
 		SetRasterizerState(RS_Cull_CW);
-		SetDepthStencilState(DSS_NonZTestAndWrite, 0);
+		SetDepthStencilState(DSS_NonZTest, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();

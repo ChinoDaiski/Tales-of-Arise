@@ -716,6 +716,24 @@ HRESULT CTransform::Scaling(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Scaling2(_double TimeDelta)
+{
+	_vector vRight = Get_State(STATE_RIGHT);
+	vRight += XMVector3Normalize(vRight) * m_TransformDesc.vScalePerSec.x * TimeDelta;
+
+	_vector vUp = Get_State(STATE_UP);
+	vUp += XMVector3Normalize(vUp) * m_TransformDesc.vScalePerSec.y * TimeDelta;
+
+	_vector vLook = Get_State(STATE_LOOK);
+	vLook += XMVector3Normalize(vLook) * m_TransformDesc.vScalePerSec.z * TimeDelta;
+
+	Set_State(STATE_RIGHT, vRight);
+	Set_State(STATE_UP, vUp);
+	Set_State(STATE_LOOK, vLook);
+
+	return S_OK;
+}
+
 HRESULT CTransform::Turn(_fvector vAxis, _double TimeDelta)
 {
 	_vector		vRight = Get_State(CTransform::STATE_RIGHT);

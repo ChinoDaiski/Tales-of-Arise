@@ -2,6 +2,7 @@
 #include "..\Public\Meteo.h"
 #include "GameInstance.h"
 //#include "MeshEffect.h"
+
 CMeteo::CMeteo(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CGameObject(pDeviceOut, pDeviceContextOut)
 {

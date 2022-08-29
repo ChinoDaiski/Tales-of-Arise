@@ -54,8 +54,8 @@ HRESULT CFire_Avatar::NativeConstruct(void * pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(20.f, -28.f, 0.f, 1.f));
 
 
-	//if (FAILED(Ready_Effect(TEXT("FIRE_EFFECT"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Effect(TEXT("FIRE_EFFECT"))))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -293,16 +293,16 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 36;
 	tFireEffectDesc.tagBone = "upperarm_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(10.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(15.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 26;
 	tFireEffectDesc.tagBone = "upperarm_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(10.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(15.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 0;
@@ -310,23 +310,23 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "upperarm_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(20.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 36;
 	tFireEffectDesc.tagBone = "upperarm_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(10.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(15.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 31;
 	tFireEffectDesc.tagBone = "upperarm_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(10.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(15.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 0;
@@ -334,7 +334,7 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "upperarm_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(20.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -352,16 +352,16 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 16;
 	tFireEffectDesc.tagBone = "pinky_00_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(6.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(10.f, 7.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 10;
 	tFireEffectDesc.tagBone = "pinky_00_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(6.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(10.f, 7.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 0;
@@ -369,23 +369,23 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "pinky_00_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 17;
 	tFireEffectDesc.tagBone = "pinky_00_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(6.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(10.f, 7.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 10;
 	tFireEffectDesc.tagBone = "pinky_00_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(6.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(10.f, 7.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 0;
@@ -393,7 +393,7 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "pinky_00_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -411,32 +411,32 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 19;
 	tFireEffectDesc.tagBone = "HLP_rollhand_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(5.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 31;
 	tFireEffectDesc.tagBone = "HLP_rollhand_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect4";
-	tFireEffectDesc.vScale = _float3(5.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 10;
 	tFireEffectDesc.tagBone = "HLP_rollhand_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(5.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.FrameSpeed = 16;
 	tFireEffectDesc.tagBone = "HLP_rollhand_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(5.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 8.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -454,8 +454,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 15;
 	tFireEffectDesc.tagBone = "KK_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect4";
-	tFireEffectDesc.vScale = _float3(4.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(7.f, 9.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -464,8 +464,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 11;
 	tFireEffectDesc.tagBone = "KK_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(4.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(7.f, 9.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -475,7 +475,7 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "KK_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(8.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = true;
@@ -484,8 +484,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 26;
 	tFireEffectDesc.tagBone = "KK_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(4.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(7.f, 9.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -494,8 +494,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 36;
 	tFireEffectDesc.tagBone = "KK_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect4";
-	tFireEffectDesc.vScale = _float3(4.f, 5.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(7.f, 9.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = true;
@@ -505,7 +505,7 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.tagBone = "KK_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect5";
 	tFireEffectDesc.vScale = _float3(8.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -523,8 +523,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 11;
 	tFireEffectDesc.tagBone = "clavicle_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(5.f, 8.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 11.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -533,8 +533,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.iShaderPass = 7;
 	tFireEffectDesc.tagBone = "clavicle_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect4";
-	tFireEffectDesc.vScale = _float3(5.f, 8.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 11.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = true;
@@ -543,8 +543,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 12;
 	tFireEffectDesc.tagBone = "clavicle_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(5.f, 8.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 11.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -553,8 +553,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 15;
 	tFireEffectDesc.tagBone = "clavicle_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(5.f, 8.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(8.f, 11.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -572,8 +572,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 18;
 	tFireEffectDesc.tagBone = "thigh_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(20.f, 18.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -582,8 +582,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 8;
 	tFireEffectDesc.tagBone = "thigh_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(20.f, 18.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = true;
@@ -592,8 +592,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 18;
 	tFireEffectDesc.tagBone = "thigh_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(20.f, 18.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -602,8 +602,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 27;
 	tFireEffectDesc.tagBone = "thigh_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect4";
-	tFireEffectDesc.vScale = _float3(12.f, 10.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(20.f, 18.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -621,8 +621,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 10;
 	tFireEffectDesc.tagBone = "calf_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect3";
-	tFireEffectDesc.vScale = _float3(15.f, 15.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(22.f, 22.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -631,8 +631,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 20;
 	tFireEffectDesc.tagBone = "calf_L";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(15.f, 15.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(22.f, 22.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = true;
@@ -641,8 +641,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 20;
 	tFireEffectDesc.tagBone = "calf_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect1";
-	tFireEffectDesc.vScale = _float3(15.f, 15.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(22.f, 22.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 
 	tFireEffectDesc.bChase = false;
@@ -651,8 +651,8 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireEffectDesc.FrameSpeed = 14;
 	tFireEffectDesc.tagBone = "calf_R";
 	tFireEffectDesc.tagTextureCom = L"Prototype_Component_Texture_FireEffect2";
-	tFireEffectDesc.vScale = _float3(15.f, 15.f, 1.f);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
+	tFireEffectDesc.vScale = _float3(22.f, 22.f, 1.f);
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, tagLayer, L"Prototype_GameObject_FireEffect0", &tFireEffectDesc))
 		return E_FAIL;
 #pragma endregion
 
@@ -666,37 +666,37 @@ HRESULT CFire_Avatar::Ready_Effect(_tchar * tagLayer)
 	tFireInstanceDesc.tagBone = "KK_L";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 2.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 
 	tFireInstanceDesc.tagBone = "KK_R";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 2.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 
 	tFireInstanceDesc.tagBone = "HLP_rollhand_L";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 0.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 
 	tFireInstanceDesc.tagBone = "HLP_rollhand_R";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 0.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 
-	tFireInstanceDesc.tagBone = "HLP_thigh_L";
+	tFireInstanceDesc.tagBone = "pinky_00_L";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 0.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 
-	tFireInstanceDesc.tagBone = "HLP_thigh_R";
+	tFireInstanceDesc.tagBone = "pinky_00_R";
 	tFireInstanceDesc.vRevisePos = _float3(0.f, 0.f, 0.f);
 	tFireInstanceDesc.pEffectDesc = pGameInstance->Get_InstanceEffect_Data(UNIT_FIREAVATAR, 2);
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_FIRE_AVATAR, L"Layer_Effect", L"Prototype_GameObject_FireInstance", &tFireInstanceDesc))
 		return E_FAIL;
 #pragma endregion
 

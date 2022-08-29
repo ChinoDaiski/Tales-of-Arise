@@ -7,6 +7,7 @@ struct BoneMatrix
 
 texture2D g_DiffuseTexture;
 texture2D g_NormalTexture;
+texture2D g_SpecularTexture;
 texture2D g_DissolveTexture;
 texture2D g_EmissiveTexture;
 
@@ -36,7 +37,9 @@ cbuffer Far
 
 cbuffer RimLight
 {
-	vector g_vCamPosition;		// 림라이트 사용할 때 필요한 전역변수
+	vector g_vCamPosition;
+	vector g_vRimPosition;
+	float g_fRimWidth;
 }
 
 cbuffer Alpha				// 디졸브시 사용하는 알파값으로 선언
@@ -185,7 +188,8 @@ struct PS_OUT
 	vector			vNormal : SV_TARGET1;
 	vector			vDepth : SV_TARGET2;
 	vector			vEmissive : SV_TARGET3;
-	vector			vBlur : SV_TARGET4;
+	vector			vObjectGlow : SV_TARGET4;
+	vector			vMtrlSpecular : SV_TARGET5;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -206,40 +210,41 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = vMtrlDiffuse;
 	Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 300.f, 0.f, 0.f); //600은 카메라의 far값
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.f, 0.f); //600은 카메라의 far값
 	Out.vEmissive = g_EmissiveTexture.Sample(DefaultSampler, In.vTexUV);
-	if (true == g_bBlur)
-	{
-		Out.vBlur = vMtrlDiffuse;
-	}
 
 	return Out;
 }
 
 PS_OUT PS_MAIN_FIREAVATAR(PS_IN In)
 {
-	PS_OUT			Out = (PS_OUT)0;
+	PS_OUT Out = (PS_OUT)0;
 
-	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-	vector		vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
+	vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	vector vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
 
-	float3		vNormal = vNormalDesc.xyz * 2.f - 1.f;
+	float3 vNormal = vNormalDesc.xyz * 2.f - 1.f;
 
-	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
+	float3x3 WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
 
 	vNormal = normalize(mul(vNormal, WorldMatrix));
 
 	if (vMtrlDiffuse.a < 0.3f)
 		discard;
 
-	Out.vDiffuse = vMtrlDiffuse;
+	Out.vDiffuse = vMtrlDiffuse * 0.5f;
 	Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 300.f, 0.f, 0.f); //600은 카메라의 far값
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.f, 0.f);
 	Out.vEmissive = g_EmissiveTexture.Sample(DefaultSampler, In.vTexUV);
-	if (true == g_bBlur)
-	{
-		Out.vBlur = vMtrlDiffuse;
-	}
+	Out.vMtrlSpecular = g_SpecularTexture.Sample(DefaultSampler, In.vTexUV);
+
+	vector vLook = normalize(In.vWorldPos - g_vRimPosition);
+	float Rim = saturate(dot(In.vNormal, vLook));
+
+	Out.vObjectGlow = Rim * vector(1.f, 127.f / 255.f, 39.f / 255.f, 0.f);
+	Out.vObjectGlow.a = 1.f;
+	Out.vDiffuse.r += 0.5f;
+	Out.vDiffuse.a = 1.f;
 
 	return Out;
 }
@@ -262,7 +267,7 @@ PS_OUT PS_RIMLIGHT(PS_IN In)		// 림라이트 사용할 경우에 적용하는 픽셀셰이더
 
 	Out.vNormal = vector(vNormal.xyz* 0.5f + 0.5f, 0.f);
 
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 600.f, 0.0f, 0.f);		// 600은 카메라의 far값
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.f);		// 600은 카메라의 far값
 
 	if (vMtrlDiffuse.a < 0.1f)
 		discard;
@@ -307,7 +312,7 @@ PS_OUT PS_MAIN_DISSOLVE(PS_IN In)				// 디졸브 사용시 적용하는 픽셀 셰이더
 	Out.vDiffuse = vDiffuse;
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 600.f, 0.0f, 0.f);		// 600은 카메라의 far값
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.f);		// 600은 카메라의 far값
 
 
 	return Out;

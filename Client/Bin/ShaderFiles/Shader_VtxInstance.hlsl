@@ -172,6 +172,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;
 }
+
 PS_OUT PS_BLACKCUT(PS_IN In)
 {
 	PS_OUT			Out;

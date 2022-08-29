@@ -6,6 +6,7 @@
 #include "Channel.h"
 #include "Player.h"
 #include "GameObject.h"
+#include "Distortion.h"
 
 CBoar::CBoar(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CEnemy(pDeviceOut, pDeviceContextOut)
@@ -51,13 +52,35 @@ HRESULT CBoar::NativeConstruct(void * pArg)
 	m_bStart = true;
 	m_bBattle = false;
 	m_iEnemyInfo.m_iHp = 5;
+
+	if (FAILED(Ready_Distortion(L"Layer_Effect")))
+		MSG_CHECK_RETURN(L"Failed To CBoar : NativeConstruct : Ready_Distortion", E_FAIL);
+
 	return S_OK;
 }
 
 void CBoar::Tick(_double TimeDelta)
 {
-	m_bOnAttackCollider = false;
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+#pragma region Distortion
+	if (pGameInstance->Get_DIKeyState(DIK_B) & 0x80)
+	{
+		m_pDistortion->Set_Render(true);
+	}
+	if (true == m_pDistortion->Get_Render())
+	{
+		m_DistortionAcc += TimeDelta;
+		if (m_DistortionAcc >= 3.0)
+		{
+			m_DistortionAcc = 0.0;
+			m_pDistortion->Set_Render(false);
+		}
+	}
+#pragma endregion
+
+	m_bOnAttackCollider = false;
+	
 
 	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
 	if (nullptr == pPlayerTransform)
@@ -87,6 +110,7 @@ void CBoar::Tick(_double TimeDelta)
 			}
 		}
 	}
+
 
 	/*if (!m_bBattle)
 	{
@@ -309,6 +333,12 @@ void CBoar::LateTick(_double TimeDelta)
 		m_dAnimSpeed = 1.0;
 		m_iNextAnimationIndex = DEAD;
 		m_bDeadOnce = true;
+
+		if (nullptr != m_pDistortion)
+		{
+			m_pDistortion->Set_Dead(true);
+			m_pDistortion = nullptr;
+		}
 	}
 
 	if (m_bDeadOnce)
@@ -1013,7 +1043,26 @@ HRESULT CBoar::Render()
 	return S_OK;
 }
 
+HRESULT CBoar::Ready_Distortion(_tchar* tagLayer)
+{
+	CGameInstance* pGameInstnace = GET_INSTANCE(CGameInstance);
 
+	CDistortion::DISTORTIONDESC tDistortionDesc;
+	ZeroMemory(&tDistortionDesc, sizeof(CDistortion::DISTORTIONDESC));
+	tDistortionDesc.iTexture = 2;
+	tDistortionDesc.pTargetObject = this;
+	tDistortionDesc.vRevicePosition = _float2(2.f, 0.f);
+	tDistortionDesc.vScale = _float3(3.f, 3.f, 3.f);
+
+	m_pDistortion = (CDistortion*)pGameInstnace->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_Distortion", &tDistortionDesc);
+
+	if (nullptr == m_pDistortion)
+		MSG_CHECK_RETURN(L"Failed To CBoar : Ready_Distortion : nullptr == m_pDistortion", E_FAIL);
+	
+	Safe_AddRef(m_pDistortion);
+
+	return S_OK;
+}
 
 HRESULT CBoar::SetUp_Components()
 {
@@ -1108,4 +1157,5 @@ void CBoar::Free()
 {
 	__super::Free();
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pDistortion);
 }

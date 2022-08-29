@@ -28,6 +28,11 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	HRESULT Ready_Distortion(_tchar* tagLayer);
+	class CDistortion* m_pDistortion = nullptr;
+	_double m_DistortionAcc = 0.0;
+
+private:
 	void StartScene();		// 첫 등장씬 돌진해서 다가오다가 두 다리 다 든다
 	void AttackPattern1(_double TimeDelta);	// 돌진 공격(플레이어가 앞에 있을 때)
 	void AttackPattern2();	// 오른쪽 몸통박치기 공격

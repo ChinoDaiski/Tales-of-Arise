@@ -911,7 +911,7 @@ technique11 DefaultTechnique
 
 	pass DistortionTrail  //25
 	{
-		SetRasterizerState(RS_WireFrame);
+		SetRasterizerState(RS_FrontBack);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -920,54 +920,47 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_DISTORTIONTRAIL();
 	}
 
-
-	//26
-	pass HORIZONTALMONSTER  //24
+	pass HORIZONTALMONSTER  	//26
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_PERCENTAGE_HORRIZONMONSTER();
 	}
 
-	//27
-	pass DIAMONDAGPASS  //25
+	pass DIAMONDAGPASS 	//27
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_DIAMONDAG();
 	}
 
-	//28
-	pass PlayerMovingHppass2 //26
+	pass PlayerMovingHppass2 	//28
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PlayerMovingHpPass();
-
-
-
 	}
 
-	//29
-	pass MonsterMovingPass //27
+	pass MonsterMovingPass 	//29
 	{
 		SetRasterizerState(RS_Default);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 MonsterMovingHP();
-
-
-
 	}
 }

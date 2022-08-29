@@ -4,6 +4,7 @@
 #include "imgui_impl_win32.h"
 #include "..\Public\ImGUI_Manager.h"
 #include "GameInstance.h"
+#include "Fire_Avatar.h"
 
 IMPLEMENT_SINGLETON(CImGUI_Manager)
 
@@ -36,6 +37,10 @@ HRESULT CImGUI_Manager::Set_Contents(void)
 {
 	ImGui::Begin("PostProcessing");
 	Setting_PostProcessing();
+	ImGui::End();
+
+	ImGui::Begin("Fire Avatar");
+	Setting_FireAvatar();
 	ImGui::End();
 
 	return S_OK;
@@ -91,5 +96,35 @@ void CImGUI_Manager::Setting_PostProcessing()
 	{
 		pGameIstance->Set_White(fWhite);
 	}
+	RELEASE_INSTANCE(CGameInstance);
+}
+
+void CImGUI_Manager::Setting_FireAvatar()
+{
+	if (nullptr == m_pFire_Avatar)
+	{
+		return;
+	}
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_float4 vCamPosition = pGameInstance->Get_CamPositionFloat4();
+	ImGui::Text("Cam Position   x : %.3f   y : %.3f   z : %.3f", vCamPosition.x, vCamPosition.y, vCamPosition.z);
+
+	_float4 vRimPosition = m_pFire_Avatar->Get_Rim();
+	_float fRimPosition[3] = { vRimPosition.x, vRimPosition.y, vRimPosition.z };
+
+	if (ImGui::InputFloat3("Rim Position", fRimPosition))
+	{
+		_float3 vRevisePosition = _float3(fRimPosition[0], fRimPosition[1], fRimPosition[2]);
+		m_pFire_Avatar->Set_Rim(vRevisePosition);
+	}
+
+	_float fRimWidth = m_pFire_Avatar->Get_RimWidth();
+	if (ImGui::SliderFloat("Rim Width", &fRimWidth, 0.f, 1.f))
+	{
+		m_pFire_Avatar->Set_RimWidth(fRimWidth);
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 }

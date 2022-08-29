@@ -292,6 +292,9 @@
     <Filter Include="02. GameObject\04.Enemy\Fire Avatar\Meteo">
       <UniqueIdentifier>{e8072f50-2508-4aa4-876a-c9e5214b1e69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\14.Distortion">
+      <UniqueIdentifier>{3a126d85-d2fa-4e82-8fe1-9868610a6b45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -627,8 +630,11 @@
     <ClInclude Include="..\Public\NotMovingFont.h">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Meteo.h">
+    <ClInclude Include="..\Public\Meteo.h">
       <Filter>02. GameObject\04.Enemy\Fire Avatar\Meteo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Distortion.h">
+      <Filter>02. GameObject\14.Distortion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -965,8 +971,11 @@
     <ClCompile Include="..\Private\NotMovingFont.cpp">
       <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Meteo.cpp">
+    <ClCompile Include="..\Private\Meteo.cpp">
       <Filter>02. GameObject\04.Enemy\Fire Avatar\Meteo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Distortion.cpp">
+      <Filter>02. GameObject\14.Distortion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

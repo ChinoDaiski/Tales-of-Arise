@@ -191,6 +191,7 @@
     <ClInclude Include="..\Public\DiamondHp.h" />
     <ClInclude Include="..\Public\Displode.h" />
     <ClInclude Include="..\Public\Dissolve.h" />
+    <ClInclude Include="..\Public\Distortion.h" />
     <ClInclude Include="..\Public\Dot.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\Enemy.h" />
@@ -237,7 +238,7 @@
     <ClInclude Include="..\public\Mantis.h" />
     <ClInclude Include="..\Public\MapObject.h" />
     <ClInclude Include="..\Public\MeshEffect.h" />
-    <ClInclude Include="..\public\Meteo.h" />
+    <ClInclude Include="..\Public\Meteo.h" />
     <ClInclude Include="..\Public\MonsterMovingHP.h" />
     <ClInclude Include="..\Public\MouseUI.h" />
     <ClInclude Include="..\Public\Normal_Bullet.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="..\Private\DiamondHp.cpp" />
     <ClCompile Include="..\Private\Displode.cpp" />
     <ClCompile Include="..\Private\Dissolve.cpp" />
+    <ClCompile Include="..\Private\Distortion.cpp" />
     <ClCompile Include="..\Private\Dot.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Enemy.cpp" />
@@ -369,7 +371,7 @@
     <ClCompile Include="..\private\Mantis.cpp" />
     <ClCompile Include="..\Private\MapObject.cpp" />
     <ClCompile Include="..\Private\MeshEffect.cpp" />
-    <ClCompile Include="..\private\Meteo.cpp" />
+    <ClCompile Include="..\Private\Meteo.cpp" />
     <ClCompile Include="..\Private\MiniMap.cpp" />
     <ClCompile Include="..\Private\MiniMapView.cpp" />
     <ClCompile Include="..\Private\MonsterMovingHP.cpp" />

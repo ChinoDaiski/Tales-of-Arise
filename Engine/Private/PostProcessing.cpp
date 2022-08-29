@@ -133,6 +133,11 @@ HRESULT CPostProcessing::Combine_Resources(CVIBuffer_Rect* pVIBuffer, _float4x4*
 		return E_FAIL;
 	if (FAILED(Blur_Object(m_pDownScale4x4SRV[BLUR], m_pDownScale4x4UAV[BLUR])))
 		return E_FAIL;
+
+	if (FAILED(DownScale4x4(m_pTarget_Manager->Get_SRV(L"Target_Distortion"), m_pDownScale4x4UAV[DISTORTION])))
+		return E_FAIL;
+	if (FAILED(Blur_Object(m_pDownScale4x4SRV[DISTORTION], m_pDownScale4x4UAV[DISTORTION])))
+		return E_FAIL;
 	
 	m_pDeviceContext->OMSetRenderTargets(2, pRTV, pDSV);
 	Safe_Release(pRTV[0]);
