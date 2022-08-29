@@ -109,10 +109,20 @@ struct PS_OUT
 	float4 vColor : SV_Target0;
 };
 
+cbuffer Dstortion
+{
+	float g_fDistortionPower = 0.001f;
+	float g_fDistortionRevise = 0.01f;
+};
+
 PS_OUT PS_MAIN(PS_IN In)
 {
 	PS_OUT Out;
-	float3 color = HDRTex.Sample(PointSampler, In.vTexUV.xy).xyz;
+	float2 vNewUV = In.vTexUV + g_fDistortionPower;
+	float4 vDistortion = DistortionTexture.Sample(PointSampler, vNewUV);
+	float2 vOutputUV = In.vTexUV + vDistortion.xy * g_fDistortionRevise;
+
+	float3 color = HDRTex.Sample(PointSampler, vOutputUV).xyz;
 	float3 vNonBlur = NonBlurTexture.Sample(LinearSampler, In.vTexUV).xyz;
 	float3 vBlur = BlurTexture.Sample(LinearSampler, In.vTexUV).xyz;
 
@@ -149,9 +159,9 @@ struct PS_OUT_COPY
 PS_OUT_COPY PS_MAIN2(PS_IN In)
 {
 	PS_OUT_COPY Out = (PS_OUT_COPY)0.f;
-	float2 vNewUV = In.vTexUV + 0.002f;
+	float2 vNewUV = In.vTexUV + g_fDistortionPower;
 	float4 vDistortion = DistortionTexture.Sample(PointSampler, vNewUV);
-	float2 vOutputUV = In.vTexUV + vDistortion.xy * 0.05f;
+	float2 vOutputUV = In.vTexUV + vDistortion.xy * g_fDistortionRevise;
 
 	float3 color = HDRTex.Sample(PointSampler, vOutputUV.xy).xyz;
 	float3 vNonBlur = NonBlurTexture.Sample(LinearSampler, In.vTexUV).xyz;

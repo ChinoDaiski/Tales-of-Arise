@@ -47,6 +47,7 @@ texture2D g_LightDepthTexture;
 texture2D g_EmissiveTexture;
 texture2D g_EmissiveBlurTexture;
 texture2D g_GlowTexture;
+texture2D g_MtlSpecularTexture;
 
 sampler DefaultSampler = sampler_state {
 	filter = min_mag_mip_linear;
@@ -138,7 +139,8 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 
 	vector vLook = vWorldPos - g_vCamPosition;
 
-	Out.vSpecular = pow(saturate(dot(normalize(vReflect) * -1.f, normalize(vLook))), g_fPower) * (g_vLightSpecular * g_vMtrlSpecular);
+	vector vMtrlSpecular = g_MtlSpecularTexture.Sample(DefaultSampler, In.vTexUV);
+	Out.vSpecular = pow(saturate(dot(normalize(vReflect) * -1.f, normalize(vLook))), g_fPower) * (g_vLightSpecular * vMtrlSpecular);
 
 	return Out;
 }
@@ -212,13 +214,13 @@ PS_OUT PS_MAIN_SHADOW(PS_IN In)
 	vector vEmissiveBlur = g_EmissiveBlurTexture.Sample(DefaultSampler, In.vTexUV);
 	vector vGlow = g_GlowTexture.Sample(DefaultSampler, In.vTexUV);
 
-	vShade = ceil(vShade * 3.f) / 3;
-	vSpecular = ceil(vSpecular * 3.f) / 3;
+	//vShade = ceil(vShade * 3.f) / 3;
+	//vSpecular = ceil(vSpecular * 3.f) / 3;
 
-	vShade.rgb += 0.1f;
-	vSpecular.rgb += 0.1f;
+	//vShade.rgb += 0.1f;
+	//vSpecular.rgb += 0.1f;
 
-	Out.vColor = vDiffuse * vShade + vSpecular;
+	Out.vColor = vDiffuse * vShade; //+ vSpecular;
 	Out.vColor.rgb += (vEmissive.rgb + vEmissiveBlur.rgb) * 2.f;
 	Out.vColor.rgb += vGlow;
 
