@@ -80,9 +80,6 @@ public:
 	HRESULT Enemy_MoveToMap(CEnemy* pEnemy, _float3 fPos, const TCHAR * pTagNaviCompoent);		// 1인자 오브젝트(Enemy)에게 3인자의 네비를 생성하고, 2인자의 위치로 이동하여 y값을 설정한다.
 
 
-//private:
-//	CGameObject* fulldia[7] = { nullptr };
-
 
 private:	 
 	vector<class CMapObject*> m_vMapObject;

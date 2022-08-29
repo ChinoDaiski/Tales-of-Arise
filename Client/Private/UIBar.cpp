@@ -4,6 +4,7 @@
 #include"Player_Manager.h"
 #include"Player.h"
 #include"Alphen.h"
+#include"Shionne.h"
 //전투
 UIBar::UIBar(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:CUI(pDevice, pDeviceContext)
@@ -30,6 +31,10 @@ HRESULT UIBar::NativeConstruct(void * pArg)
 	{
 		return E_FAIL;
 	}
+
+	//인덱스 넣어주자.
+	m_PlayerIndex = ((UIbarDesc*)pArg)->playerindex;
+
 	if (FAILED(SetUp_Texture()))
 	{
 		return E_FAIL;
@@ -37,8 +42,20 @@ HRESULT UIBar::NativeConstruct(void * pArg)
 
 	m_fDistanceToCamera = 40;
 	m_iShaderPass = 22;
+	CUI_Manager* pUiManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUiManager);
 
 
+	if (m_PlayerIndex == 0)
+	{
+		CPlayer* player = pUiManager->GetPlayer(0);
+	}
+	else if (m_PlayerIndex == 1)
+	{
+		CPlayer* player = pUiManager->GetPlayer(1);
+
+	}
+	Safe_Release(pUiManager);
 
 
 	return S_OK;
@@ -52,18 +69,34 @@ void UIBar::Tick(_double TimeDelta)
 	CUI_Manager* pUiManager = CUI_Manager::GetInstance();
 	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
 
+
 	Safe_AddRef(pUiManager);
 	Safe_AddRef(pPlayerManager);
 
-	CPlayer* player = pUiManager->GetPlayer(pPlayerManager->Get_MainPlayerIndex());
-	if (player == nullptr) return;
-
-	if (pPlayerManager->Get_MainPlayerIndex() == 0)
+	if (pPlayerManager->Get_MainPlayerIndex() != m_PlayerIndex && m_PlayerIndex == 0)
 	{
+
+		CPlayer* player = pUiManager->GetPlayer(0);
+		if (player == nullptr) return;
+		hp = 0;
 		hp = dynamic_cast<CAlphen*>(player)->Get_PlayerInfo().m_iCurrentHp;
 		percent = hp / dynamic_cast<CAlphen*>(player)->Get_PlayerInfo().m_iMaxHp;
+
 	}
-	
+	else if (pPlayerManager->Get_MainPlayerIndex() != m_PlayerIndex  && m_PlayerIndex == 1)
+	{
+		CPlayer* player = pUiManager->GetPlayer(1);
+		if (player == nullptr) return;
+		hp = 0;
+		hp = dynamic_cast<CShionne*>(player)->Get_PlayerInfo().m_iCurrentHp;
+		percent = hp / dynamic_cast<CShionne*>(player)->Get_PlayerInfo().m_iMaxHp;
+
+	}
+
+
+
+
+
 	if (m_Redbar > percent)
 	{
 		m_Redbar -= TimeDelta;

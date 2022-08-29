@@ -18,6 +18,10 @@ BEGIN(Client)
 
 class CEnemy abstract : public CGameObject
 {
+
+public:
+	enum BOSSMONSTER { BOSS_MANTIS, BOSS_PUNISHER, BOSS_FIREAVATAR, BOSS_BALSEPH, BOSS_END };
+
 public:
 	typedef struct _tagEnemyDesc {
 		_vector vPos;
@@ -158,6 +162,10 @@ protected:
 	_bool m_bStartScene = false;
 	_bool m_bEffectOnlyOnce = true;
 
+	BOSSMONSTER m_bossType = BOSSMONSTER::BOSS_END;
+public:
+	ENEMYINFO Get_EnemyInfo() { return m_iEnemyInfo; }
+	BOSSMONSTER Get_BossMonsterType() { return m_bossType; }
 
 public:
 	MAP_TYPE Get_MapType(void) { return m_eMapType; }

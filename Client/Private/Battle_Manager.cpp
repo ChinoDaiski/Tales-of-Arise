@@ -17,11 +17,11 @@
 
 #include "Balseph_Stair.h"
 #include "Lord_Balseph.h"
-//#include "BossHpBar.h"
-//#include"DiamondAG.h"
-//#include"ComboHitFont.h"
-//#include"NotMovingFont.h"
-//#include"MonsterMovingHP.h"
+#include "BossHpBar.h"
+#include"DiamondAG.h"
+#include"ComboHitFont.h"
+#include"NotMovingFont.h"
+#include"MonsterMovingHP.h"
 #include"UINumber.h"
 
 
@@ -77,7 +77,247 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		mhdesc.UIKind = 0;
 		if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_PlayerMovingHP"), &mhdesc))
 			return;
+
+		//다이아몬드 생성
+		//0 하양이
+		DiamondAG::MHDESC diadesc;
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90;
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia0 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//0 옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90;
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+		//fulldia[0] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//1 하양이 
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 1);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia1 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//1 옥색이 
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 1);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+//fulldia[1] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+
+		//2 하양이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 2);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject*  emptydia2 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//2 옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 2);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+		//fulldia[2] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//3 하양이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 3);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia3 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//3옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 3);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+	//	fulldia[3] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+		//4하양이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 4);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia4 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+		//4옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 4);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+	//	fulldia[4] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+		//5하양이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 5);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia5 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+		//5옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 5);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+	//	fulldia[5] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+
+		//6하양이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 6);
+		diadesc.pivoty = -40;
+		diadesc.kind = 0;
+		CGameObject* emptydia6 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+		//6옥색이
+		ZeroMemory(&diadesc, sizeof(DiamondAG::MHDESC));
+		diadesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		diadesc.pivotx = -90 + (14 * 6);
+		diadesc.pivoty = -40;
+		diadesc.kind = 1;
+	//	fulldia[6] = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_DiamondAg"), &diadesc);
+
+
+
+		//HP숫자로 뜨는ㄴ것
+
+		//여기서 NotMovingFont 글자
+		NotMovingFont::MHDESC combodesc;
+		combodesc.targetTransform = (CTransform*)(m_pPlayer_Manager->Get_MainPlayer()->Get_Component(TEXT("Com_Transform")));
+		combodesc.pivotx = 50;
+		combodesc.pivoty = -8;
+		combodesc.scaleX = 15;
+		combodesc.scaleY = 15;
+		combodesc.kind = 1;
+		combodesc.UIKind = 1;
+		//ComboHitFont 뜨자. 
+		CGameObject* combofont =
+			pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_NotMovingFont"), &combodesc);
+
+
+		m_fBattleGo = true;
+
+
 	}
+
+	/*switch (player->Get_PlayerInfo().m_iCurrentAg)
+	{
+
+	case 7:
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(true);
+		break;
+	case 6:
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+	case 5:
+
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+	case 4:
+
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+
+	case 3:
+
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+
+	case 2:
+
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+
+	case 1:
+
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(true);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+
+	case 0:
+		dynamic_cast<DiamondAG*>(fulldia[0])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[1])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[2])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[3])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[4])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[5])->SetRender(false);
+		dynamic_cast<DiamondAG*>(fulldia[6])->SetRender(false);
+		break;
+
+
+	}
+*/
+
+
 	_vector vFieldPlayerPos = pFieldPlayer->Get_PlayerPos();
 
 	XMStoreFloat4(&m_vPrePlayerPos, vFieldPlayerPos);
@@ -132,6 +372,90 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 		// 보스라면, 씬을 시작한다.
 		if ((CEnemy*)pEnemy->Get_IsBoss())
 			pEnemyClone->Set_StartScene();
+
+
+
+		m_isBossNameUIRender = true;
+
+		//맨티스 글귀
+		CUINumber::UINUMDESC bossmonsterhpUI;
+		bossmonsterhpUI.tUIInfo.fX = 1310; // g_iWinCX / 2 + 470;
+		bossmonsterhpUI.tUIInfo.fY = 140;
+		bossmonsterhpUI.tUIInfo.fCX = 15;
+		bossmonsterhpUI.tUIInfo.fCY = 15;
+		bossmonsterhpUI.kind = 5;
+		CGameObject* pBossMonsterHpUI = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_NumberFont"), &bossmonsterhpUI);
+
+
+		//4개의 UI BossMonster 
+		BossHpBar::MONSTERUIBARDESC uidesc;
+
+		uidesc.uiinfo.fX = 700;
+		uidesc.uiinfo.fY = g_iWinCX / 2 - 850;
+		uidesc.uiinfo.fCX = 205;
+		uidesc.uiinfo.fCY = 14;
+		uidesc.kind = 2;
+		CGameObject* pMonsterUIBar1 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_BossHpBar"), &uidesc);
+
+		ZeroMemory(&uidesc, sizeof(BossHpBar::UIINFO));
+		uidesc.uiinfo.fX = 900;
+		uidesc.uiinfo.fY = g_iWinCX / 2 - 850;
+		uidesc.uiinfo.fCX = 205;
+		uidesc.uiinfo.fCY = 14;
+		uidesc.kind = 3;
+		CGameObject* pMonsterUIBar2 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_BossHpBar"), &uidesc);
+
+
+		ZeroMemory(&uidesc, sizeof(BossHpBar::UIINFO));
+		uidesc.uiinfo.fX = 1100;
+		uidesc.uiinfo.fY = g_iWinCX / 2 - 850;
+		uidesc.uiinfo.fCX = 205;
+		uidesc.uiinfo.fCY = 14;
+		uidesc.kind = 1;
+		CGameObject* pMonsterUIBar3 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_BossHpBar"), &uidesc);
+
+
+		ZeroMemory(&uidesc, sizeof(BossHpBar::UIINFO));
+		uidesc.uiinfo.fX = 1300;
+		uidesc.uiinfo.fY = g_iWinCX / 2 - 850;
+		uidesc.uiinfo.fCX = 205;
+		uidesc.uiinfo.fCY = 14;
+		uidesc.kind = 0;
+		CGameObject* pMonsterUIBar4 = pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, L"Layer_BattleUI", TEXT("Prototype_GameObject_BossHpBar"), &uidesc);
+
+
+		//////요기서 해도 될런지..
+		//CPlayer* player = pUiManager->GetPlayer(pPlayerManger->Get_MainPlayerIndex());
+		//float enemyhp = player->Get_TargetEnemyHP();
+
+		//if (enemyhp <= enemyhp / 4)
+		//{
+		//	if (dynamic_cast<BossHpBar*>(pMonsterUIBar1)->GageOut()) { //다 썼는지 안썼는지 파악해본다.
+		//		dynamic_cast<BossHpBar*>(pMonsterUIBar2)->SetMonsterHPGone(1); //다썼으면 다음 것을 인덱스삼는다.
+		//	}
+		//}
+		//else if (enemyhp <= enemyhp)
+		//{
+		//	if (dynamic_cast<BossHpBar*>(pMonsterUIBar2)->GageOut()) {
+		//		dynamic_cast<BossHpBar*>(pMonsterUIBar3)->SetMonsterHPGone(2);
+		//	}
+		//	if (dynamic_cast<BossHpBar*>(pMonsterUIBar3)->GageOut()) {
+		//		dynamic_cast<BossHpBar*>(pMonsterUIBar4)->SetMonsterHPGone(3);
+		//	}
+		//	else {
+		//		dynamic_cast<BossHpBar*>(pMonsterUIBar1)->SetMonsterHPGone(0);
+		//	}
+		//}
+
+
+
+
+
+
+
+
+
+
 
 		// 복제된 몬스터의 위치정보를 가져옴
 		CTransform* pEnemyTransformCom = dynamic_cast<CTransform*>(pEnemyClone->Get_Component(TEXT("Com_Transform")));
@@ -255,6 +579,14 @@ void CBattle_Manager::Battle_Enter(CEnemy* pEnemy)
 	m_pVecPlayers = pPlayerManger->Get_VecPlayers();
 	m_pCamera->Set_CameraState(CCamera_Default::CAMERA_STATE_BATTLE_ENTER);
 
+	//몬스터의 그것.. hp
+	MonsterMovingHP::MHDESC mhdesc;
+	mhdesc.targetTransform = (CTransform*)(*iter)->Get_Component(TEXT("Com_Transform"));
+	mhdesc.pivotx = 80;
+	mhdesc.pivoty = -90;
+
+	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, L"Layer_BattleUI", TEXT("Prototype_GameObject_MonsterMovingHP"), &mhdesc))
+		return;
 
 	Safe_Release(pGameInstance);
 	Safe_Release(pPlayerManger);

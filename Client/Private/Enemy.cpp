@@ -126,6 +126,7 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 
 		vPosY += m_HitDamageInfo.fPowerUp;
 		XMVectorSet(0.f, 1.f, 0.f, 1.f)*m_HitDamageInfo.fPowerUp;
+
 		if (vPosY <= m_dCurrBattleMap_Height)
 		{
 

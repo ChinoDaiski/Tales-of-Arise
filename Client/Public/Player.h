@@ -129,7 +129,9 @@ public:
 	_bool Get_IsHitedMonster(_uint iIndex) { return m_bIsHitedMonsterArray[iIndex]; }
 	_bool Get_Overlap() { return m_bOverlap; }
 	_bool Get_Invincible() { return m_bInvincible; }
-
+	float Get_TargetEnemyHPFloat() { return m_pTargetEnemy->Get_EnemyInfo().m_iHp; }
+	_float Get_TargetEnemyMaxHP() { return m_pTargetEnemy->Get_EnemyInfo().m_iMaxHp; }
+	int Get_TargetEnemyHP();
 	void Set_Move_In_Circle(_fvector vPos) { m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), vPos, m_fBattleRadius); }
 
 
@@ -147,12 +149,14 @@ public:
 	void Set_Collision(_bool bCollision) { m_bAttackCollision = bCollision; }
 	void Set_KnockBackDir(_fvector vDir) { XMStoreFloat3(&m_vKnockBackDir, vDir); }
 
+
+	
 protected:
 
 	CPlayer_Manager* m_pPlayer_Manager = nullptr;
 	CTime_Manager* m_pTime_Manager = nullptr;
 	CBattle_Manager* m_pBattle_Manager = nullptr;
-
+	CUI_Manager* m_pUIManager = nullptr;
 	_bool m_bStopAnimation = false;
 	_bool m_bLoop = true;
 	_double m_dAnimSpeed = 1.75;
@@ -228,6 +232,7 @@ protected:
 	_bool m_bDamage_Small_f = false;
 	_bool m_bDown_b = false;
 	_bool m_bDown_f = false;
+
 
 
 

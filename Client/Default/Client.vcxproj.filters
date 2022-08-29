@@ -606,6 +606,24 @@
     <ClInclude Include="..\public\Level_Test.h">
       <Filter>01. Levels\99.Test</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BossHpBar.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ComboHitFont.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DiamondAG.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DiamondHp.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MonsterMovingHP.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NotMovingFont.h">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -922,6 +940,24 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_Test.cpp">
       <Filter>01. Levels\99.Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BossHpBar.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboHitFont.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DiamondAG.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DiamondHp.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MonsterMovingHP.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NotMovingFont.cpp">
+      <Filter>02. GameObject\02.UI\01.UIBattle\HP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
