@@ -63,7 +63,8 @@ void CEnemy::Tick(_double TimeDelta)
 
 	else
 	{
-		Compute_Gravity(TimeDelta);
+		if(!m_isBoss)
+			Compute_Gravity(TimeDelta);
 	}
 
 }
@@ -112,7 +113,7 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 
 		//m_fPowerUp = m_HitDamageInfo.fPowerUp*TimeDelta;
 
-		_float Gravity = 0.5f;
+		_float Gravity = 0.75;
 
 
 		m_HitDamageInfo.fPowerUp -= (_float)TimeDelta*Gravity;
@@ -126,7 +127,6 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 
 		vPosY += m_HitDamageInfo.fPowerUp;
 		XMVectorSet(0.f, 1.f, 0.f, 1.f)*m_HitDamageInfo.fPowerUp;
-
 		if (vPosY <= m_dCurrBattleMap_Height)
 		{
 
@@ -141,7 +141,7 @@ void CEnemy::Compute_Gravity(_double TimeDelta)
 		if (m_HitDamageInfo.fPowerBack > 0.f)
 		{
 			m_HitDamageInfo.fPowerBack -= TimeDelta*Gravity;
-			Set_EnemyPos(Get_EnemyPos() + XMLoadFloat3(&m_vKnockBackDir)*m_HitDamageInfo.fPowerBack);
+			m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), XMLoadFloat3(&m_vKnockBackDir)*m_HitDamageInfo.fPowerBack,m_fBattleRadius);
 		}
 	}
 

@@ -47,7 +47,7 @@ void CMeshEffect::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
 
-	m_Time += (_float)TimeDelta*m_MultipleTime;
+	m_Time += (_float)TimeDelta*m_MultipleTime*m_dTimeSpeed;
 
 	_float Ratio = 0.f;
 	if (m_Parents_P)

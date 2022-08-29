@@ -317,6 +317,7 @@ public:
 
 	void Compute_Anim(_double TimeDelta);
 	void Compute_Move(_double TimeDelta);
+
 	void Compute_Look();
 	void Compute_Hit(_double TimeDelta);
 
@@ -330,24 +331,26 @@ public:
 public:
 	
 	//공중스킬
-	void Rising_Palcon();				//비상천구
+	void Rising_Palcon(_double TimeDelta);	//비상천구
 	void Hurricane_Thrust(_double TimeDelta); // 풍신검
 	void Mirage();						// 아지랑이(x)
 
 
 	//지상스킬
-	void Lightning_Thrust();	// 순뢰(x)
-	void Swallow_Balde();		// 비연인
-	void Dragon_Swarm();		// 조룡연아참
-	void Rising_Wyvern();
+	void Lightning_Thrust(_double TimeDelta);	// 순뢰(x)
+	void Swallow_Balde(_double TimeDelta);		// 비연인
+	void Dragon_Swarm(_double TimeDelta);		// 조룡연아참
+	void Rising_Wyvern(_double TimeDelta);
+
 
 
 	//플람엣지
-	void Infernal_Torrent();
+	void Infernal_Torrent(_double TimeDelta);
 	void Searing_Gale(_double TimeDelta);
 	void Risiing_Phoenix();
 	void Rending_Flash();
-	void Explosive_Ring();
+	void Explosive_Ring(_double TimeDelta);
+
 
 
 	//AI

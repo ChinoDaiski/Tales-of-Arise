@@ -49,7 +49,7 @@ void CPoint_Effect::Tick(_double TimeDelta)
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CTransform*		pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_TUTORIAL, TEXT("Layer_Player"), CGameObject::m_pTransformTag);
+	CTransform*		pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), CGameObject::m_pTransformTag);
 	if (nullptr == pTransform)
 		return;
 
@@ -59,7 +59,7 @@ void CPoint_Effect::Tick(_double TimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	m_pVIBufferCom->Update(TimeDelta);
+	m_pVIBufferCom->Update(TimeDelta*m_dTimeSpeed);
 
 }
 

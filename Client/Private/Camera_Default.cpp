@@ -112,6 +112,10 @@ void CCamera_Default::Tick(_double TimeDelta)
 	case Client::CCamera_Default::CAMERA_STATE_BATTLE_END:
 		Camera_BattleEnd(TimeDelta);
 		break;
+	case Client::CCamera_Default::CAMERA_STATE_FLAMEDGE:
+		Camera_FlamEdge(TimeDelta);
+		break;
+
 
 	case Client::CCamera_Default::CAMERA_STATE_END:
 		break;
@@ -162,52 +166,53 @@ void CCamera_Default::Tick(_double TimeDelta)
 
 
 
-	if (m_bChange)
-	{
+	//if (m_bChange)
+	//{
 
-		//m_pTransformCom->LookAt(m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos());
-	}
-	else {
+	//	//m_pTransformCom->LookAt(m_pPlayer_Manager->Get_MainPlayer()->Get_TargetPos());
+	//}
+	//else 
+	//{
 
-		if (m_bSpherical) //구면좌표계	
-		{
+	//	if (m_bSpherical) //구면좌표계	
+	//	{
 
-		}
-		else
-		{
-			if (pGameInstance->Get_DIKeyState(DIK_W) & 0x8000)
-			{
-				m_pTransformCom->Go_Straight(TimeDelta);
-			}
-			if (GetKeyState('S') & 0x8000)
-			{
-				m_pTransformCom->Go_BackWard(TimeDelta);
-			}
-			if (GetKeyState('A') & 0x8000)
-			{
-				m_pTransformCom->Go_Left(TimeDelta);
-			}
-			if (GetKeyState('D') & 0x8000)
-			{
-				m_pTransformCom->Go_Right(TimeDelta);
-			}
+	//	}
+	//	else
+	//	{
+	//		if (pGameInstance->Get_DIKeyState(DIK_W) & 0x8000)
+	//		{
+	//			m_pTransformCom->Go_Straight(TimeDelta);
+	//		}
+	//		if (GetKeyState('S') & 0x8000)
+	//		{
+	//			m_pTransformCom->Go_BackWard(TimeDelta);
+	//		}
+	//		if (GetKeyState('A') & 0x8000)
+	//		{
+	//			m_pTransformCom->Go_Left(TimeDelta);
+	//		}
+	//		if (GetKeyState('D') & 0x8000)
+	//		{
+	//			m_pTransformCom->Go_Right(TimeDelta);
+	//		}
 
 
 
-			_long		MouseMove;
+	//		_long		MouseMove;
 
-			if (MouseMove = pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_X))
-			{
-				m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * MouseMove * 0.1f);
-			}
+	//		if (MouseMove = pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_X))
+	//		{
+	//			m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), TimeDelta * MouseMove * 0.1f);
+	//		}
 
-			if (MouseMove = pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_Y))
-			{
-				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), TimeDelta * MouseMove* 0.1f);
-			}
+	//		if (MouseMove = pGameInstance->Get_DIMMoveState(CInput_Device::DIMM_Y))
+	//		{
+	//			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), TimeDelta * MouseMove* 0.1f);
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 
 
@@ -567,7 +572,7 @@ void CCamera_Default::Camera_BattleEnter(_double TimeDelta)
 	// 스프링의 가속도를 계산한다.
 	_vector acel = -m_fSpringConstant * diff - dampening * XMLoadFloat3(&m_vVelocity);
 
-	if (XMVectorGetX(XMVector3Length(diff)) < 0.05f)
+	if (XMVectorGetX(XMVector3Length(diff)) < 0.1f)
 	{
 		m_eCameraState = CAMERA_STATE_BATTLE;
 		m_bStartScene = false;
@@ -606,7 +611,7 @@ void CCamera_Default::Camera_BattleEnd(_double TimeDelta)
 	}
 
 
-	m_dEndTime += TimeDelta;
+	m_dEndTime += TimeDelta*1.2f;
 
 	if (m_dEndTime > 1.0)
 	{
@@ -665,6 +670,53 @@ void CCamera_Default::Camera_Change(_double TimeDelta)
 
 	XMStoreFloat3(&m_vActualPos, XMVectorLerp(XMLoadFloat3(&m_vCameraChangeStartEye), vTargetEye, m_fCameraChangeEyeLerp));
 	XMStoreFloat3(&m_vActualAt, XMVectorLerp(XMLoadFloat3(&m_vCameraChangeStartAt), vTargetPos + XMVectorSet(0.f, 0.5f, 0.f, 0.f), m_fCameraChangeAtLerp));
+
+
+
+}
+
+void CCamera_Default::Camera_FlamEdge(_double TimeDelta)
+{
+
+
+	CTime_Manager* pTimeManager = CTime_Manager::GetInstance();
+	_vector vPlayerPos = m_pPlayer_Manager->Get_MainPlayer()->Get_PlayerPos();
+	_vector vCameraPos;
+
+	if (!m_bFlamEdgeCameraStart)
+	{
+		_vector vLocalCameraPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - vPlayerPos; //로컬상의 카메라좌표
+		m_fRadius = XMVectorGetX(XMVector3Length(vLocalCameraPos));
+		m_fAzimuth = atan2f(XMVectorGetZ(vLocalCameraPos), XMVectorGetX(vLocalCameraPos));
+		m_fElevation = asinf(XMVectorGetY(vLocalCameraPos) / m_fRadius);
+		pTimeManager->Set_AllLayerTime(0.10);
+		m_bFlamEdgeCameraStart = true;
+	}
+
+	m_dFlamEdgeCameraTime += TimeDelta;
+
+	if (m_dFlamEdgeCameraTime > 1.0)
+	{
+		m_bFlamEdgeCameraStart = false;
+		m_dFlamEdgeCameraTime = 0.0;
+		m_eCameraState = CAMERA_STATE_BATTLE;
+		pTimeManager->Set_AllLayerTime(1.0);
+		return;
+	}
+
+
+	SphericalCoordinatesTranslateRadius(-TimeDelta*8.f);
+	vCameraPos = toCartesian() + vPlayerPos;
+	XMStoreFloat3(&m_vActualPos, vCameraPos);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(vCameraPos, 1.f));
+	m_pTransformCom->LookAt(XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
+	XMStoreFloat3(&m_vActualAt, XMVectorSetY(vPlayerPos, XMVectorGetY(vPlayerPos) + m_fCameraLookatPlayerHeight));
+
+	
+
+
+
+
 
 
 

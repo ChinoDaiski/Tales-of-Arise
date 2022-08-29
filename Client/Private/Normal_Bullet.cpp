@@ -87,9 +87,9 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 	m_LiveTime = 0.0;
 
 
-
+	//Åõ»çÃ¼ 
 	m_pMeshEffect = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_SHIONNE, 2));
-	m_pMeshEffect->Set_Transform(UNIT_SHIONNE, this, m_pTransformCom, _float3(0.27f, 0.f, 0.f));
+	m_pMeshEffect->Set_Transform(UNIT_SHIONNE, this, m_pTransformCom, _float3(0.27f, 0.f, -0.4f));
 
 
 
@@ -104,7 +104,7 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 
 	CMeshEffect* EffectMesh2 = (CMeshEffect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Mesh_Effect"), pGameInstance->Get_MeshEffect_Data(UNIT_SHIONNE, 1));
 	EffectMesh2->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
-	(EffectMesh2->Get_Transfrom())->Scaled(_float3(1.f, 1.f, 1.f));
+	(EffectMesh2->Get_Transfrom())->Scaled(_float3(1.5f, 1.5f, 1.5f));
 	(EffectMesh2->Get_Transfrom())->GO_RUL(_float3(0.27f, 0.f, -0.4f));
 	//EffectMesh->Get_Transfrom()->Turn_Angle(Get_PlayerLook(), XMConvertToRadians(-5.f));
 	EffectMesh2->Set_TimeSpeed(3.f);
@@ -112,7 +112,7 @@ HRESULT CNormal_Bullet::NativeConstruct(void * pArg)
 
 
 
-	CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(pGameInstance->Get_LevelIndex(), TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_SHIONNE, 0));
+	CRect_Effect* EffectRect = (CRect_Effect*)pGameInstance->Add_GameObjectToLayer(LEVEL_STATIC, TEXT("Layer_Player_Effect"), TEXT("Prototype_GameObject_Rect_Effect"), pGameInstance->Get_InstanceEffect_Data(UNIT_SHIONNE, 0));
 	EffectRect->Set_ParentsMatrix(m_pTransformCom->Get_WorldMatrix());
 	EffectRect->Get_Transfrom()->GO_RUL(_float3(0.27f, 0.f, -0.4f));
 
@@ -130,9 +130,8 @@ void CNormal_Bullet::Tick(_double TimeDelta)
 
 
 
-	m_BackTime += TimeDelta;
 
-	m_pTransformCom->Go_Straight(TimeDelta*5.f);
+	m_pTransformCom->Go_Straight(TimeDelta*5.f*m_dTimeSpeed);
 
 
 

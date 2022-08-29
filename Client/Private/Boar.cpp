@@ -6,7 +6,6 @@
 #include "Channel.h"
 #include "Player.h"
 #include "GameObject.h"
-#include "Distortion.h"
 
 CBoar::CBoar(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CEnemy(pDeviceOut, pDeviceContextOut)
@@ -51,44 +50,14 @@ HRESULT CBoar::NativeConstruct(void * pArg)
 	m_bOnce = false;
 	m_bStart = true;
 	m_bBattle = false;
-	m_iEnemyInfo.m_iHp = 5;
-
-	if (m_bBattle == true)
-	{
-		if (FAILED(Ready_Distortion(L"Layer_Effect")))
-			MSG_CHECK_RETURN(L"Failed To CBoar : NativeConstruct : Ready_Distortion", E_FAIL);
-	}
-	
-
+	m_iEnemyInfo.m_iHp = 30;
 	return S_OK;
 }
 
 void CBoar::Tick(_double TimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-#pragma region Distortion
-	if (nullptr != m_pDistortion)
-	{
-		if (pGameInstance->Get_DIKeyState(DIK_B) & 0x80)
-		{
-			m_pDistortion->Set_Render(true);				// 생성 체르
-		}
-		if (true == m_pDistortion->Get_Render())
-		{
-			m_DistortionAcc += TimeDelta;
-			if (m_DistortionAcc >= 3.0)
-			{
-				m_DistortionAcc = 0.0;
-				m_pDistortion->Set_Render(false);
-			}
-		}
-	}
-	
-#pragma endregion
-
 	m_bOnAttackCollider = false;
-	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CTransform*		pPlayerTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_STATIC, TEXT("Layer_Player"), TEXT("Com_Transform"));
 	if (nullptr == pPlayerTransform)
@@ -98,7 +67,7 @@ void CBoar::Tick(_double TimeDelta)
 
 	if (!m_bBattle)  // 전투중이 아니라면 하는 행동패턴
 	{
-		m_TimeDelta += TimeDelta;
+		m_TimeDelta += TimeDelta*m_dTimeSpeed;
 
 		if (m_TimeDelta > 5.0)
 		{
@@ -118,7 +87,6 @@ void CBoar::Tick(_double TimeDelta)
 			}
 		}
 	}
-
 
 	/*if (!m_bBattle)
 	{
@@ -183,7 +151,7 @@ void CBoar::Tick(_double TimeDelta)
 	{
 		if ((!m_bAttackCollision && m_bStartScene && m_bBattle) || m_bAttackRevenge)		// 플레이어가 공격을 하지 않는다면 동작 개시
 		{
-			m_TimeDelta += TimeDelta;
+			m_TimeDelta += TimeDelta*m_dTimeSpeed;
 
 			if ((m_TimeDelta > 5.0) && (m_bOnce == false))
 			{
@@ -200,7 +168,7 @@ void CBoar::Tick(_double TimeDelta)
 			switch (m_iMotion)
 			{
 			case 0:
-				AttackPattern1(TimeDelta);
+				AttackPattern1(TimeDelta*m_dTimeSpeed);
 
 				break;
 
@@ -221,7 +189,7 @@ void CBoar::Tick(_double TimeDelta)
 
 
 			case 3:
-				AttackPattern5(TimeDelta);
+				AttackPattern5(TimeDelta*m_dTimeSpeed);
 				break;
 
 			case 4:
@@ -236,7 +204,7 @@ void CBoar::Tick(_double TimeDelta)
 
 	if (m_iCurrentAnimationIndex == m_iNextAnimationIndex)
 	{
-		m_pModelCom->Monster_Update(TimeDelta*m_dAnimSpeed, m_bCutAnimation);
+		m_pModelCom->Monster_Update(TimeDelta*m_dAnimSpeed*m_dTimeSpeed, m_bCutAnimation);
 
 		_matrix WorldMatrix = m_pTransformCom->Get_WorldMatrix();
 		_vector MoveVector = XMVector3TransformCoord(XMLoadFloat3(&m_pModelCom->Get_CurAnimation()->Get_MoveVector()), m_pModelCom->Get_PivotMatrix());
@@ -252,13 +220,18 @@ void CBoar::Tick(_double TimeDelta)
 
 
 		MoveVector = XMVector3TransformCoord(MoveVector, BoneMatrix);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSetW(m_pTransformCom->Get_State(CTransform::STATE_POSITION) + MoveVector, 1.f));
+		if (!m_bBattle)
+			m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), m_pNaviCom);
+		else {
+			//m_pTransformCom->Anim_Move(XMVectorSetW(MoveVector, 0.f), nullptr);
+			m_pTransformCom->Move_In_Circle(XMLoadFloat3(&m_vBattlePos), MoveVector, m_fBattleRadius);
+		}
 
 	}
 
 	else
 	{
-		m_pModelCom->Monster_Update_NextAnim(TimeDelta*m_dAnimSpeed, m_iDuration, m_iNextAnimationIndex, &m_iCurrentAnimationIndex);
+		m_pModelCom->Monster_Update_NextAnim(TimeDelta*m_dAnimSpeed*m_dTimeSpeed, m_iDuration, m_iNextAnimationIndex, &m_iCurrentAnimationIndex);
 	}
 
 	Compute_Collider();
@@ -341,12 +314,6 @@ void CBoar::LateTick(_double TimeDelta)
 		m_dAnimSpeed = 1.0;
 		m_iNextAnimationIndex = DEAD;
 		m_bDeadOnce = true;
-
-		if (nullptr != m_pDistortion)
-		{
-			m_pDistortion->Set_Dead(true);
-			m_pDistortion = nullptr;
-		}
 	}
 
 	if (m_bDeadOnce)
@@ -1051,26 +1018,7 @@ HRESULT CBoar::Render()
 	return S_OK;
 }
 
-HRESULT CBoar::Ready_Distortion(_tchar* tagLayer)
-{
-	CGameInstance* pGameInstnace = GET_INSTANCE(CGameInstance);
 
-	CDistortion::DISTORTIONDESC tDistortionDesc;
-	ZeroMemory(&tDistortionDesc, sizeof(CDistortion::DISTORTIONDESC));
-	tDistortionDesc.iTexture = 2;
-	tDistortionDesc.pTargetObject = this;
-	tDistortionDesc.vRevicePosition = _float2(2.f, 0.f);
-	tDistortionDesc.vScale = _float3(3.f, 3.f, 3.f);
-
-	m_pDistortion = (CDistortion*)pGameInstnace->Add_GameObjectToLayer(LEVEL_TUTORIAL, tagLayer, L"Prototype_GameObject_Distortion", &tDistortionDesc);
-
-	if (nullptr == m_pDistortion)
-		MSG_CHECK_RETURN(L"Failed To CBoar : Ready_Distortion : nullptr == m_pDistortion", E_FAIL);
-	
-	Safe_AddRef(m_pDistortion);
-
-	return S_OK;
-}
 
 HRESULT CBoar::SetUp_Components()
 {
@@ -1165,5 +1113,4 @@ void CBoar::Free()
 {
 	__super::Free();
 	Safe_Release(m_pModelCom);
-	Safe_Release(m_pDistortion);
 }

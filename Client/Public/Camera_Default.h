@@ -15,7 +15,8 @@ BEGIN(Client)
 class CCamera_Default final : public CCamera
 {
 public:
-	enum CAMERA_STATE { CAMERA_STATE_FIELD, CAMERA_STATE_BATTLE, CAMERA_STATE_BATTLE_ENTER, CAMERA_STATE_BATTLE_END, CAMERA_STATE_CHANGE, CAMERA_STATE_END };
+	enum CAMERA_STATE { CAMERA_STATE_FIELD, CAMERA_STATE_BATTLE, CAMERA_STATE_BATTLE_ENTER, CAMERA_STATE_BATTLE_END, CAMERA_STATE_CHANGE,
+		CAMERA_STATE_FLAMEDGE ,CAMERA_STATE_END };
 
 private:
 	explicit CCamera_Default(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);
@@ -54,6 +55,7 @@ public:
 	void Camera_BattleEnter(_double TimeDelta);
 	void Camera_BattleEnd(_double TimeDelta);
 	void Camera_Change(_double TimeDelta);
+	void Camera_FlamEdge(_double TimeDelta);
 	void Set_CameraState(CAMERA_STATE eCameraState) { m_eCameraState = eCameraState; }
 
 
@@ -140,6 +142,12 @@ private:
 
 
 
+
+
+	//카메라 플람엣지
+	_bool m_bFlamEdgeCameraStart = false;
+	_double m_dFlamEdgeCameraTime = 0.0;
+	
 
 	//카메라 쉐이킹
 	_double m_CommonShakeTime = 0.0;

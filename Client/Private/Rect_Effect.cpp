@@ -66,7 +66,7 @@ void CRect_Effect::Tick(_double TimeDelta)
 
 
 	__super::Tick(TimeDelta);
-	m_PassTime -= TimeDelta * m_fmultipleTime;
+	m_PassTime -= TimeDelta * m_fmultipleTime*m_dTimeSpeed;
 }
 
 void CRect_Effect::LateTick(_double TimeDelta)
@@ -84,13 +84,13 @@ void CRect_Effect::LateTick(_double TimeDelta)
 		{
 			Compute_CamDistance();
 			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-			m_bFinish = m_pVIBufferCom->Update(TimeDelta * m_fmultipleTime, XMMatrixInverse(nullptr, pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW)));
+			m_bFinish = m_pVIBufferCom->Update(TimeDelta * m_fmultipleTime*m_dTimeSpeed, XMMatrixInverse(nullptr, pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW)));
 			RELEASE_INSTANCE(CGameInstance);
 		}
 		else
 		{
 			Compute_CamDistance();
-			m_bFinish = m_pVIBufferCom->Update(TimeDelta * m_fmultipleTime);
+			m_bFinish = m_pVIBufferCom->Update(TimeDelta * m_fmultipleTime*m_dTimeSpeed);
 		}
 
 	}
