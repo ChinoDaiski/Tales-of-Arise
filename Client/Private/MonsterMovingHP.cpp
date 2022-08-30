@@ -39,7 +39,15 @@ HRESULT MonsterMovingHP::NativeConstruct(void * pArg)
 	CTransform::TRANSFORMDESC      TransformDesc;
 	TransformDesc.SpeedPerSec = 5.0f;
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
-	TargetTransform = ((MHDESC*)pArg)->targetTransform;
+
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
+	Safe_AddRef(pPlayerManager);
+
+	CPlayer* player = pPlayerManager->Get_MainPlayer();
+	TargetTransform = (CTransform*)player->Get_TargetEnemy()->Get_Component(TEXT("Com_Transform"));
 	m_pivotx = ((MHDESC*)pArg)->pivotx;
 	m_pivoty = ((MHDESC*)pArg)->pivoty;
 
@@ -49,6 +57,9 @@ HRESULT MonsterMovingHP::NativeConstruct(void * pArg)
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
 
+
+	Safe_Release(pPlayerManager);
+	Safe_Release(pUIManager);
 
 
 	return S_OK;
@@ -63,6 +74,24 @@ void MonsterMovingHP::Tick(_double TimeDelta)
 
 	_matrix ViewMatrix, ProjMatrix;
 	_float4x4 WindowMatrix, WorldMatrix;
+
+
+	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
+	Safe_AddRef(pUIManager);
+	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
+	Safe_AddRef(pPlayerManager);
+
+	CPlayer* player = pPlayerManager->Get_MainPlayer();
+
+	//예외처리 필요
+	TargetTransform = (CTransform*)player->Get_TargetEnemy()->Get_Component(TEXT("Com_Transform"));
+
+	//if (TargetTransform == nullptr)
+	//	return;
+
+
+
+
 
 	ViewMatrix = pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
 
@@ -83,26 +112,20 @@ void MonsterMovingHP::Tick(_double TimeDelta)
 	m_pTransformCom->Scaled(_float3(200, 12, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(m_fX - g_iWinCX * 0.5f, -m_fY + g_iWinCY * 0.5f, 0.f, 1.f));
 
-	CUI_Manager* pUiManager = CUI_Manager::GetInstance();
-	Safe_AddRef(pUiManager);
 
-	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
 
-	Safe_AddRef(pPlayerManager);
 
 
 	CBattle_Manager* pBattleManager = CBattle_Manager::GetInstance();
 	Safe_AddRef(pBattleManager);
-	CPlayer* player = pUiManager->GetPlayer(pPlayerManager->Get_MainPlayerIndex());
 
 
-	
 	m_isMonster = true;
 
 
 	//_float fHP = (_float)player->Get_TargetEnemyHP() / player->Get_TargetEnemyMaxHP();
-	float hp = player->Get_TargetEnemyHPFloat()/4;
-	float hpmax = player->Get_TargetEnemyMaxHP()/4;
+	float hp = player->Get_TargetEnemyHPFloat();
+	float hpmax = player->Get_TargetEnemyMaxHP();
 	percent = hp / hpmax;
 	if (m_Redbar > percent)
 	{
@@ -111,8 +134,8 @@ void MonsterMovingHP::Tick(_double TimeDelta)
 	if (m_Redbar < percent)
 		m_Redbar = percent;
 
-	Safe_Release(pUiManager);
-
+	Safe_Release(pBattleManager);
+	Safe_Release(pUIManager);
 	Safe_Release(pPlayerManager);
 }
 
@@ -156,9 +179,9 @@ HRESULT MonsterMovingHP::Render()
 		return E_FAIL;
 
 
+
 	//윈도우 -> 다음에 직교투영
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinCX, g_iWinCY, 0.f, 1.f));
-
 
 	//apply 하기전에 값을 던저야하므로 begin전에 숫자를 던지자.
 	if (FAILED(m_pShaderCom->Begin(29)))

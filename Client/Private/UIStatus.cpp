@@ -119,15 +119,15 @@ HRESULT CUIStatus::Render()
 		return E_FAIL;
 	}
 
-	wsprintf(HitEffect, TEXT(" / %d"), maxcp/*pBattleManager->GetMAXCP()*/);
-	////뒤에 있는 숫자를 보자
-	if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan40"), HitEffect, _float2(g_iWinCX / 2 + 790, 450/*g_iWinCX / 2 + 700, g_iWinCY / 2 - 200*/), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
-		return E_FAIL;
+	//wsprintf(HitEffect, TEXT(" / %d"), maxcp/*pBattleManager->GetMAXCP()*/);
+	//////뒤에 있는 숫자를 보자
+	//if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan40"), HitEffect, _float2(g_iWinCX / 2 + 790, 450/*g_iWinCX / 2 + 700, g_iWinCY / 2 - 200*/), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
+	//	return E_FAIL;
 
-	wsprintf(HitCurrent, TEXT("%d"), cp/*pBattleManager->GetMAXCP()*/);
-	////뒤에 있는 숫자를 보자
-	if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), HitCurrent, _float2(g_iWinCX / 2 + 700, 390/*g_iWinCX / 2 + 700, g_iWinCY / 2 - 200*/), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
-		return E_FAIL;
+	//wsprintf(HitCurrent, TEXT("%d"), cp/*pBattleManager->GetMAXCP()*/);
+	//////뒤에 있는 숫자를 보자
+	//if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), HitCurrent, _float2(g_iWinCX / 2 + 700, 390/*g_iWinCX / 2 + 700, g_iWinCY / 2 - 200*/), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
+	//	return E_FAIL;
 
 
 	return S_OK;

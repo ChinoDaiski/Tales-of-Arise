@@ -317,14 +317,14 @@ HRESULT CLevel_Tutorial::Render()
 		if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan40"), DamageMsg, _float2(1747, 267/*g_iWinCX / 2 + 650, g_iWinCY / 2 - 150*/), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
 			return E_FAIL;
 
-		wsprintf(ComboHit, TEXT("%d"), combohitNum);
-		if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), ComboHit, _float2(1680, 150), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
-			return E_FAIL;
+		//wsprintf(ComboHit, TEXT("%d"), combohitNum);
+		//if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), ComboHit, _float2(1680, 150), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
+		//	return E_FAIL;
 
 
-		wsprintf(DamageHit, TEXT("%d"), damageNum);
-		if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), DamageHit, _float2(1680, 210), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
-			return E_FAIL;
+		//wsprintf(DamageHit, TEXT("%d"), damageNum);
+		//if (FAILED(pGameInstance->Render_Fonts(TEXT("Font_Javan50"), DamageHit, _float2(1680, 210), XMVectorSet(0.9f, 1.f, 0.7f, 1.f))))
+		//	return E_FAIL;
 	
 	}
 	
@@ -884,19 +884,67 @@ HRESULT CLevel_Tutorial::Ready_Layer_NumberFont(const _tchar * pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 
-	////Hit
-	//CUINumber::UINUMDESC uidesc;
-	//uidesc.tUIInfo.fX = 1757; // g_iWinCX / 2 + 470;
-	//uidesc.tUIInfo.fY = 214;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
-	//uidesc.tUIInfo.fCX = 300;
-	//uidesc.tUIInfo.fCY = 100;
-	//uidesc.kind = 0;
+	////Hit 숫자 폰트 
+	CUINumber::UINUMDESC uidesc;
+	uidesc.tUIInfo.fX = 1659; // g_iWinCX / 2 + 470;
+	uidesc.tUIInfo.fY = 214;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
+	uidesc.tUIInfo.fCX = 250;
+	uidesc.tUIInfo.fCY = 50;
+	uidesc.kind = 0;
 
-	//if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
-	//	return E_FAIL;
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
+		return E_FAIL;
+
+
+	//cOMBOhIT에 따른 DAMAGE 숫자 폰트 
+	CUINumber::UINUMDESC damagedesc;
+	damagedesc.tUIInfo.fX = 1640; // g_iWinCX / 2 + 470;
+	damagedesc.tUIInfo.fY = 280;//g_iWinCY / 2 - 285; //235 50씩 더해주자.
+	damagedesc.tUIInfo.fCX = 250;
+	damagedesc.tUIInfo.fCY = 50;
+	damagedesc.kind = 1;
+
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &damagedesc)))
+		return E_FAIL;
 
 
 
+	//MaxCP와 CP
+
+	////cOMBOhIT에 따른 DAMAGE 숫자 폰트 
+	CUINumber::UINUMDESC maxcpdesc;
+	maxcpdesc.tUIInfo.fX = g_iWinCX / 2 + 790; // g_iWinCX / 2 + 470;
+	maxcpdesc.tUIInfo.fY = 450;
+	maxcpdesc.tUIInfo.fCX = 35;
+	maxcpdesc.tUIInfo.fCY = 35;
+	maxcpdesc.kind = 2;
+
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &maxcpdesc)))
+		return E_FAIL;
+
+	////MaxCP와 CP
+
+	////cOMBOhIT에 따른 DAMAGE 숫자 폰트 
+	CUINumber::UINUMDESC cucpdesc;
+	cucpdesc.tUIInfo.fX = g_iWinCX / 2 + 745; // g_iWinCX / 2 + 470;
+	cucpdesc.tUIInfo.fY = 450;
+	cucpdesc.tUIInfo.fCX = 35;
+	cucpdesc.tUIInfo.fCY = 35;
+	cucpdesc.kind = 3;
+
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &cucpdesc)))
+		return E_FAIL;
+
+	////작대기
+	ZeroMemory(&cucpdesc, sizeof(CUINumber::UINUMDESC));
+	cucpdesc.tUIInfo.fX = g_iWinCX / 2 + 770;
+	cucpdesc.tUIInfo.fY = 450;
+	cucpdesc.tUIInfo.fCX = 30;
+	cucpdesc.tUIInfo.fCY = 30;
+	cucpdesc.kind = 4;
+
+	if (nullptr == (pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_NumberFont"), &uidesc)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;

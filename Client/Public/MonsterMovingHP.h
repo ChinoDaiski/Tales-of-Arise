@@ -18,7 +18,7 @@ private:
 	explicit MonsterMovingHP(const MonsterMovingHP&rhs);
 	virtual ~MonsterMovingHP() = default;
 
-public: 
+public:
 	virtual HRESULT NativeConstruct_Prototype() override;
 	virtual HRESULT NativeConstruct(void* pArg);
 	virtual void Tick(_double TimeDelta) override;
@@ -28,28 +28,28 @@ public:
 
 	typedef struct MOVINGHPDESC {
 		///CTransform 
-		CTransform* targetTransform;
+		//CTransform* targetTransform;
 		float pivotx, pivoty;
 
-	}MHDESC; 
+	}MHDESC;
 private:
-		bool m_isMonster = false;
-		int m_UIKind = 0;
-		bool m_firstMade = false;
-		_float percent = 0.f;
-		_float hp = 0;
-		_float maxhp;
-		float m_pivotx = 0, m_pivoty = 0;
-		CTexture*			m_pTextureCom = nullptr;
-		CRenderer*			m_pRendererCom = nullptr;
-		CShader*			m_pShaderCom = nullptr;
-		CVIBuffer_Rect*		m_pVIBufferCom = nullptr;
-		_float4x4			m_ProjMatrix;
-		_float m_fWinCX = 0.f, m_fWinCY = 0.f;
+	bool m_isMonster = false;
+	int m_UIKind = 0;
+	bool m_firstMade = false;
+	_float percent = 0.f;
+	_float hp = 0;
+	_float maxhp;
+	float m_pivotx = 0, m_pivoty = 0;
+	CTexture*			m_pTextureCom = nullptr;
+	CRenderer*			m_pRendererCom = nullptr;
+	CShader*			m_pShaderCom = nullptr;
+	CVIBuffer_Rect*		m_pVIBufferCom = nullptr;
+	_float4x4			m_ProjMatrix;
+	_float m_fWinCX = 0.f, m_fWinCY = 0.f;
 
-		_float				m_Redbar = 1.f;
-		float time;
-		bool Timegone = false;
+	_float				m_Redbar = 1.f;
+	float time;
+	bool Timegone = false;
 private:
 	_double				m_Frame = 0.0;
 	_float m_fX, m_fY;

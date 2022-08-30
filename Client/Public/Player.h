@@ -51,7 +51,7 @@ protected:
 
 	//}PLAYERINFO;
 
-
+public:
 	//캐릭터 UI 관련 변수들 
 	typedef struct TagPlayerInfo
 	{

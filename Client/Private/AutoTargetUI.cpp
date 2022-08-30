@@ -112,7 +112,7 @@ void AutoTargetUI::LateTick(_double TimeDelta)
 	__super::LateTick(TimeDelta);
 
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_ALPHABLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_UI, this);
 
 
 }
@@ -142,6 +142,9 @@ HRESULT AutoTargetUI::Render()
 		return E_FAIL;
 	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_Texture", 0)))
 		return E_FAIL;
+	//윈도우 -> 다음에 직교투영
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinCX, g_iWinCY, 0.f, 1.f));
+
 
 	//apply 하기전에 값을 던저야하므로 begin전에 숫자를 던지자.
 	if (FAILED(m_pShaderCom->Begin(3)))

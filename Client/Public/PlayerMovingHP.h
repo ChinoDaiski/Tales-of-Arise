@@ -25,16 +25,21 @@ public:
 	virtual void Tick(_double TimeDelta) override;
 	virtual void LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
+
+
 	typedef struct MOVINGHPDESC {
 		///CTransform
 		CTransform* targetTransform;
 		float pivotx, pivoty;
-
+		int UIKind = 0;
 
 	}MHDESC;
 
 private:
-	_float percent = 0;
+	bool m_isMonster = false;
+	int m_UIKind = 0;
+	bool m_firstMade = false;
+	int percent = 0;
 	_float hp = 0;
 	_float maxhp;
 	float m_pivotx = 0, m_pivoty = 0;
