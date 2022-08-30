@@ -91,6 +91,10 @@ public: /* For.PipeLine */
 public: /*For.Light_Manager */
 	const LIGHTDESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Lights(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, const LIGHTDESC& LightDesc);
+	HRESULT Delete_Lights(CLight* pLight);
+	HRESULT Clear_Lights(void);
+	list<class CLight*>* Get_Lights(void);
+	void Set_LightDesc(_uint iIndex, LIGHTDESC LightDesc);
 
 public: /*For.Font_Manager */
 	HRESULT Add_Fonts(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, const _tchar* pFontTag, const _tchar* pFontFilePath);

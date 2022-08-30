@@ -37,7 +37,17 @@ private:
 
 private:
 	HRESULT SetUp_Components();
-	HRESULT SetUp_ConstantTable();	
+	HRESULT SetUp_ConstantTable();
+
+public:
+	_uint Get_CurTextureNum(void) { return m_iCurrTextureNumber; }
+	void Set_CurTextureNum(_uint iNum);
+
+	_uint Get_TextureCnt(void) { return m_iTextureCnt; }
+
+private:
+	_uint m_iTextureCnt = 0;
+	_uint m_iCurrTextureNumber = 0;
 
 public:
 	static CSky* Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut);

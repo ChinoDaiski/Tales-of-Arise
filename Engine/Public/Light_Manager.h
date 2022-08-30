@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "Light.h"
 
 BEGIN(Engine)
 
@@ -17,7 +18,19 @@ public:
 public:
 	HRESULT NativeConstruct(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
 	HRESULT Add_Lights(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, const LIGHTDESC& LightDesc);
+	HRESULT Delete_Lights(CLight * pLight);
+	HRESULT Clear_Lights(void);
 	HRESULT Render_Lights();
+
+	list<class CLight*>* Get_Lights(void) { return &m_Lights; }
+	void Set_LightDesc(_uint iIndex, LIGHTDESC LightDesc) {
+		list<class CLight*>::iterator iter = m_Lights.begin();
+
+		for (_uint i = 0; i < iIndex; ++i)
+			++iter;
+
+		(*iter)->Set_LightDesc(LightDesc);
+	}
 
 private:
 	list<class CLight*>				m_Lights;

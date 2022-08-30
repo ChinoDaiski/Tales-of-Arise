@@ -31,6 +31,7 @@ HRESULT CLight::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 		iPassIndex = 2;
 		pShader->Set_RawValue("g_vLightPos", &m_LightDesc.vPosition, sizeof(_float4));
 		pShader->Set_RawValue("g_fRange", &m_LightDesc.fRange, sizeof(_float));
+		pShader->Set_RawValue("g_fPower", &m_LightDesc.fRange, sizeof(_float));
 	}
 	
 	pShader->Set_RawValue("g_vLightDiffuse", &m_LightDesc.vDiffuse, sizeof(_float4));

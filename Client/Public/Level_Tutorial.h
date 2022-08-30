@@ -25,7 +25,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Lights();
+	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
+	HRESULT Ready_Lights(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_Skybox(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_MapFire(const char * pModelFilePath, const char * pModelFileName, LEVEL eLevel);
+	HRESULT Ready_PostProcessing(const char * pModelFilePath, const char * pModelFileName);
+
+
 	HRESULT Ready_Layer_Camera(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Balseph(const _tchar * pLayerTag);
@@ -71,7 +77,6 @@ private:
 	HRESULT Ready_Layer_LineMsgUI(const _tchar* pLayerTag);
 	HRESULT Ready_Fonts();
 private:
-	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
 	HRESULT Ready_WatPoint(LEVEL eNextLevel, _vector vPos);
 	HRESULT Ready_Map_Battle02(_vector vCenterPos);		// CenterPos를 기준으로 Battle02의 오브젝트들을 생성
 	HRESULT Ready_Map_Battle04(_vector vCenterPos);		// CenterPos를 기준으로 Battle04의 오브젝트들을 생성

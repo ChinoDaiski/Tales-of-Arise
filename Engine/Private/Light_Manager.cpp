@@ -63,6 +63,34 @@ HRESULT CLight_Manager::Add_Lights(ID3D11Device * pDevice, ID3D11DeviceContext *
 	return S_OK;
 }
 
+HRESULT CLight_Manager::Delete_Lights(CLight * pLight)
+{
+	if (nullptr == pLight)
+		return E_FAIL;
+
+	auto& iter = find_if(m_Lights.begin(), m_Lights.end(), [&](const CLight* light) {
+		return pLight == light;
+	});
+
+	if (iter == m_Lights.end())
+		return E_FAIL;
+
+	m_Lights.erase(iter);
+
+	return S_OK;
+}
+
+HRESULT CLight_Manager::Clear_Lights(void)
+{
+	for (auto& Light : m_Lights) {
+		Safe_Release(Light);
+	}
+
+	m_Lights.clear();
+
+	return S_OK;
+}
+
 HRESULT CLight_Manager::Render_Lights()
 {
 	CTarget_Manager*	pTarget_Manager = GET_INSTANCE(CTarget_Manager);

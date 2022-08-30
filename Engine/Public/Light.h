@@ -11,9 +11,8 @@ private:
 	virtual ~CLight() = default; 
 
 public:
-	const LIGHTDESC* Get_LightDesc() {
-		return &m_LightDesc;
-	}
+	const LIGHTDESC* Get_LightDesc(void) { return &m_LightDesc; }
+	void Set_LightDesc(LIGHTDESC LightDesc) { m_LightDesc = LightDesc; }
 
 public:
 	HRESULT NativeConstruct(const LIGHTDESC& LightDesc);

@@ -90,7 +90,10 @@ HRESULT CSky::SetUp_Components()
 
 	/* For.Com_Texture */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Texture"), LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_SkyBox"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;	
+		return E_FAIL;
+
+	m_iTextureCnt = m_pTextureCom->Get_TextureCnt();
+	m_iCurrTextureNumber = 0;
 
 	/* For.Com_Model */
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), (CComponent**)&m_pModelCom)))
@@ -109,14 +112,21 @@ HRESULT CSky::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;	
+		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", 0)))
+	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", m_iCurrTextureNumber)))
 		return E_FAIL;
 	
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+void CSky::Set_CurTextureNum(_uint iNum)
+{
+	// 인자로 받은 텍스쳐 번호가 내가 가지고 있는 텍스쳐의 숫자보다 작을 경우 해당 텍스쳐의 번호를 현재 텍스쳐로 사용한다.
+	if (iNum < m_iTextureCnt)
+		m_iCurrTextureNumber = iNum;
 }
 
 CSky * CSky::Create(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)

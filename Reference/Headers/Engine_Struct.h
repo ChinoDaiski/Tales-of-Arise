@@ -139,6 +139,8 @@ namespace Engine
 		XMFLOAT4 vDiffuse;
 		XMFLOAT4 vAmbient;
 		XMFLOAT4 vSpecular;
+
+		float fPower;
 	}LIGHTDESC;
 
 	typedef struct tagMaterial

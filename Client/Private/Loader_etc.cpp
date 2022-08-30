@@ -209,7 +209,7 @@ HRESULT CLoader_etc::Loading_Tutorial_Texture()
 
 	lstrcpy(m_szLoading, L"Loader_etc : Prototype_Component_Texture_SkyBox");
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_TUTORIAL, TEXT("Prototype_Component_Texture_SkyBox"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/SkyBox/space.dds"), 1))))
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/SkyBox/Skybox%d.dds"), 15))))
 		MSG_CHECK_RETURN(L"Failed To CLoader_etc : Loading_Tutorial_Texture : Add_Prototype(Prototype_Component_Texture_SkyBox)", E_FAIL);
 
 	// Owl UI용 텍스쳐

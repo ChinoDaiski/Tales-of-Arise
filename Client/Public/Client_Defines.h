@@ -31,6 +31,12 @@ namespace Client
 
 #define  LAYER_MAP_BATTLE						TEXT("Layer_Map_Battle")
 #define  LAYER_MAP_TEST							TEXT("Layer_Map_Test")
+#define  LAYER_MAP_FIRE							TEXT("Layer_Map_Fire")
+
+
+// 로드할 수 있는 기준이 되는 오브젝트의 최대 갯수 - fire와 관련이 있는 변수
+#define MAX_STANDARD_OBJECT_CNT	10
+
 
 extern HINSTANCE g_hInst;
 extern HWND g_hWnd;

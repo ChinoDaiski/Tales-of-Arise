@@ -33,6 +33,10 @@ private:
 
 private:
 	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
+	HRESULT Ready_Lights(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_Skybox(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_MapFire(const char * pModelFilePath, const char * pModelFileName, LEVEL eLevel);
+	HRESULT Ready_PostProcessing(const char * pModelFilePath, const char * pModelFileName);
 
 private:
 	vector<CMapObject*>   m_vMapObject;   // 배치된 맵 오브젝트 vector

@@ -544,6 +544,38 @@ HRESULT CGameInstance::Add_Lights(ID3D11Device * pDevice, ID3D11DeviceContext * 
 	return m_pLight_Manager->Add_Lights(pDevice, pDeviceContext, LightDesc);
 }
 
+HRESULT CGameInstance::Delete_Lights(CLight * pLight)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Delete_Lights(pLight);
+}
+
+HRESULT CGameInstance::Clear_Lights(void)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Clear_Lights();
+}
+
+list<class CLight*>* CGameInstance::Get_Lights(void)
+{
+	if (nullptr == m_pLight_Manager)
+		return nullptr;
+
+	return m_pLight_Manager->Get_Lights();
+}
+
+void CGameInstance::Set_LightDesc(_uint iIndex, LIGHTDESC LightDesc)
+{
+	if (nullptr == m_pLight_Manager)
+		return;
+
+	return m_pLight_Manager->Set_LightDesc(iIndex, LightDesc);
+}
+
 HRESULT CGameInstance::Add_Fonts(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext, const _tchar * pFontTag, const _tchar * pFontFilePath)
 {
 	if (nullptr == m_pFont_Manager)

@@ -26,6 +26,12 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
+	HRESULT Ready_Lights(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_Skybox(const char * pModelFilePath, const char * pModelFileName);
+	HRESULT Ready_MapFire(const char * pModelFilePath, const char * pModelFileName, LEVEL eLevel);
+	HRESULT Ready_PostProcessing(const char * pModelFilePath, const char * pModelFileName);
+
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Balseph(const _tchar * pLayerTag);
 	HRESULT Ready_Layer_Fire_Deco(const _tchar * pLayerTag);
@@ -33,7 +39,6 @@ private:
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 
 private:
-	HRESULT Ready_Map(const char * pModelFilePath, const char * pModelFileName, _vector vCenterPos);
 	HRESULT Ready_WatPoint(LEVEL eNextLevel, _vector vPos);
 	HRESULT Ready_WatPoint_Pos(_vector vPos, _vector vMovePos);
 

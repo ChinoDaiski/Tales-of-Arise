@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "PIpeLine.h"
 
+_uint CFire_Deco::m_iFireNumber = 0;
+
 CFire_Deco::CFire_Deco(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext)
 	:CGameObject(pDevice, pDeviceContext)
 {
@@ -54,11 +56,41 @@ HRESULT CFire_Deco::NativeConstruct(void* pArg)
 	m_fOriginalStrength = tFireDesc.fOriginalStrength;
 	m_fGlowStrength = tFireDesc.fGlowStrength;
 
+	// 생성될 때 마다 번호를 하나씩 증가시킨다.
+	m_iCurFireNumber = ++m_iFireNumber;
+
+	// 회전 각도, 해당값만큼 회전한다.
+	m_fRotation = tFireDesc.fRotation;
+	m_pTransformCom->RotationXYZ(XMConvertToRadians(m_fRotation.x), XMConvertToRadians(m_fRotation.y), XMConvertToRadians(m_fRotation.z));
+
+	m_fScale = tFireDesc.vScale;
+
 	return S_OK;
 }
 
 void CFire_Deco::Tick(_double TimeDelta)
 {
+	// 타겟이 존재한다면
+	if (nullptr != m_pTarget) {
+		CTransform* pTargetTransform = dynamic_cast<CTransform*>(m_pTarget->Get_Component(TEXT("Com_Transform")));
+		_vector vTargetPos = pTargetTransform->Get_State(CTransform::STATE_POSITION);
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_vector vLook = vTargetPos - vPos;
+		vLook = XMVector3Normalize(vLook);
+		vLook = XMVectorSetY(vLook, 0.f);
+		_float3 fScale = m_fScale;
+
+		_matrix WorldMatrix = XMMatrixIdentity();
+
+		WorldMatrix.r[2] = vLook * fScale.z;		// Look
+		WorldMatrix.r[0] = XMVector3Normalize(XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), WorldMatrix.r[2])) * fScale.x;	// Right
+		WorldMatrix.r[1] = XMVector3Normalize(XMVector3Cross(WorldMatrix.r[2], WorldMatrix.r[0])) * fScale.y;	// Up
+		WorldMatrix.r[3] = XMVectorSetW(vPos, 1.f);
+
+		m_pTransformCom->Set_WorldMatrix(WorldMatrix);
+	}
+
 	m_Frame += m_FrameSpeed * TimeDelta;
 	if (m_iMaxFrame <= m_Frame)
 	{

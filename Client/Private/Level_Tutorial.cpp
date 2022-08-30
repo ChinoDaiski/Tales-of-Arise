@@ -16,19 +16,17 @@
 #include"..\Public\UIName.h"
 #include"..\Public\UIBar.h"
 
-#include "Fire_Deco.h"
-
-#include"UI_Manager.h"
-#include"LineMsgUI.h"
-#include"UI_Manager.h"
-#include"TutorialMsg.h"
-#include"MiniMap.h"
-#include"TutoLineMsg.h"
-#include"LineSprite.h"
+#include "UI_Manager.h"
+#include "LineMsgUI.h"
+#include "UI_Manager.h"
+#include "TutorialMsg.h"
+#include "MiniMap.h"
+#include "TutoLineMsg.h"
+#include "LineSprite.h"
 #include "Layer.h"	//이거 겜인스턴스에 넣어주자.
-#include"MiniMapView.h"
-#include"UIGlow.h"
-#include"UIBillBoard.h"
+#include "MiniMapView.h"
+#include "UIGlow.h"
+#include "UIBillBoard.h"
 #include "UIStatus.h"
 #include "UIFlag.h"
 
@@ -40,6 +38,8 @@
 #include "Level_Loading.h"
 #include "Owl.h"
 #include "UI_Owl.h"
+#include "Sky.h"
+#include "Fire_Deco.h"
 
 
 #include "ImGui_Manager.h"
@@ -58,8 +58,13 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 	if (FAILED(__super::NativeConstruct()))
 		return E_FAIL;	
 
-	if (FAILED(Ready_Lights()))
+	if (FAILED(Ready_Lights("../Bin/Resources/Dat/Stage01/", "LightInfo.dat")))
 		return E_FAIL;
+
+
+
+
+
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -107,6 +112,25 @@ HRESULT CLevel_Tutorial::NativeConstruct()
 
 	if (FAILED(Ready_Map_Battle04(XMVectorSet(2000.f, 0.f, 0.f, 1.f))))
 		return E_FAIL;
+
+	// 빛 정보 추가
+	if (FAILED(Ready_Lights("../Bin/Resources/Dat/Stage01/", "LightInfo.dat")))
+		return E_FAIL;
+
+	// 스카이 박스 정보 추가
+	if (FAILED(Ready_Skybox("../Bin/Resources/Dat/Stage01/", "SkyboxInfo.dat")))
+		return E_FAIL;
+
+	// 불 정보 추가
+	if (FAILED(Ready_MapFire("../Bin/Resources/Dat/Stage01/", "FireInfo.dat", LEVEL_TUTORIAL)))
+		return E_FAIL;
+
+	// 포스트 프로세싱 정보 추가
+	if (FAILED(Ready_PostProcessing("../Bin/Resources/Dat/Stage01/", "PostProcessingInfo.dat")))
+		return E_FAIL;
+
+
+
 
 	if (FAILED(Ready_WatPoint(LEVEL_LORD_BALSEPH, XMVectorSet(-141.27f, -11.068f, -16.93f, 1.f))))
 		return E_FAIL;
@@ -333,42 +357,315 @@ HRESULT CLevel_Tutorial::Render()
 }
 
 
-HRESULT CLevel_Tutorial::Ready_Lights()
+HRESULT CLevel_Tutorial::Ready_Lights(const char * pModelFilePath, const char * pModelFileName)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	char szFullPath[MAX_PATH] = "";
 
-	LIGHTDESC			LightDesc;
-	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	strcpy_s(szFullPath, pModelFilePath);
+	strcat_s(szFullPath, pModelFileName);
 
-	LightDesc.eType = tagLightDesc::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
-	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
-	LightDesc.vSpecular = _float4(0.f, 0.f, 0.f, 0.f);
-	if (FAILED(pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc)))
+	TCHAR szCurPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szFullPath, (int)strlen(szFullPath), szCurPath, MAX_PATH);
+
+	// 파일을 연다.
+	HANDLE		hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
 		return E_FAIL;
 
-	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	//LightDesc.eType = tagLightDesc::TYPE_POINT;
-	//LightDesc.vPosition = _float4(10.f, 4.f, 10.f, 1.f);
-	//LightDesc.fRange = 10.f;
-	//LightDesc.vDiffuse = _float4(1.f, 0.0f, 0.0f, 1.f);
-	//LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);	
-	//LightDesc.vSpecular = _float4(1.f, 0.0f, 0.0f, 1.f);
-	//if (FAILED(pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc)))
-	//	return E_FAIL;	
+	DWORD		dwByte = 0;
+	DWORD		dwStrByte = 0;
 
-	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	//LightDesc.eType = tagLightDesc::TYPE_POINT;
-	//LightDesc.vPosition = _float4(15.f, 4.f, 10.f, 1.f);
-	//LightDesc.fRange = 10.f;
-	//LightDesc.vDiffuse = _float4(0.0f, 1.f, 0.0f, 1.f);
-	//LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
-	//LightDesc.vSpecular = _float4(0.f, 1.f, 0.0f, 1.f);
-	//if (FAILED(pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc)))
-	//	return E_FAIL;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	// 기존에 존재하는 빛의 정보를 삭제한다.
+	pGameInstance->Clear_Lights();
+
+	while (true)
+	{
+		// 방향광의 갯수 읽기
+		_uint iDirectionalLightCnt;
+		ReadFile(hFile, &iDirectionalLightCnt, sizeof(_uint), &dwByte, nullptr);
+
+		LIGHTDESC LightDesc;
+		ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+
+		for (int i = 0; i < iDirectionalLightCnt; ++i) {
+			// 방향광의 빛 정보 로드 
+			ReadFile(hFile, &LightDesc, sizeof(LIGHTDESC), &dwByte, nullptr);
+
+			// 방향광 생성
+			pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc);
+		}
+
+
+		// 점광원의 갯수 읽기
+		_uint iPointLightCnt;
+		ReadFile(hFile, &iPointLightCnt, sizeof(_uint), &dwByte, nullptr);
+
+		// 점광원의 정보 로드
+		for (int i = 0; i < iPointLightCnt; ++i) {
+			// 점광원의 빛 정보 로드 
+			ReadFile(hFile, &LightDesc, sizeof(LIGHTDESC), &dwByte, nullptr);
+
+			// 점광원 생성
+			pGameInstance->Add_Lights(m_pDevice, m_pDeviceContext, LightDesc);
+		}
+
+		break;
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	// 파일을 닫는다.
+	CloseHandle(hFile);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tutorial::Ready_Skybox(const char * pModelFilePath, const char * pModelFileName)
+{
+	char szFullPath[MAX_PATH] = "";
+
+	strcpy_s(szFullPath, pModelFilePath);
+	strcat_s(szFullPath, pModelFileName);
+
+	TCHAR szCurPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szFullPath, (int)strlen(szFullPath), szCurPath, MAX_PATH);
+
+	// 파일을 연다.
+	HANDLE		hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return E_FAIL;
+
+	DWORD		dwByte = 0;
+	DWORD		dwStrByte = 0;
+
+	// 현재 스카이 박스 정보 불러오기
+	_uint iCurTextureNum = 0;
+	ReadFile(hFile, &iCurTextureNum, sizeof(_uint), &dwByte, nullptr);
+
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CSky* m_pSkybox = dynamic_cast<CSky*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_Skybox, TEXT("Prototype_GameObject_Sky")));
+
+	if (nullptr == m_pSkybox)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	m_pSkybox->Set_CurTextureNum(iCurTextureNum);
+
+	// 파일을 닫는다.
+	CloseHandle(hFile);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tutorial::Ready_MapFire(const char * pModelFilePath, const char * pModelFileName, LEVEL eLevel)
+{
+	// 파일을 읽어 오브젝트와 불의 정보를 가져온다.
+	char szFullPath[MAX_PATH] = "";
+
+	strcpy_s(szFullPath, pModelFilePath);
+	strcat_s(szFullPath, pModelFileName);
+
+	TCHAR szCurPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szFullPath, (int)strlen(szFullPath), szCurPath, MAX_PATH);
+
+	// 파일을 연다.
+	HANDLE		hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return E_FAIL;
+
+	DWORD		dwByte = 0;
+	DWORD		dwStrByte = 0;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	vector<CMapObject*> vMapObjects;
+	vector<CFire_Deco*> FireInfo[MAX_STANDARD_OBJECT_CNT];
+
+	while (true)
+	{
+		_uint iStandard_Object_Cnt = 0;
+		ReadFile(hFile, &iStandard_Object_Cnt, sizeof(_uint), &dwByte, nullptr);
+
+		for (_uint i = 0; i < iStandard_Object_Cnt; ++i) {
+			// 문자열 메모리의 크기를 읽음
+			ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+
+			// 읽어온 메모리의 크기만큼 문자열을 할당하고, 해당 문자열을 읽어옴
+			TCHAR*	pName = new TCHAR[dwStrByte];
+			ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
+
+			// 잘못됬을 경우 해당 메모리 삭제 및 멈추기
+			if (0 == dwByte)
+			{
+				delete[] pName;
+				break;
+			}
+
+			// 읽어온 오브젝트 생성
+			CMapObject::MAPOBJDesc Desc;
+			Desc.pPrototype_ObjectName = pName;
+
+			XMStoreFloat4x4(&Desc.TransformMatrix, XMMatrixIdentity());
+
+			// 충돌체 생성
+			Desc.fColliderSize = _float3(10.f, 10.f, 10.f);
+
+			// 맵 오브젝트 생성
+			CMapObject* pMapObject = dynamic_cast<CMapObject*>(pGameInstance->Clone_Prototype(TEXT("Prototype_GameObject_MapObject"), &Desc));
+			vMapObjects.push_back(pMapObject);		// 맵 오브젝트 정보 푸쉬
+
+			_uint iFireCnt = 0;		// 불 갯수 읽기
+			ReadFile(hFile, &iFireCnt, sizeof(_uint), &dwByte, nullptr);
+
+			// 불의 갯수만큼 반복하여 불의 정보를 읽어오기
+			CFire_Deco::FIREDECODESC FireDesc;
+			for (_uint j = 0; j < iFireCnt; ++j) {
+				ReadFile(hFile, &FireDesc, sizeof(CFire_Deco::FIREDECODESC), &dwByte, nullptr);
+
+				// 문자열 메모리의 크기를 읽음
+				ReadFile(hFile, &dwStrByte, sizeof(DWORD), &dwByte, nullptr);
+
+				// 읽어온 메모리의 크기만큼 문자열을 할당하고, 해당 문자열을 읽어옴
+				TCHAR*	pName = new TCHAR[dwStrByte];
+				ReadFile(hFile, pName, dwStrByte, &dwByte, nullptr);
+
+				// 잘못됬을 경우 해당 메모리 삭제 및 멈추기
+				if (0 == dwByte)
+				{
+					delete[] pName;
+					break;
+				}
+
+				FireDesc.tagTextureCom = pName;
+
+				// 읽은 정보를 사용하여 불을 생성
+				CFire_Deco* pFire = dynamic_cast<CFire_Deco*>(pGameInstance->Clone_Prototype(TEXT("Prototype_GameObject_Fire"), &FireDesc));
+				FireInfo[i].push_back(pFire);
+			}
+		}
+
+		break;
+	}
+
+	// 파일을 닫는다.
+	CloseHandle(hFile);
+
+
+
+
+
+	// 읽은 불 정보를 맵에 배치되어 있는 오브젝트를 돌며 관련 오브젝트가 존재할 경우 해당 오브젝트에 불을 생성한다.
+	CLayer* pLayer = pGameInstance->Find_Layer(eLevel, LAYER_MAPTOOL_PlacedObjects);
+
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	auto& Objlist = pLayer->Get_ObjectList();
+
+	_uint iMapObjectCnt = 0;
+	for (auto& MapObject : vMapObjects) {
+		// 파일에서 가져온 모델 태그 정보
+		const TCHAR* pMapObjectModelTag = dynamic_cast<CMapObject*>(MapObject)->Get_ModelTag();
+
+		// 맵에 설치된 오브젝트 리스트 정보
+		for (auto& Obj : Objlist) {
+			// 설치된 오브젝트의 모델 Tag 정보를 가져온다.
+			const TCHAR* pObjModelTag = dynamic_cast<CMapObject*>(Obj)->Get_ModelTag();
+
+			// 가져온 모델의 이름과 파일에서 가져온 모델 태그 정보를 비교한다.
+			if (!_tcscmp(pMapObjectModelTag, pObjModelTag)) {
+				// 만약 같은 정보가 존재할 경우
+				// 해당 오브젝트가 가지고 있는 불 정보를 가져와 맵에 설치된 오브젝트의 위치에 소환한다.
+
+				// 맵에 설치되어 있는 오브젝트의 행렬 정보를 가져온다.
+				CTransform* pTransform = dynamic_cast<CTransform*>(Obj->Get_Component(TEXT("Com_Transform")));
+				_matrix matMapObjectWorld = pTransform->Get_WorldMatrix();
+
+				for (auto& Fire : FireInfo[iMapObjectCnt]) {
+					CFire_Deco::FIREDECODESC FireDesc;
+					FireDesc.fGlowStrength = Fire->Get_GlowStrength();
+					FireDesc.fOriginalStrength = Fire->Get_OriginalStrength();
+					FireDesc.fRotation = Fire->Get_Rotation();
+					FireDesc.iFrameSpeed = Fire->Get_FrameSpeed();
+					FireDesc.iShaderPass = 2;
+
+					CTransform* pFireTransform = dynamic_cast<CTransform*>(Fire->Get_Component(TEXT("Com_Transform")));
+
+					XMStoreFloat3(&FireDesc.vPosition, pFireTransform->Get_State(CTransform::STATE_POSITION));
+					FireDesc.vScale = pFireTransform->Get_Scale();
+					FireDesc.tagTextureCom = TEXT("Prototype_Component_Texture_Fire0");
+					FireDesc.vLook = _float3(0.f, 0.f, 1.f);
+
+					// 불을 생성하는데 필요한 정보 저장
+					WriteFile(hFile, &FireDesc, sizeof(CFire_Deco::FIREDECODESC), &dwByte, nullptr);
+
+					CFire_Deco* pFire = dynamic_cast<CFire_Deco*>(pGameInstance->Add_GameObjectToLayer(eLevel, LAYER_MAP_FIRE, TEXT("Prototype_GameObject_Fire"), &FireDesc));
+
+
+					// 카메라 검색
+					CLayer* pCameraLayer = pGameInstance->Find_Layer(eLevel, TEXT("Layer_Camera"));
+					CCamera* pCurrCamera = nullptr;
+
+					// 카메라가 존재할 경우
+					if (nullptr != pCameraLayer) {
+						pCurrCamera = dynamic_cast<CCamera*>(*pCameraLayer->Get_ObjectList().begin());
+
+						// 불 정보에 카메라를 세팅한다.
+						pFire->Set_Target(pCurrCamera);
+					}
+				}
+			}
+		}
+		++iMapObjectCnt;
+	}
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tutorial::Ready_PostProcessing(const char * pModelFilePath, const char * pModelFileName)
+{
+	char szFullPath[MAX_PATH] = "";
+
+	strcpy_s(szFullPath, pModelFilePath);
+	strcat_s(szFullPath, pModelFileName);
+
+	TCHAR szCurPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, szFullPath, (int)strlen(szFullPath), szCurPath, MAX_PATH);
+
+	// 파일을 연다.
+	HANDLE		hFile = CreateFile(szCurPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return E_FAIL;
+
+	DWORD		dwByte = 0;
+	DWORD		dwStrByte = 0;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	// MiddleGray 저장
+	_float fMiddleGray = 0.f;
+	ReadFile(hFile, &fMiddleGray, sizeof(_float), &dwByte, nullptr);
+	pGameInstance->Set_MiddleGray(fMiddleGray);
+
+	// White 저장
+	_float fWhite = 0.f;
+	ReadFile(hFile, &fWhite, sizeof(_float), &dwByte, nullptr);
+	pGameInstance->Set_White(fWhite);
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	// 파일을 닫는다.
+	CloseHandle(hFile);
 
 	return S_OK;
 }
@@ -533,9 +830,6 @@ HRESULT CLevel_Tutorial::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 	//if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, pLayerTag, TEXT("Prototype_GameObject_Terrain")))
 	//	return E_FAIL;
-
-	if (nullptr == pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_Skybox, TEXT("Prototype_GameObject_Sky")))
-		return E_FAIL;
 
 
 
@@ -2166,16 +2460,16 @@ HRESULT CLevel_Tutorial::Ready_Map(const char * pModelFilePath, const char * pMo
 		}
 		// 해당 오브젝트의 이름이 WarpGate 일 경우
 		else if (!_tcscmp(Desc.pPrototype_ObjectName, TEXT("Prototype_Component_Model_WarpGate"))) {
-			static _uint iWayPointNumber = 0;
+			//static _uint iWayPointNumber = 0;
 
-			// WayPoint Desc값을 채운다.
-			CWayPoint::WayPoint_DESC WayPointDesc;
+			//// WayPoint Desc값을 채운다.
+			//CWayPoint::WayPoint_DESC WayPointDesc;
 
-			// 위치 설정
-			memcpy(&WayPointDesc.fPos, &Desc.TransformMatrix.m[CTransform::STATE_POSITION][0], sizeof(_float3));
+			//// 위치 설정
+			//memcpy(&WayPointDesc.fPos, &Desc.TransformMatrix.m[CTransform::STATE_POSITION][0], sizeof(_float3));
 
-			CWayPoint* pWayPoint = dynamic_cast<CWayPoint*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_WayPoints, TEXT("Prototype_GameObject_WayPoint"), &WayPointDesc));
-			m_vWayPoints.push_back(pWayPoint);
+			//CWayPoint* pWayPoint = dynamic_cast<CWayPoint*>(pGameInstance->Add_GameObjectToLayer(LEVEL_TUTORIAL, LAYER_MAPTOOL_WayPoints, TEXT("Prototype_GameObject_WayPoint"), &WayPointDesc));
+			//m_vWayPoints.push_back(pWayPoint);
 		}
 		else {
 			// 맵 오브젝트 생성
