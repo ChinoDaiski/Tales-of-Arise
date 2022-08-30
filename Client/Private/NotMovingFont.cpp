@@ -60,7 +60,10 @@ void NotMovingFont::Tick(_double TimeDelta)
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
 	Safe_AddRef(pPlayerManager);
 	_matrix ViewMatrix, ProjMatrix;
@@ -88,15 +91,16 @@ void NotMovingFont::Tick(_double TimeDelta)
 
 	CUI_Manager* pUiManager = CUI_Manager::GetInstance();
 
-
+	CPlayer* pPlayer = pPlayerManager->Get_MainPlayer();
 	Safe_AddRef(pUiManager);
 
 	////아몰랑 공격력여기다가 띄워줄거임 돼지시키 내지는 멘티스 녀석 공격력을 string으로 바꿔준다.
 	//여기가 문제같아ㅁ	 
 	
-	
-	m_str = to_string(pPlayerManager->Get_MainPlayer()->Get_PlayerInfo().m_iCurrentHp);
-
+	if(m_UIKind == 1)
+		m_str = to_string(pPlayerManager->Get_MainPlayer()->Get_PlayerInfo().m_iCurrentHp);
+	if (m_UIKind == 2)
+		m_str = to_string(pPlayer->Get_TargetEnemy()->Get_EnemyInfo().m_iHp);
 
 	Safe_Release(pPlayerManager);
 	Safe_Release(pUiManager);

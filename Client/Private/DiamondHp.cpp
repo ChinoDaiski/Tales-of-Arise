@@ -57,7 +57,10 @@ void DiamondHp::Tick(_double TimeDelta)
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	_matrix ViewMatrix, ProjMatrix;
 	_float4x4 WindowMatrix, WorldMatrix;
 

@@ -51,7 +51,10 @@ void BossHpBar::Tick(_double TimeDelta)
 
 	CPlayer* pPlayer = pPlayerManager->Get_MainPlayer();
 
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	//GetMaxHP 받아와서 /4 로 한다음에  4지점 갈때마다 바꾸자
 	if (m_kindnum == 0 && m_monsterHPindex == 0)
 	{

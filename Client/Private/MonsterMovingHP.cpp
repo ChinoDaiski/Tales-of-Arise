@@ -41,6 +41,10 @@ HRESULT MonsterMovingHP::NativeConstruct(void * pArg)
 	TransformDesc.RotationPerSec = XMConvertToRadians(90.0f);
 
 
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
 	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
@@ -72,9 +76,6 @@ void MonsterMovingHP::Tick(_double TimeDelta)
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 
-	_matrix ViewMatrix, ProjMatrix;
-	_float4x4 WindowMatrix, WorldMatrix;
-
 
 	CUI_Manager* pUIManager = CUI_Manager::GetInstance();
 	Safe_AddRef(pUIManager);
@@ -84,59 +85,69 @@ void MonsterMovingHP::Tick(_double TimeDelta)
 	CPlayer* player = pPlayerManager->Get_MainPlayer();
 
 	//예외처리 필요
-	TargetTransform = (CTransform*)player->Get_TargetEnemy()->Get_Component(TEXT("Com_Transform"));
-
-	//if (TargetTransform == nullptr)
-	//	return;
-
-
-
-
-
-	ViewMatrix = pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
-
-	//이곳을 주목하라.
-
-	XMStoreFloat4x4(&WorldMatrix, TargetTransform->Get_WorldMatrix());
-
-	ProjMatrix = pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
-	XMStoreFloat4x4(&WindowMatrix, XMLoadFloat4x4(&WorldMatrix)*ViewMatrix*ProjMatrix);
-
-	_float3 vWindowPos = *(_float3*)&WindowMatrix.m[3][0];
-
-	vWindowPos.x /= vWindowPos.z;
-	vWindowPos.y /= vWindowPos.z;
-	m_fX = vWindowPos.x*g_iWinCX / 2 + g_iWinCX / 2 + m_pivotx;
-	m_fY = vWindowPos.y*-1 * g_iWinCY / 2 + g_iWinCY / 2 + m_pivoty;
-
-	m_pTransformCom->Scaled(_float3(200, 12, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(m_fX - g_iWinCX * 0.5f, -m_fY + g_iWinCY * 0.5f, 0.f, 1.f));
-
-
-
-
-
-	CBattle_Manager* pBattleManager = CBattle_Manager::GetInstance();
-	Safe_AddRef(pBattleManager);
-
-
-	m_isMonster = true;
-
-
-	//_float fHP = (_float)player->Get_TargetEnemyHP() / player->Get_TargetEnemyMaxHP();
-	float hp = player->Get_TargetEnemyHPFloat();
-	float hpmax = player->Get_TargetEnemyMaxHP();
-	percent = hp / hpmax;
-	if (m_Redbar > percent)
+	if (player->Get_TargetEnemyHP() <= 0)
 	{
-		m_Redbar -= TimeDelta / 5.f;
+		Set_Dead(true);
 	}
-	if (m_Redbar < percent)
-		m_Redbar = percent;
+	else
+	{
+		TargetTransform = (CTransform*)player->Get_TargetEnemy()->Get_Component(TEXT("Com_Transform"));
 
-	Safe_Release(pBattleManager);
-	Safe_Release(pUIManager);
-	Safe_Release(pPlayerManager);
+		//if (TargetTransform == nullptr)
+		//	return;
+		_matrix ViewMatrix, ProjMatrix;
+		_float4x4 WindowMatrix, WorldMatrix;
+
+
+
+
+
+
+		ViewMatrix = pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+
+		//이곳을 주목하라.
+
+		XMStoreFloat4x4(&WorldMatrix, TargetTransform->Get_WorldMatrix());
+
+		ProjMatrix = pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+		XMStoreFloat4x4(&WindowMatrix, XMLoadFloat4x4(&WorldMatrix)*ViewMatrix*ProjMatrix);
+
+		_float3 vWindowPos = *(_float3*)&WindowMatrix.m[3][0];
+
+		vWindowPos.x /= vWindowPos.z;
+		vWindowPos.y /= vWindowPos.z;
+		m_fX = vWindowPos.x*g_iWinCX / 2 + g_iWinCX / 2 + m_pivotx;
+		m_fY = vWindowPos.y*-1 * g_iWinCY / 2 + g_iWinCY / 2 + m_pivoty;
+
+		m_pTransformCom->Scaled(_float3(200, 12, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(m_fX - g_iWinCX * 0.5f, -m_fY + g_iWinCY * 0.5f, 0.f, 1.f));
+
+
+
+
+
+		CBattle_Manager* pBattleManager = CBattle_Manager::GetInstance();
+		Safe_AddRef(pBattleManager);
+
+
+		m_isMonster = true;
+
+
+		//_float fHP = (_float)player->Get_TargetEnemyHP() / player->Get_TargetEnemyMaxHP();
+		float hp = player->Get_TargetEnemyHPFloat();
+		float hpmax = player->Get_TargetEnemyMaxHP();
+		percent = hp / hpmax;
+		if (m_Redbar > percent)
+		{
+			m_Redbar -= TimeDelta / 5.f;
+		}
+		if (m_Redbar < percent)
+			m_Redbar = percent;
+
+		Safe_Release(pBattleManager);
+		Safe_Release(pUIManager);
+		Safe_Release(pPlayerManager);
+	}
 }
 
 void MonsterMovingHP::LateTick(_double TimeDelta)

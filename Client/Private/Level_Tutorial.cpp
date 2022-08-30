@@ -158,7 +158,7 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 			//GetBattle이면 바로 그냥~
 			if (FAILED(Ready_Layer_Battle_UI()))
 				return;
-
+	
 			m_bFirstBattleUI = true;
 
 			//m_isComboHit = true;
@@ -196,11 +196,12 @@ void CLevel_Tutorial::Tick(_double TimeDelta)
 
 		LineMsgCreate = false;
 	}
-	if (pGameInstance->Get_DIKeyState(DIK_NUMPAD7))
+	//CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
+	
 	{
 
 		//마신검. 붕쇠 이런거 다 바꿔놓아야함. 해당 몬스터랑 부딫혔을때 각각 다른거 생성시키면 될듯.
-		LineMsgCreate = true;
+		//LineMsgCreate = true;
 
 
 	}

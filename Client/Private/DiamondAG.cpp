@@ -54,7 +54,10 @@ void DiamondAG::Tick(_double TimeDelta)
 	__super::Tick(TimeDelta);
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	_matrix ViewMatrix, ProjMatrix;
 	_float4x4 WindowMatrix, WorldMatrix;
 
@@ -114,49 +117,52 @@ HRESULT DiamondAG::Render()
 {
 
 	if (m_isRender) {
-		m_pShaderCom->Set_RawValue("g_fDiamondPercent", &m_fAgPercnet, sizeof(_float));
-		m_pShaderCom->Set_RawValue("m_isBlue", &m_isBlue, sizeof(_float));
+	
+		int i = m_fCurAG;
+		for(int i = 0; i<m_fCurAG; ++i)
+		{
+			m_pShaderCom->Set_RawValue("g_fDiamondPercent", &m_fAgPercnet, sizeof(_float));
+			m_pShaderCom->Set_RawValue("m_isBlue", &m_isBlue, sizeof(_float));
+
+			if (nullptr == m_pShaderCom ||
+				nullptr == m_pVIBufferCom)
+				return E_FAIL;
+			
+			if (FAILED(__super::Render()))
+				return E_FAIL;
+
+			CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+			if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
+				return E_FAIL;
 
 
-
-		if (nullptr == m_pShaderCom ||
-			nullptr == m_pVIBufferCom)
-			return E_FAIL;
-
-
-
-
-		if (FAILED(__super::Render()))
-			return E_FAIL;
-
-		CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
-		if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
-			return E_FAIL;
+			_float4x4   ViewMatrix;
+			XMStoreFloat4x4(&ViewMatrix, XMMatrixIdentity());
+			if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &ViewMatrix, sizeof(_float4x4))))
+				return E_FAIL;
+			_float4x4   ProjMatrixTP;
+			XMStoreFloat4x4(&ProjMatrixTP, XMMatrixTranspose(XMLoadFloat4x4(&m_ProjMatrix)));
+			if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &ProjMatrixTP, sizeof(_float4x4))))
+				return E_FAIL;
+			if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_Texture", 1)))
+				return E_FAIL;
 
 
-		_float4x4   ViewMatrix;
-		XMStoreFloat4x4(&ViewMatrix, XMMatrixIdentity());
-		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &ViewMatrix, sizeof(_float4x4))))
-			return E_FAIL;
-		_float4x4   ProjMatrixTP;
-		XMStoreFloat4x4(&ProjMatrixTP, XMMatrixTranspose(XMLoadFloat4x4(&m_ProjMatrix)));
-		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &ProjMatrixTP, sizeof(_float4x4))))
-			return E_FAIL;
-		if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_Texture", m_kind)))
-			return E_FAIL;
+			//윈도우 -> 다음에 직교투영
+			XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinCX, g_iWinCY, 0.f, 1.f));
 
 
-		//윈도우 -> 다음에 직교투영
-		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(g_iWinCX, g_iWinCY, 0.f, 1.f));
+			//apply 하기전에 값을 던저야하므로 begin전에 숫자를 던지자.
+			if (FAILED(m_pShaderCom->Begin(26)))
+				return E_FAIL;
 
+			if (FAILED(m_pVIBufferCom->Render()))
+				return E_FAIL;
 
-		//apply 하기전에 값을 던저야하므로 begin전에 숫자를 던지자.
-		if (FAILED(m_pShaderCom->Begin(26)))
-			return E_FAIL;
+		}
 
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
+	
 
 	}
 	return S_OK;

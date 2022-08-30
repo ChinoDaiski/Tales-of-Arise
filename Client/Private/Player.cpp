@@ -6,6 +6,7 @@
 #include "Navigation.h"
 #include"PlayerMovingHP.h"
 #include"UIFlag.h"
+#include"UIBar.h"
 CPlayer::CPlayer(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CGameObject(pDeviceOut, pDeviceContextOut)
 	, m_pPlayer_Manager(CPlayer_Manager::GetInstance())
@@ -295,17 +296,29 @@ void CPlayer::System_Key_Input()
 			{
 				m_pPlayer_Manager->Set_MainPlayer(0);
 
-				//CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
-				//UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
-				//Flag->ChangeFlag(0);
+				CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
+				UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
+				Flag->ChangeFlag(0);
+
+				CLayer* uibarLayer = pGameInstance->Find_Layer(LEVEL_TUTORIAL, TEXT("Layer_UIBar"));
+				UIBar* UIBarObject = dynamic_cast<UIBar*>(*uibarLayer->Get_ObjectList().begin());
+				UIBarObject->SetPlayerIndex(0);
+
+
+
 			}
 			if (pGameInstance->Key_Down(DIK_2))
 			{
 				m_pPlayer_Manager->Set_MainPlayer(1);
 
-				//CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
-				//UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
-				//Flag->ChangeFlag(1);
+				CLayer* PlayerLayer = pGameInstance->Find_Layer(LEVEL_STATIC, TEXT("Layer_Flag"));
+				UIFlag* Flag = dynamic_cast<UIFlag*>(*PlayerLayer->Get_ObjectList().begin());
+				Flag->ChangeFlag(1);
+
+				CLayer* uibarLayer = pGameInstance->Find_Layer(LEVEL_TUTORIAL, TEXT("Layer_UIBar"));
+				UIBar* UIBarObject = dynamic_cast<UIBar*>(*uibarLayer->Get_ObjectList().begin());
+				UIBarObject->SetPlayerIndex(01);
+
 			}
 
 			if (pGameInstance->Key_Down(DIK_LEFTARROW))

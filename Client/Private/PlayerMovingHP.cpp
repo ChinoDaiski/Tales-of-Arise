@@ -60,7 +60,10 @@ HRESULT PlayerMovingHP::NativeConstruct(void * pArg)
 void PlayerMovingHP::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 

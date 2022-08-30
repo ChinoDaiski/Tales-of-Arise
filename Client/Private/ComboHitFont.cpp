@@ -57,7 +57,10 @@ HRESULT ComboHitFont::NativeConstruct(void * pArg)
 void ComboHitFont::Tick(_double TimeDelta)
 {
 	__super::Tick(TimeDelta);
-
+	if (GetAsyncKeyState(VK_NUMPAD7))
+	{
+		Set_Dead(1);
+	}
 	CGameInstance* pGameInstance = CGameInstance::GetInstance();
 	CPlayer_Manager* pPlayerManager = CPlayer_Manager::GetInstance();
 	Safe_AddRef(pPlayerManager);
